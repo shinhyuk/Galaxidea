@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>갤럭시디아 데모</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500&family=Orbit&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: sky map on top (left on wide screens), ask-and-report panel beside it; one committed dark world */
+  --space:#070B1A;
+  --deep:#0E1430;
+  --ink:#E8ECFF;
+  --dim:#8F98C2;
+  --line:#27305A;
+  --sat:#FFD98A;
+  --grow:#7FE0C4;
+  --mine:#C9B8FF;
+  --warn:#FFB4A8;
+  --display:"Orbit","IBM Plex Sans KR",system-ui,sans-serif;
+  --body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--space);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:16px 16px 8px;max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-size:22px;letter-spacing:.02em}
+.ko{color:var(--dim);font-size:14px}
+.tag{font-size:12px;color:var(--space);background:var(--sat);padding:2px 8px;border-radius:999px;white-space:nowrap}
+main{display:grid;gap:16px;padding:8px 16px 32px;max-width:1120px;margin:0 auto}
+.skywrap{display:grid;gap:8px}
+canvas{display:block;width:100%;aspect-ratio:1/1;max-height:520px;border-radius:12px;background:var(--space);border:1px solid var(--line)}
+.legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--dim)}
+.legend li{display:flex;align-items:center;gap:6px}
+.d{width:10px;height:10px;border-radius:50%;display:inline-block}
+.d.sat{background:var(--sat)}.d.grow{background:var(--grow)}.d.mine{background:var(--mine)}
+.d.void{border:1px dashed var(--ink);opacity:.7}
+.panel{display:grid;gap:16px;align-content:start}
+form{display:grid;gap:8px}
+label{font-size:14px;color:var(--dim)}
+.row{display:flex;gap:8px}
+input{flex:1;min-width:0;font:inherit;color:var(--ink);background:var(--deep);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+input::placeholder{color:#6C7499}
+button{font:inherit;cursor:pointer;border-radius:8px}
+#go{background:var(--mine);color:#1B1440;border:0;padding:10px 14px;font-weight:500;white-space:nowrap}
+#go[disabled]{opacity:.5;cursor:default}
+input:focus-visible,button:focus-visible{outline:2px solid var(--grow);outline-offset:2px}
+.err{margin:0;min-height:0;font-size:13px;color:var(--warn)}
+.hint{margin:0;font-size:12px;color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:transparent;color:var(--ink);border:1px solid var(--line);padding:5px 10px;font-size:13px;border-radius:999px}
+.chip:hover{border-color:var(--mine)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:6px;counter-reset:s}
+.steps li{counter-increment:s;font-size:13px;color:var(--dim);border:1px solid var(--line);border-radius:8px;padding:6px 10px;display:flex;gap:8px;align-items:center}
+.steps li::before{content:counter(s);font-family:var(--display);font-size:12px;width:18px;height:18px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.steps li.on{color:var(--ink);border-color:var(--mine)}
+.steps li.on::before{border-color:var(--mine);color:var(--mine)}
+.steps li.done{color:var(--ink);border-color:var(--grow)}
+.steps li.done::before{background:var(--grow);border-color:var(--grow);color:#06241B}
+.report{background:var(--deep);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px}
+.eyebrow{font-size:12px;color:var(--dim);display:flex;gap:8px;align-items:center}
+.report h2{margin:0;font-size:18px;font-weight:500;line-height:1.4;text-wrap:balance;overflow-wrap:anywhere}
+.pill{justify-self:start;font-size:13px;padding:2px 10px;border-radius:999px;border:1px solid currentColor}
+.pill.has{color:var(--sat)}.pill.near{color:var(--grow)}.pill.none{color:var(--mine)}
+.where{margin:0;font-size:14px;color:var(--dim)}
+.where b{color:var(--ink);font-weight:500}
+.near-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.near-list li{border-top:1px solid var(--line);padding-top:8px;font-size:14px}
+.near-list strong{font-weight:500}
+.near-list span{display:block;color:var(--dim);font-size:13px}
+.note{margin:0;font-size:13px;color:var(--dim)}
+.foot{margin:0;font-size:12px;color:var(--dim);max-width:65ch}
+@media (min-width:860px){
+  main{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:start}
+  canvas{max-height:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mark">Galaxidea</span><span class="ko">갤럭시디아</span></div>
+  <span class="tag">시연용 화면</span>
+</header>
+<main>
+  <section class="skywrap">
+    <canvas id="sky" role="img" aria-label="아이디어 우주 지도. 영역마다 은하가 하나씩 있고, 입력한 아이디어는 보라색 별로 가장 가까운 은하에 붙습니다."></canvas>
+    <ul class="legend">
+      <li><i class="d sat"></i>포화된 은하</li>
+      <li><i class="d grow"></i>뻗는 중인 은하</li>
+      <li><i class="d void"></i>빈 공간</li>
+      <li><i class="d mine"></i>내 질문</li>
+    </ul>
+  </section>
+  <section class="panel">
+    <form id="f" novalidate>
+      <label for="idea">아이디어를 한 줄로 적어 보세요</label>
+      <div class="row">
+        <input id="idea" name="idea" type="text" maxlength="80" autocomplete="off" placeholder="예: 소리만으로 하는 잠수함 게임">
+        <button id="go" type="submit">별 띄우기</button>
+      </div>
+      <p id="err" class="err" role="alert"></p>
+      <div class="chips" id="chips">
+        <button type="button" class="chip">AI가 대신 전화해 주는 비서</button>
+        <button type="button" class="chip">AI끼리 먼저 대화하는 소개팅</button>
+        <button type="button" class="chip">내 아이디어가 이미 있는지 찾아 주는 검색</button>
+        <button type="button" class="chip">김치 숙성도를 알려 주는 센서</button>
+      </div>
+      <p class="hint">실제 서비스에서는 질문이 한 줄 요약으로 익명 공개됩니다. 이 화면은 아무것도 저장하지 않습니다.</p>
+    </form>
+    <ol class="steps" id="steps">
+      <li>한 줄로 정제</li>
+      <li>의미 벡터로 변환</li>
+      <li>가까운 별 검색</li>
+      <li>보고서 작성</li>
+    </ol>
+    <article id="report" class="report" aria-live="polite"></article>
+    <p class="foot">은하의 크기와 상태는 예시입니다. 가까운 별로 보여 주는 제품은 기획 대화에서 실제로 확인한 사례이고, 이 화면의 매칭은 단어 일치로 흉내 낸 것입니다. 실제 서비스에서는 임베딩 검색과 LLM이 이 자리를 맡습니다.</p>
+  </section>
+</main>
+<script>
+(function(){
+  var cv=document.getElementById('sky'),ctx=cv.getContext('2d');
+  var W=0,H=0,S=0,D=1;
+  var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  var R=rng(20261115);
+  var C={sat:'255,217,138',grow:'127,224,196',dim:'120,134,196',mine:'201,184,255',ink:'232,236,255'};
+  var G=[
+    {id:'agent',name:'AI 에이전트 비서',x:.27,y:.25,r:.17,n:95,st:'sat',tilt:-.4,dir:1},
+    {id:'dating',name:'AI 소개팅',x:.76,y:.2,r:.11,n:50,st:'sat',tilt:.5,dir:-1},
+    {id:'idea',name:'아이디어 검색',x:.72,y:.6,r:.14,n:60,st:'grow',tilt:-.2,dir:1},
+    {id:'audio',name:'오디오 게임',x:.24,y:.66,r:.11,n:38,st:'grow',tilt:.35,dir:-1},
+    {id:'',name:'',x:.5,y:.43,r:.06,n:16,st:'dim',tilt:.8,dir:1},
+    {id:'',name:'',x:.9,y:.88,r:.05,n:12,st:'dim',tilt:-.7,dir:-1}
+  ];
+  var VOID={x:.5,y:.87,r:.075};
+  var LINKS=[[0,1],[0,3],[0,4],[4,2],[1,2],[2,5]];
+  G.forEach(function(g){
+    g.s=[];
+    for(var i=0;i<g.n;i++){
+      var t=Math.pow(R(),.7),a=(i%2)*Math.PI+t*4.2+(R()-.5)*.9;
+      g.s.push({t:t,a:a,z:.6+R()*1.3,p:R()*6.28,w:R()<.3});
+    }
+  });
+  var BG=[];for(var i=0;i<150;i++)BG.push({x:R(),y:R(),z:.4+R()*.9,p:R()*6.28});
+  var U=[];
+
+  function place(g,t,a){
+    var px=Math.cos(a)*t*g.r,py=Math.sin(a)*t*g.r*.45,c=Math.cos(g.tilt),s=Math.sin(g.tilt);
+    return {x:g.x+px*c-py*s,y:g.y+px*s+py*c};
+  }
+  function resize(){
+    var b=cv.getBoundingClientRect();
+    D=Math.min(window.devicePixelRatio||1,2);
+    W=Math.max(1,Math.round(b.width));H=Math.max(1,Math.round(b.height));
+    cv.width=W*D;cv.height=H*D;S=Math.min(W,H);
+    if(still)draw(0);
+  }
+  function X(v){return v*W}
+  function Y(v){return v*H}
+  function dot(x,y,r,rgb,a){ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fillStyle='rgba('+rgb+','+a+')';ctx.fill()}
+
+  function draw(now){
+    ctx.setTransform(D,0,0,D,0,0);
+    ctx.clearRect(0,0,W,H);
+    var i,j,g,s,p;
+    for(i=0;i<BG.length;i++){s=BG[i];dot(X(s.x),Y(s.y),s.z,C.ink,.25+.3*(.5+.5*Math.sin(now*.0012+s.p)))}
+    ctx.lineWidth=1;
+    for(i=0;i<LINKS.length;i++){
+      var a=G[LINKS[i][0]],b=G[LINKS[i][1]];
+      var mx=(a.x+b.x)/2+(b.y-a.y)*.12,my=(a.y+b.y)/2-(b.x-a.x)*.12;
+      ctx.beginPath();ctx.moveTo(X(a.x),Y(a.y));ctx.quadraticCurveTo(X(mx),Y(my),X(b.x),Y(b.y));
+      ctx.strokeStyle='rgba(143,168,255,.14)';ctx.stroke();
+    }
+    for(i=0;i<G.length;i++){
+      g=G[i];var rgb=C[g.st],rot=now*.00005*g.dir,cx=X(g.x),cy=Y(g.y),rr=g.r*S;
+      dot(cx,cy,rr*.34,rgb,.07);dot(cx,cy,rr*.19,rgb,.16);dot(cx,cy,Math.max(2.5,rr*.07),rgb,1);
+      for(j=0;j<g.s.length;j++){
+        s=g.s[j];
+        var px=Math.cos(s.a+rot)*s.t*rr,py=Math.sin(s.a+rot)*s.t*rr*.45,c=Math.cos(g.tilt),sn=Math.sin(g.tilt);
+        var tw=.5+.5*Math.sin(now*.002+s.p);
+        dot(cx+px*c-py*sn,cy+px*sn+py*c,s.z*(.55+(1-s.t)*.6),s.w?C.ink:rgb,.45+.5*tw);
+      }
+    }
+    ctx.setLineDash([4,5]);ctx.beginPath();ctx.arc(X(VOID.x),Y(VOID.y),VOID.r*S,0,6.2832);
+    ctx.strokeStyle='rgba('+C.ink+',.5)';ctx.stroke();ctx.setLineDash([]);
+    var fam=getComputedStyle(document.body).fontFamily;
+    ctx.font='500 13px '+fam;ctx.textAlign='center';ctx.textBaseline='top';
+    for(i=0;i<G.length;i++){
+      g=G[i];if(!g.name)continue;
+      ctx.fillStyle='rgba('+(g.st==='grow'?C.grow:C.ink)+',.9)';
+      ctx.fillText(g.name,X(g.x),Y(g.y)+g.r*S*.5+10);
+    }
+    ctx.fillStyle='rgba('+C.ink+',.75)';
+    ctx.fillText('빈 공간',X(VOID.x),Y(VOID.y)-6);
+    for(i=0;i<U.length;i++){
+      p=U[i];
+      var k=still?1:Math.min(1,(now-p.born)/1400);k=1-Math.pow(1-k,3);
+      var ux=X(p.sx+(p.tx-p.sx)*k),uy=Y(p.sy+(p.ty-p.sy)*k),last=i===U.length-1;
+      dot(ux,uy,last?11:7,C.mine,.14);
+      ctx.strokeStyle='rgba('+C.mine+','+(last?.9:.5)+')';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(ux-9,uy);ctx.lineTo(ux+9,uy);ctx.moveTo(ux,uy-9);ctx.lineTo(ux,uy+9);ctx.stroke();
+      dot(ux,uy,last?4.5:3,C.mine,1);
+      if(last&&k>=1){
+        ctx.fillStyle='rgba('+C.mine+',1)';ctx.textBaseline='bottom';
+        ctx.fillText('내 질문',Math.max(28,Math.min(W-28,ux)),uy-12);ctx.textBaseline='top';
+      }
+    }
+  }
+  function loop(t){draw(t);requestAnimationFrame(loop)}
+
+  var KEYS={
+    agent:['에이전트','비서','예약','대행','전화','심부름','agent','자동으로'],
+    dating:['소개팅','연애','매칭','데이트','커플','dating'],
+    audio:['게임','소리','오디오','소나','잠수함','game','sound'],
+    idea:['아이디어','검증','창업','스타트업','idea','특허','경쟁사']
+  };
+  var DATA={
+    agent:{verdict:'이미 있음',cls:'has',items:[
+      ['피클(Pickle)','전화, 쇼핑 결제, 예매를 대신하는 개인 AI 에이전트 앱'],
+      ['메타 뮤즈','2026년 9월 출시된 개인 AI 에이전트'],
+      ['오픈AI 닷츠','24시간 스스로 움직이는 AI 비서']],
+      note:'넓게 다 해 주는 비서는 큰 회사들이 이미 차지한 자리입니다. 한 영역을 깊게 파는 쪽이 남아 있습니다.'},
+    dating:{verdict:'이미 있음',cls:'has',items:[
+      ['미러','양쪽 AI가 먼저 대화하고 궁합 분석을 보여 주는 데이팅 앱, 2026년 7월 출시'],
+      ['노운(Known)','AI가 전화 인터뷰로 성향을 파악해 상대를 골라 주는 앱']],
+      note:'같은 구조가 국내에 나와 있습니다. 연애가 아닌 반복 수요로 옮기면 빈자리가 있습니다.'},
+    audio:{verdict:'비슷한 것 있음',cls:'near',items:[
+      ['GMA','화면 없이 소리만으로 하는 2인용 잠수함 대전, 2011년'],
+      ['FAD','무선 교신만 듣고 수중 미로를 빠져나가는 오디오 게임'],
+      ['Submarine Sonar','소나를 쓰지만 화면 중심인 모바일 게임']],
+      note:'재미는 여러 번 확인됐고, 완성도 있게 다듬은 모바일 제품은 검색에서 보이지 않았습니다.'},
+    idea:{verdict:'비슷한 것 있음',cls:'near',items:[
+      ['Prexist','프로덕트헌트, YC, 깃허브, 앱스토어 등 8곳에서 비슷한 제품을 찾아 주는 도구'],
+      ['DoesItExist','아이디어를 입력하면 비슷한 제품을 보여 주는 검색']],
+      note:'출시된 제품을 찾는 도구는 있습니다. 생각만 한 아이디어와 접은 시도는 아직 어디에도 모여 있지 않습니다.'},
+    none:{verdict:'가까운 별 없음',cls:'none',items:[],
+      note:'이 화면의 예시 은하 가운데 가까운 곳이 없어 빈 공간에 떨어졌습니다. 실제 서비스에서는 여기서 웹 검색과 특허 검색으로 한 번 더 확인합니다.'}
+  };
+  var STATE={sat:'포화',grow:'뻗는 중'};
+  var counts={agent:0,dating:0,audio:0,idea:0,none:0};
+
+  function match(text){
+    var low=text.toLowerCase(),best='none',top=0;
+    Object.keys(KEYS).forEach(function(k){
+      var n=0;KEYS[k].forEach(function(w){if(low.indexOf(w)>-1)n++});
+      if(n>top){top=n;best=k}
+    });
+    return best;
+  }
+  function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+  function launch(key){
+    var t;
+    if(key==='none'){t={x:VOID.x+(Math.random()-.5)*VOID.r,y:VOID.y+(Math.random()-.5)*VOID.r*.8}}
+    else{var g=G.filter(function(q){return q.id===key})[0];t=place(g,.55+Math.random()*.4,Math.random()*6.28)}
+    U.push({sx:.5,sy:1.04,tx:t.x,ty:t.y,born:performance.now()});
+    if(U.length>12)U.shift();
+    if(still)draw(0);
+  }
+  function report(text,key,example){
+    var d=DATA[key],box=document.getElementById('report');
+    box.textContent='';
+    var eb=el('div','eyebrow');eb.appendChild(el('span','',example?'보고서 예시':'보고서'));box.appendChild(eb);
+    box.appendChild(el('h2','',text));
+    box.appendChild(el('span','pill '+d.cls,d.verdict));
+    var w=el('p','where');
+    if(key==='none'){w.appendChild(document.createTextNode('도착한 곳 '));w.appendChild(el('b','','빈 공간'))}
+    else{var g=G.filter(function(q){return q.id===key})[0];
+      w.appendChild(document.createTextNode('도착한 곳 '));w.appendChild(el('b','',g.name+' 은하'));
+      w.appendChild(document.createTextNode(' · 상태 '+STATE[g.st]+' · 이 화면에서 붙은 질문 '+counts[key]+'개'))}
+    box.appendChild(w);
+    if(d.items.length){
+      var ul=el('ul','near-list');
+      d.items.forEach(function(it){var li=el('li');li.appendChild(el('strong','',it[0]));li.appendChild(el('span','',it[1]));ul.appendChild(li)});
+      box.appendChild(ul);
+    }
+    box.appendChild(el('p','note',d.note));
+  }
+  var steps=[].slice.call(document.querySelectorAll('#steps li'));
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  var busy=false;
+  async function run(text){
+    if(busy)return;busy=true;
+    var go=document.getElementById('go');go.disabled=true;
+    steps.forEach(function(s){s.className=''});
+    var key=match(text);
+    for(var i=0;i<steps.length;i++){
+      steps[i].className='on';
+      if(i===2){counts[key]++;launch(key)}
+      await sleep(still?0:480);
+      steps[i].className='done';
+    }
+    report(text,key,false);
+    go.disabled=false;busy=false;
+  }
+  var input=document.getElementById('idea'),err=document.getElementById('err');
+  document.getElementById('f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=input.value.trim().replace(/[.!?。]+$/,'');
+    if(!v){err.textContent='아이디어를 한 줄 적어 주세요.';input.focus();return}
+    err.textContent='';run(v);
+  });
+  input.addEventListener('input',function(){err.textContent=''});
+  document.getElementById('chips').addEventListener('click',function(e){
+    var b=e.target.closest('.chip');if(!b)return;
+    input.value=b.textContent;err.textContent='';run(b.textContent);
+  });
+
+  if(window.ResizeObserver){new ResizeObserver(resize).observe(cv)}else{window.addEventListener('resize',resize)}
+  resize();
+  counts.audio=1;
+  var g0=G[3],t0=place(g0,.8,1.1);
+  U.push({sx:t0.x,sy:t0.y,tx:t0.x,ty:t0.y,born:-5000});
+  steps.forEach(function(s){s.className='done'});
+  report('소리만으로 하는 잠수함 게임','audio',true);
+  if(still){draw(0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){draw(0)})}
+  else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

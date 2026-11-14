@@ -1,0 +1,16 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: galaxidea
+      POSTGRES_PASSWORD: galaxidea
+      POSTGRES_DB: galaxidea
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # Runs once, on first start of an empty volume.
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  db_data:
