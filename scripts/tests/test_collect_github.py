@@ -153,3 +153,15 @@ def test_load_env_file_does_not_override(tmp_path, monkeypatch):
     assert os.environ["GX_A"] == "from_env"
     assert os.environ["GX_B"] == "quoted value"
     monkeypatch.delenv("GX_B")
+
+
+def test_database_url_is_tidied():
+    assert cg.database_url(' "postgresql://u:p@h:5432/db"\n') == "postgresql://u:p@h:5432/db"
+
+
+@pytest.mark.parametrize(
+    "value", ["just-a-password", "host: example.com", "postgresql://u:[YOUR-PASSWORD]@h/db"]
+)
+def test_database_url_rejects_non_urls(value):
+    with pytest.raises(SystemExit):
+        cg.database_url(value)
