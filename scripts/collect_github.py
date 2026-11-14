@@ -14,7 +14,7 @@ Usage:
 
 Configuration comes from the environment, falling back to `.env.local` in the
 repository root: DATABASE_URL, GITHUB_TOKEN, EMBED_BASE_URL, EMBED_API_KEY,
-EMBED_MODEL, EMBED_DIM.
+EMBED_MODEL, EMBED_DIM, and optionally EMBED_INPUT_TYPE.
 """
 
 from __future__ import annotations
@@ -279,29 +279,49 @@ class Embedder:
         api_key: str,
         model: str,
         dim: int,
+        input_type: str | None = None,
         session: requests.Session | None = None,
     ):
         self.url = base_url.rstrip("/") + "/embeddings"
         self.model = model
         self.dim = dim
+        # Some providers (Voyage) embed stored documents and search queries
+        # differently and take an `input_type` to tell them apart. It is not
+        # part of the OpenAI format, so it is only sent when configured.
+        self.input_type = input_type
+        self.tokens_used = 0
         self.session = session or requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {api_key}"})
 
     def embed(self, texts: list[str]) -> list[list[float]]:
-        payload = {"model": self.model, "input": texts}
-        for attempt in range(6):
+        payload: dict = {"model": self.model, "input": texts}
+        if self.input_type:
+            payload["input_type"] = self.input_type
+        failures = 0
+        rate_limited = 0
+        while failures < 6 and rate_limited < 60:
             try:
                 response = self.session.post(self.url, json=payload, timeout=120)
             except requests.RequestException as error:
-                wait = 2**attempt
+                wait = 2**failures
+                failures += 1
                 log(f"  network error ({error}); retrying in {wait}s")
                 time.sleep(wait)
                 continue
             if response.status_code == 200:
-                return parse_embeddings(response.json(), len(texts), self.dim)
-            if response.status_code == 429 or response.status_code >= 500:
-                wait = float(response.headers.get("Retry-After") or 2**attempt)
-                log(f"  embedding endpoint returned {response.status_code}; waiting {wait:.0f}s")
+                body = response.json()
+                self.tokens_used += (body.get("usage") or {}).get("total_tokens", 0)
+                return parse_embeddings(body, len(texts), self.dim)
+            if response.status_code == 429:
+                # Low-rate plans allow only a few requests a minute, so being
+                # told to slow down is routine here, not a failure.
+                rate_limited += 1
+                time.sleep(float(response.headers.get("Retry-After") or 20))
+                continue
+            if response.status_code >= 500:
+                wait = 2**failures
+                failures += 1
+                log(f"  embedding endpoint returned {response.status_code}; waiting {wait}s")
                 time.sleep(wait)
                 continue
             raise RuntimeError(
@@ -396,6 +416,7 @@ def run_embed(args: argparse.Namespace) -> None:
         required_env("EMBED_API_KEY"),
         required_env("EMBED_MODEL"),
         int(os.environ.get("EMBED_DIM") or "1024"),
+        os.environ.get("EMBED_INPUT_TYPE") or None,
     )
     done = 0
     with connect() as conn:
@@ -418,8 +439,8 @@ def run_embed(args: argparse.Namespace) -> None:
                 )
             conn.commit()
             done += len(rows)
-            log(f"embedded {done}")
-    log(f"done: {done} items embedded")
+            log(f"embedded {done} ({embedder.tokens_used} tokens)")
+    log(f"done: {done} items embedded, {embedder.tokens_used} tokens used")
 
 
 def main(argv: list[str] | None = None) -> None:

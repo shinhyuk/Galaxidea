@@ -28,6 +28,8 @@ python scripts/collect_github.py embed
 - Column mapping: `source_id` = repository id, `name` = `owner/repo`, `one_liner` = description (whitespace collapsed, cut at 500 characters), `launched_at` = repository creation time, `status` = `active` or `archived`. `lang` is left empty.
 - When a repository's name or description changes, its embedding is cleared so the next `embed` run redoes it.
 - `embed` sends `"<repo name>: <description>"` to `EMBED_BASE_URL/embeddings` (OpenAI-compatible) and stops with an error if the returned dimension differs from `EMBED_DIM`.
+- With Voyage (`EMBED_BASE_URL=https://ai.mongodb.com/v1`, `EMBED_MODEL=voyage-4`) set `EMBED_INPUT_TYPE=document`. Questions must later be embedded with `input_type` `query`.
+- When the provider answers 429 the script waits and retries. A Voyage key without a payment method is limited to 3 requests and 10,000 tokens a minute; use `--batch-size 100` there, which loads about 300 items a minute.
 
 ## weekly.py (M4)
 
