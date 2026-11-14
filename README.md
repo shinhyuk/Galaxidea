@@ -18,6 +18,10 @@ npm run dev
 - 화면: http://localhost:3000
 - 상태 확인: http://localhost:3000/api/health
 
+## 화면 시안 (더미 데이터)
+
+홈(`/`), 보고서(`/q/1`, `/q/2`, `/q/3`), 영역 상세(`/c/idea` 등)는 지금 `lib/mock.ts`의 지어낸 데이터로 그려집니다. 실제 검색과 연결하는 일은 M3, M4에서 합니다.
+
 ## 구조
 
 - `app/` Next.js 화면과 API
