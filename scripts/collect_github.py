@@ -372,7 +372,22 @@ on conflict (source, source_id) do update set
 def connect():
     import psycopg
 
-    return psycopg.connect(required_env("DATABASE_URL"))
+    return psycopg.connect(database_url(required_env("DATABASE_URL")))
+
+
+def database_url(value: str) -> str:
+    """Tidy a pasted connection string and refuse one that is not a URL, so
+    the failure names the cause. The value itself is never printed."""
+    value = value.strip().strip("\"'").strip()
+    if not value.startswith(("postgresql://", "postgres://")):
+        raise SystemExit(
+            "DATABASE_URL must be a connection string starting with postgresql://"
+        )
+    if "[YOUR-PASSWORD]" in value:
+        raise SystemExit(
+            "DATABASE_URL still contains [YOUR-PASSWORD]; put the database password there"
+        )
+    return value
 
 
 def run_collect(args: argparse.Namespace) -> None:
