@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  areasOf,
+  emptyAreasOf,
   findCluster,
+  findDomain,
   findEmptyArea,
   findReport,
   reports,
@@ -24,6 +27,7 @@ export default async function ReportPage({ params }: PageProps<"/q/[id]">) {
 
   const cluster = report.clusterId ? findCluster(report.clusterId) : undefined;
   const area = report.emptyAreaId ? findEmptyArea(report.emptyAreaId) : undefined;
+  const domain = findDomain(cluster?.domainId ?? area?.domainId ?? "");
   const total = report.sameIdea.count;
 
   return (
@@ -35,9 +39,14 @@ export default async function ReportPage({ params }: PageProps<"/q/[id]">) {
         <p className="lead-text">{report.summary}</p>
         <p className="where">
           도착한 곳{" "}
+          {domain && (
+            <>
+              <Link href={`/d/${domain.id}`}>{domain.label}</Link> ›{" "}
+            </>
+          )}
           {cluster ? (
             <>
-              <Link href={`/c/${cluster.id}`}>{cluster.label} 은하</Link> · 상태{" "}
+              <Link href={`/c/${cluster.id}`}>{cluster.label}</Link> · 상태{" "}
               {STATE_LABEL[cluster.state]}
             </>
           ) : (
@@ -105,9 +114,13 @@ export default async function ReportPage({ params }: PageProps<"/q/[id]">) {
       <section className="block">
         <header className="block-head">
           <h2>우주 지도</h2>
-          <p>내 질문이 놓인 자리</p>
+          <p>{domain ? `${domain.label} 분야 안에서 ` : ""}내 질문이 놓인 자리</p>
         </header>
-        <Sky mine={report.star} />
+        <Sky
+          areas={domain ? areasOf(domain.id) : []}
+          empty={domain ? emptyAreasOf(domain.id) : []}
+          mineAt={cluster?.id ?? area?.id}
+        />
       </section>
 
       <section className="block">
@@ -119,7 +132,7 @@ export default async function ReportPage({ params }: PageProps<"/q/[id]">) {
           <strong>{report.oneLiner}</strong>
           <span className={`pill ${report.verdict}`}>{VERDICT_LABEL[report.verdict]}</span>
           <span className="share-foot">
-            {cluster ? `${cluster.label} 은하` : "빈 공간"} · 같은 생각 {total}명
+            {cluster ? cluster.label : "빈 공간"} · 같은 생각 {total}명
           </span>
         </div>
         <div className="row">

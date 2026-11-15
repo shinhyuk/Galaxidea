@@ -49,22 +49,14 @@ export function UniverseMap({
   voids,
   mine,
   label,
-  hero = false,
-  band = [0, 1],
 }: {
   galaxies: MapGalaxy[];
   voids: MapVoid[];
   mine?: { x: number; y: number };
   label: string;
-  // Fill the parent instead of drawing a framed square.
-  hero?: boolean;
-  // Vertical slice of the canvas the named areas are placed in, so page text
-  // laid over the top and bottom stays clear of them.
-  band?: [number, number];
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [picked, setPicked] = useState<Picked | null>(null);
-  const [bandTop, bandBottom] = band;
 
   useEffect(() => {
     const canvas = ref.current;
@@ -75,7 +67,7 @@ export function UniverseMap({
     const random = rng(20261115);
     const gauss = () =>
       Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(6.2832 * random());
-    const place = (y: number) => bandTop + y * (bandBottom - bandTop);
+    const place = (y: number) => y;
 
     // Named areas first, then small unnamed clumps scattered around them.
     const centers = [
@@ -426,7 +418,7 @@ export function UniverseMap({
       canvas.removeEventListener("pointerdown", pick);
       cancelAnimationFrame(frame);
     };
-  }, [galaxies, voids, mine, bandTop, bandBottom]);
+  }, [galaxies, voids, mine]);
 
   const tip = picked && (
     <div className="sky-tip" style={{ left: picked.left, top: picked.top }}>
@@ -435,15 +427,6 @@ export function UniverseMap({
       {picked.area && <Link href={`/c/${picked.area.id}`}>{picked.area.name} 영역 보기</Link>}
     </div>
   );
-
-  if (hero) {
-    return (
-      <div className="sky-fill">
-        <canvas ref={ref} role="img" aria-label={label} />
-        {tip}
-      </div>
-    );
-  }
 
   return (
     <div className="sky">

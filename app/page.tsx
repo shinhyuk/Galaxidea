@@ -1,15 +1,58 @@
 import Form from "next/form";
 import Link from "next/link";
-import { emptyAreas, reports, trendingClusters, WEEKS } from "@/lib/mock";
+import {
+  domains,
+  emptyAreas,
+  findDomain,
+  formatCount,
+  reports,
+  totals,
+  trendingClusters,
+  WEEKS,
+} from "@/lib/mock";
 import { Sparkline } from "./ui/charts";
-import { Sky } from "./ui/sky";
-import { SkyLegend } from "./ui/universe-map";
+import type { Hub } from "./ui/cosmos";
+import { Scene, SceneCard } from "./ui/scene";
+
+const hubs: Hub[] = domains.map((domain) => ({
+  tall: domain.tall,
+  wide: domain.wide,
+  size: domain.size,
+  color: domain.color,
+}));
+
+// The first domain sits in the middle and is joined to every other one;
+// the rest are joined to their neighbours around it.
+const links: [number, number][] = [
+  ...domains.slice(1).map((_, i): [number, number] => [0, i + 1]),
+  [1, 2], [1, 3], [2, 4], [3, 6], [4, 5], [6, 8], [5, 7], [7, 8],
+];
 
 export default function Home() {
   return (
     <>
       <section className="hero">
-        <Sky hero />
+        <Scene
+          fill
+          hubs={hubs}
+          links={links}
+          bandTall={[0.25, 0.69]}
+          bandWide={[0.23, 0.67]}
+          label="아이디어 우주 지도. 분야마다 은하가 하나씩 있고 서로 빛줄기로 이어져 있습니다."
+        >
+          {domains.map((domain, i) => (
+            <SceneCard
+              key={domain.id}
+              hub={hubs[i]}
+              href={`/d/${domain.id}`}
+              icon={domain.icon}
+              title={domain.label}
+              lead={`▲ ${domain.growthPercent}%`}
+              detail={`${formatCount(domain.ideaCount)}개`}
+              main={i === 0}
+            />
+          ))}
+        </Scene>
         <div className="hero-top">
           <h1>내 아이디어는 우주 어디쯤에 있을까</h1>
           <p>
@@ -41,11 +84,35 @@ export default function Home() {
               </Link>
             ))}
           </div>
-          <SkyLegend />
         </div>
       </section>
 
       <section className="block">
+        <header className="block-head">
+          <h2>한눈에 보기</h2>
+          <p>은하를 누르면 그 분야 안으로 들어갑니다</p>
+        </header>
+        <div className="stats">
+          <div className="stat">
+            <b>{formatCount(totals.ideas)}개</b>
+            <span>모인 아이디어</span>
+          </div>
+          <div className="stat">
+            <b>{totals.domains}개</b>
+            <span>분야</span>
+          </div>
+          <div className="stat">
+            <b>{totals.areas}개</b>
+            <span>영역</span>
+          </div>
+          <div className="stat">
+            <b>{totals.languages}개</b>
+            <span>언어권</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="block" id="trending">
         <header className="block-head">
           <h2>이번 주 뜨는 영역</h2>
           <p>이번 주 신규 제품 수가 최근 4주 평균보다 많은 곳</p>
@@ -58,8 +125,8 @@ export default function Home() {
                 <span className="rank-main">
                   <strong>{cluster.label}</strong>
                   <span>
-                    평소의 {cluster.growthScore.toFixed(1)}배 · 이번 주 신규{" "}
-                    {cluster.weeklyNewItems}개
+                    {findDomain(cluster.domainId)?.label} · 평소의{" "}
+                    {cluster.growthScore.toFixed(1)}배 · 신규 {cluster.weeklyNewItems}개
                   </span>
                 </span>
                 <Sparkline
@@ -72,7 +139,7 @@ export default function Home() {
         </ol>
       </section>
 
-      <section className="block">
+      <section className="block" id="empty">
         <header className="block-head">
           <h2>이번 주 빈 영역</h2>
           <p>화두는 뜨는데 제품이 거의 없는 곳</p>
@@ -80,20 +147,20 @@ export default function Home() {
         <ol className="rank">
           {emptyAreas.map((area, i) => (
             <li key={area.id}>
-              <div className="rank-row">
+              <Link href={`/d/${area.domainId}`} className="rank-row">
                 <span className="rank-no void">{i + 1}</span>
                 <span className="rank-main">
                   <strong>{area.label}</strong>
                   <span>
-                    제품 {area.itemCount}개 · 질문 {area.queryCount}개 ·{" "}
-                    {area.words.join(", ")}
+                    {findDomain(area.domainId)?.label} · 제품 {area.itemCount}개 · 질문{" "}
+                    {area.queryCount}개
                   </span>
                 </span>
                 <span className="score">
                   <b>{area.trendScore}</b>
                   화두 점수
                 </span>
-              </div>
+              </Link>
             </li>
           ))}
         </ol>

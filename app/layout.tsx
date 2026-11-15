@@ -16,6 +16,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <span className="mark">Galaxidea</span>
             <span className="ko">갤럭시디아</span>
           </Link>
+          <nav className="nav">
+            <Link href="/">우주</Link>
+            <Link href="/#trending">뜨는 영역</Link>
+            <Link href="/#empty">빈 영역</Link>
+          </nav>
           <span className="tag">더미 데이터</span>
         </header>
         <main>{children}</main>

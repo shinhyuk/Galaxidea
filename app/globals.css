@@ -92,6 +92,31 @@ main,
   font-size: 14px;
 }
 
+.nav {
+  display: none;
+  margin-left: auto;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.nav a {
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--dim);
+}
+
+.nav a:hover {
+  color: var(--ink);
+  background: rgba(232, 236, 255, 0.08);
+}
+
+@media (min-width: 620px) {
+  .nav {
+    display: flex;
+  }
+}
+
 .tag {
   font-size: 12px;
   color: var(--space);
@@ -200,19 +225,6 @@ main {
 .hero .chip {
   flex: none;
   background: rgba(14, 20, 48, 0.7);
-}
-
-.sky-fill {
-  position: absolute;
-  inset: 0;
-  background: #02030a;
-}
-
-.sky-fill canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  touch-action: pan-y;
 }
 
 .sky-tip {
@@ -375,6 +387,16 @@ a:focus-visible {
 .eyebrow {
   font-size: 12px;
   color: var(--dim);
+}
+
+.block-head h1 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.rank .pill {
+  flex: none;
 }
 
 .lead-text {
@@ -694,7 +716,119 @@ a.rank-row:hover strong {
   fill: var(--grow);
 }
 
-/* Universe map */
+/* Scene: the cosmos canvas with cards pinned to its hubs */
+
+.scene {
+  container: scene / size;
+  background: #02030a;
+}
+
+.scene-fill {
+  position: absolute;
+  inset: 0;
+}
+
+.scene-frame {
+  position: relative;
+  height: 620px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .scene-frame {
+    height: 540px;
+  }
+}
+
+.scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Each card hangs just under the bright core of its hub. */
+.scene-card {
+  position: absolute;
+  left: calc(var(--tx) * 100%);
+  top: calc((var(--b0) + var(--ty) * var(--bs)) * 100%);
+  transform: translate(-50%, 12px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  max-width: 46cqw;
+  padding: 6px 10px 6px 8px;
+  border: 1px solid rgba(var(--tint), 0.55);
+  border-radius: 10px;
+  background: rgba(8, 11, 30, 0.72);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 18px rgba(var(--tint), 0.22);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+@container scene (min-aspect-ratio: 1/1) {
+  .scene-card {
+    left: calc(var(--wx) * 100%);
+    top: calc((var(--wb0) + var(--wy) * var(--wbs)) * 100%);
+    max-width: 200px;
+    font-size: 13px;
+  }
+}
+
+a.scene-card:hover {
+  border-color: rgba(var(--tint), 1);
+  box-shadow: 0 0 26px rgba(var(--tint), 0.45);
+}
+
+.scene-card.main {
+  border-width: 1.5px;
+  box-shadow: 0 0 30px rgba(var(--tint), 0.45);
+  font-size: 13px;
+}
+
+.scene-card.void {
+  border-style: dashed;
+  background: rgba(8, 11, 30, 0.5);
+  box-shadow: none;
+}
+
+.scene-icon {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  color: rgb(var(--tint));
+  background: rgba(var(--tint), 0.16);
+}
+
+.scene-text {
+  display: grid;
+  min-width: 0;
+}
+
+.scene-text strong {
+  font-weight: 500;
+}
+
+.scene-text span {
+  color: var(--dim);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.scene-text b {
+  font-weight: 500;
+  color: rgb(var(--tint));
+}
+
+/* Star map inside a domain */
 
 /* The column must not size itself from the canvas, whose pixel width the
    script sets from its own box. */
@@ -739,6 +873,22 @@ a.rank-row:hover strong {
   height: 10px;
   border-radius: 50%;
   display: inline-block;
+}
+
+.d.sat {
+  background: #ffce78;
+}
+
+.d.grow {
+  background: var(--grow);
+}
+
+.d.steady {
+  background: #be96ff;
+}
+
+.d.fade {
+  background: #8c96be;
 }
 
 .d.warm {
