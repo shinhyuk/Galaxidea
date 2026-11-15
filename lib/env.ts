@@ -25,7 +25,7 @@ export const env = {
       baseUrl: required("EMBED_BASE_URL"),
       apiKey: required("EMBED_API_KEY"),
       model: required("EMBED_MODEL"),
-      dim: Number(process.env.EMBED_DIM ?? "1024"),
+      dim: Number(process.env.EMBED_DIM ?? "512"),
     };
   },
 };

@@ -36,16 +36,17 @@
 - Next.js(App Router, TypeScript), 모바일 우선 반응형
 - Postgres + pgvector (로컬은 docker compose)
 - LLM: OpenAI 호환 엔드포인트. 환경변수 `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`로 교체 가능하게 작성. 특정 업체 SDK에 묶지 말 것
-- 임베딩: 다국어 모델. `EMBED_BASE_URL`, `EMBED_API_KEY`, `EMBED_MODEL`, `EMBED_DIM` 환경변수. 기본값은 1024차원 가정
+- 임베딩: 다국어 모델. `EMBED_BASE_URL`, `EMBED_API_KEY`, `EMBED_MODEL`, `EMBED_DIM` 환경변수. 512차원 반정밀도(`halfvec(512)`)로 저장한다. 처음에는 1024차원이었으나 무료 DB에 더 많은 아이디어를 넣기 위해 줄였다(2026-11-15)
 - 배치 작업은 `scripts/` 아래 Python으로 분리
 
 ## 데이터 구조
 
-스키마는 `db/migrations/001_init.sql`에 있다.
+스키마는 `db/migrations/`에 있고 `scripts/migrate.py`가 순서대로 적용한다.
 
 - `items`: 출시된 제품, 저장소, 특허. `unique(source, source_id)`
 - `queries`: 사용자 질문. `raw_text`는 어떤 API와 화면에도 노출 금지. 공개되는 것은 `one_liner`뿐
-- `clusters`: 영역(은하). 중심 벡터, 2차원 좌표, 주간 지표, 상태
+- `domains`: 분야(은하). 9개로 시작
+- `clusters`: 영역. 중심 벡터, 2차원 좌표, 주간 지표, 상태, 속한 분야
 - `trends`: 화두 단어
 - `queries.stage` 값: thought, researching, building, launched, dropped
 
@@ -61,7 +62,7 @@
 ## 데이터 수집
 
 - 1차: 깃허브. 공식 API로 별 50개 이상이고 설명이 있는 저장소. 최초 1회 적재 후 하루 1회 증분
-- 2차(나중): 특허 공개 데이터(KIPRIS 공개 API, 구글 특허 공개 데이터셋), 최근 5년 소프트웨어 분류부터
+- 2차: 특허. 구글 특허 공개 데이터셋(BigQuery)에서 2022년 이후 공개분을 CPC 분류로 9개 분야에 나눠 분야마다 같은 수(기본 1만 건)를 넣는다. 무료 범위(전체 약 12만 건)로 시작한다. KIPRIS는 나중에 검토
 - 프로덕트헌트는 API 약관의 상업적 이용 조건을 확인한 뒤 결정
 - 검색 엔진 결과나 SNS를 직접 긁는 크롤링은 금지. 공식 API와 공개 데이터셋만 사용
 
@@ -95,6 +96,6 @@ M1 확인 완료: docker compose로 띄운 Postgres 16 + pgvector 0.8에서 스�
 
 M2 확인 완료: 별 상위 저장소를 `items`에 적재하고 Voyage `voyage-4`(1024차원)로 1,720건을 임베딩해 검색을 확인했다. 한국어 질문으로도 관련 영어 저장소가 상위에 나온다.
 
-3단 구조에 따라 바꿀 것(아직 안 함): `clusters`에 상위 분야를 가리키는 칸이 필요하고, 깃허브만으로는 개발 분야에 치우치므로 특허 등 다른 출처를 넣어야 분야가 고르게 찬다. 지도는 아이디어를 전부 그리지 않고 분야와 영역 단위로 묶어 그린다.
+3단 구조에 따라 한 것: `domains` 표와 `items.domain_id`, `clusters.domain_id`를 추가했고 특허 수집 스크립트를 작성했다. 아직 안 한 것: 특허 수집을 실제 BigQuery로 실행해 보지 않았다. 깃허브 항목은 분야가 비어 있고, 주간 배치(M4)에서 채운다. 지도는 아이디어를 전부 그리지 않고 분야와 영역 단위로 묶어 그린다.
 
 M3에서 조정할 것: 실제 유사도가 예상보다 낮게 나온다. 정확히 일치하는 제품도 0.60~0.75 수준이어서, 판정 기준 0.80 / 0.65를 그대로 쓰면 "이미 있음"이 거의 나오지 않는다. 질문은 `input_type=query`로 임베딩해야 한다.

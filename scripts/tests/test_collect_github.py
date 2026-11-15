@@ -110,10 +110,22 @@ def test_long_description_is_cut():
     assert len(item["one_liner"]) == cg.ONE_LINER_MAX
 
 
-def test_embedding_text_drops_owner():
-    assert cg.embedding_text("vercel/next.js", "The React Framework") == (
+def test_embedding_text_drops_owner_for_repositories_only():
+    assert cg.embedding_text("github", "vercel/next.js", "The React Framework") == (
         "next.js: The React Framework"
     )
+    assert cg.embedding_text("patent", "A/B test device", "Compares two variants") == (
+        "A/B test device: Compares two variants"
+    )
+
+
+def test_take_batch_respects_item_and_token_limits():
+    short = ["ab"] * 10
+    assert cg.take_batch(short, 4, 1000) == 4
+    assert cg.take_batch(short, 100, 1000) == 10
+    long = ["x" * 200] * 10  # about 101 tokens each
+    assert cg.take_batch(long, 100, 250) == 2
+    assert cg.take_batch(["x" * 5000], 100, 250) == 1
 
 
 def test_vector_literal():
