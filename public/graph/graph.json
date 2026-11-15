@@ -1,438 +1,1299 @@
 {
- "count": 2000,
- "links": 3085,
+ "count": 33544,
+ "links": 53141,
  "built": "2026-11-15",
  "sources": {
-  "github": 2000
+  "github": 33544
  },
  "chunk": 1000,
  "groups": [
   {
-   "label": "database · analytics",
+   "label": "programming · language",
    "color": "hsl(0 72% 66%)",
-   "size": 63,
-   "x": 40441,
-   "y": 35661
+   "size": 373,
+   "x": 39795,
+   "y": 33026
   },
   {
-   "label": "inference · models",
+   "label": "docker · container",
    "color": "hsl(138 72% 66%)",
-   "size": 52,
-   "x": 31985,
-   "y": 56206
+   "size": 310,
+   "x": 38735,
+   "y": 41466
   },
   {
-   "label": "web · laravel",
+   "label": "pdf · pdfs",
    "color": "hsl(275 72% 66%)",
-   "size": 51,
-   "x": 49442,
-   "y": 26357
+   "size": 271,
+   "x": 28660,
+   "y": 14934
   },
   {
-   "label": "python · books",
+   "label": "neovim · vim",
    "color": "hsl(53 72% 66%)",
-   "size": 43,
-   "x": 51236,
-   "y": 42922
+   "size": 252,
+   "x": 36118,
+   "y": 22923
   },
   {
-   "label": "shell · zsh",
+   "label": "kubernetes · clusters",
    "color": "hsl(190 72% 66%)",
-   "size": 40,
-   "x": 35958,
-   "y": 13743
+   "size": 241,
+   "x": 39306,
+   "y": 45531
   },
   {
-   "label": "vue.js · vue",
+   "label": "blockchain · ethereum",
    "color": "hsl(328 72% 66%)",
-   "size": 37,
-   "x": 53265,
-   "y": 16856
+   "size": 232,
+   "x": 25575,
+   "y": 47931
   },
   {
-   "label": "agents · n8n",
+   "label": "game · engine",
    "color": "hsl(105 72% 66%)",
-   "size": 36,
-   "x": 28448,
-   "y": 42963
+   "size": 224,
+   "x": 19835,
+   "y": 22673
   },
   {
-   "label": "react · state",
+   "label": "charts · charting",
    "color": "hsl(243 72% 66%)",
-   "size": 36,
-   "x": 58965,
-   "y": 18874
+   "size": 224,
+   "x": 22671,
+   "y": 15958
   },
   {
-   "label": "access · secrets",
+   "label": "machine · learning",
    "color": "hsl(20 72% 66%)",
-   "size": 32,
-   "x": 32597,
-   "y": 24186
+   "size": 220,
+   "x": 12226,
+   "y": 42579
   },
   {
-   "label": "github · git",
+   "label": "trading · quantitative",
    "color": "hsl(158 72% 66%)",
-   "size": 29,
-   "x": 42475,
-   "y": 16624
+   "size": 216,
+   "x": 15548,
+   "y": 49519
   },
   {
-   "label": "coding · agent",
+   "label": "music · player",
    "color": "hsl(295 72% 66%)",
-   "size": 29,
-   "x": 24103,
-   "y": 41933
+   "size": 209,
+   "x": 14358,
+   "y": 8393
   },
   {
-   "label": "database · search",
+   "label": "javascript · interview",
    "color": "hsl(73 72% 66%)",
-   "size": 29,
-   "x": 38049,
-   "y": 40232
+   "size": 208,
+   "x": 44888,
+   "y": 29299
   },
   {
-   "label": "voice · speech",
+   "label": "password · authenticator",
    "color": "hsl(210 72% 66%)",
-   "size": 28,
-   "x": 3641,
-   "y": 39192
+   "size": 205,
+   "x": 31009,
+   "y": 49082
   },
   {
-   "label": "face · image",
+   "label": "bluetooth · ble",
    "color": "hsl(348 72% 66%)",
-   "size": 28,
-   "x": 38565,
-   "y": 49635
+   "size": 186,
+   "x": 27149,
+   "y": 25721
   },
   {
-   "label": "kubernetes · docker",
+   "label": "xposed · root",
    "color": "hsl(125 72% 66%)",
-   "size": 27,
-   "x": 38444,
-   "y": 22022
+   "size": 185,
+   "x": 33433,
+   "y": 28353
   },
   {
-   "label": "detection · pytorch",
+   "label": "image · photo",
    "color": "hsl(263 72% 66%)",
-   "size": 27,
-   "x": 41613,
-   "y": 53831
+   "size": 185,
+   "x": 28463,
+   "y": 10477
   },
   {
-   "label": "player · iptv",
+   "label": "oauth · authentication",
    "color": "hsl(40 72% 66%)",
-   "size": 27,
-   "x": 16958,
-   "y": 20692
+   "size": 184,
+   "x": 56812,
+   "y": 36260
   },
   {
-   "label": "trading · financial",
+   "label": "claude · skills",
    "color": "hsl(178 72% 66%)",
-   "size": 27,
-   "x": 34938,
-   "y": 44633
+   "size": 178,
+   "x": 20102,
+   "y": 37678
   },
   {
-   "label": "ocr · pdf",
+   "label": "nlp · bert",
    "color": "hsl(315 72% 66%)",
-   "size": 25,
-   "x": 18711,
-   "y": 34701
+   "size": 177,
+   "x": 8847,
+   "y": 34846
   },
   {
-   "label": "proxy · shadowsocks",
+   "label": "windows · termux",
    "color": "hsl(93 72% 66%)",
-   "size": 24,
-   "x": 24022,
-   "y": 22312
+   "size": 176,
+   "x": 30412,
+   "y": 27481
   },
   {
-   "label": "scraping · browser",
+   "label": "estimation · monocular",
    "color": "hsl(230 72% 66%)",
-   "size": 24,
-   "x": 23898,
-   "y": 31825
+   "size": 175,
+   "x": 10339,
+   "y": 24091
   },
   {
-   "label": "windows · macos",
+   "label": "c++ · cpp",
    "color": "hsl(8 72% 66%)",
-   "size": 23,
-   "x": 28531,
-   "y": 14272
+   "size": 174,
+   "x": 40014,
+   "y": 37060
   },
   {
-   "label": "leetcode · interview",
+   "label": "audio · music",
    "color": "hsl(145 72% 66%)",
-   "size": 21,
-   "x": 56528,
-   "y": 43486
+   "size": 172,
+   "x": 11731,
+   "y": 11333
   },
   {
-   "label": "firefox · chrome",
+   "label": "ssh · launcher",
    "color": "hsl(283 72% 66%)",
-   "size": 21,
-   "x": 25652,
-   "y": 27453
+   "size": 169,
+   "x": 29800,
+   "y": 23698
+  },
+  {
+   "label": "keyboard · mouse",
+   "color": "hsl(60 72% 66%)",
+   "size": 164,
+   "x": 27704,
+   "y": 21740
+  },
+  {
+   "label": "websocket · http",
+   "color": "hsl(198 72% 66%)",
+   "size": 163,
+   "x": 47523,
+   "y": 42595
+  },
+  {
+   "label": "esp32 · esp8266",
+   "color": "hsl(335 72% 66%)",
+   "size": 159,
+   "x": 26055,
+   "y": 29383
+  },
+  {
+   "label": "science · data",
+   "color": "hsl(113 72% 66%)",
+   "size": 154,
+   "x": 16355,
+   "y": 44335
+  },
+  {
+   "label": "tensorflow · deep",
+   "color": "hsl(250 72% 66%)",
+   "size": 151,
+   "x": 7333,
+   "y": 40238
+  },
+  {
+   "label": "geospatial · maps",
+   "color": "hsl(28 72% 66%)",
+   "size": 148,
+   "x": 15811,
+   "y": 20432
+  },
+  {
+   "label": "bootstrap · react",
+   "color": "hsl(165 72% 66%)",
+   "size": 145,
+   "x": 47008,
+   "y": 22215
+  },
+  {
+   "label": "json · laravel",
+   "color": "hsl(303 72% 66%)",
+   "size": 145,
+   "x": 51699,
+   "y": 34505
+  },
+  {
+   "label": "regular · nestjs",
+   "color": "hsl(80 72% 66%)",
+   "size": 144,
+   "x": 49051,
+   "y": 32860
+  },
+  {
+   "label": "admin · vue",
+   "color": "hsl(218 72% 66%)",
+   "size": 143,
+   "x": 56198,
+   "y": 28613
+  },
+  {
+   "label": "android · ios",
+   "color": "hsl(355 72% 66%)",
+   "size": 141,
+   "x": 38812,
+   "y": 21213
+  },
+  {
+   "label": "python · headless",
+   "color": "hsl(133 72% 66%)",
+   "size": 140,
+   "x": 35339,
+   "y": 35952
+  },
+  {
+   "label": "agent · assistant",
+   "color": "hsl(270 72% 66%)",
+   "size": 138,
+   "x": 18997,
+   "y": 31370
+  },
+  {
+   "label": "reinforcement · learning",
+   "color": "hsl(48 72% 66%)",
+   "size": 138,
+   "x": 4309,
+   "y": 34241
+  },
+  {
+   "label": "css · css-in-js",
+   "color": "hsl(185 72% 66%)",
+   "size": 136,
+   "x": 46939,
+   "y": 17688
+  },
+  {
+   "label": "testing · unit",
+   "color": "hsl(323 72% 66%)",
+   "size": 133,
+   "x": 43886,
+   "y": 37344
+  },
+  {
+   "label": "http · grpc",
+   "color": "hsl(100 72% 66%)",
+   "size": 132,
+   "x": 50063,
+   "y": 41760
+  },
+  {
+   "label": "video · ffmpeg",
+   "color": "hsl(238 72% 66%)",
+   "size": 130,
+   "x": 14466,
+   "y": 15553
+  },
+  {
+   "label": "vulkan · opengl",
+   "color": "hsl(15 72% 66%)",
+   "size": 128,
+   "x": 18771,
+   "y": 19351
+  },
+  {
+   "label": "cms · django",
+   "color": "hsl(153 72% 66%)",
+   "size": 128,
+   "x": 51778,
+   "y": 28496
+  },
+  {
+   "label": "grid · table",
+   "color": "hsl(290 72% 66%)",
+   "size": 128,
+   "x": 47638,
+   "y": 13845
+  },
+  {
+   "label": "emulator · nintendo",
+   "color": "hsl(68 72% 66%)",
+   "size": 127,
+   "x": 23739,
+   "y": 22851
+  },
+  {
+   "label": "robot · robotics",
+   "color": "hsl(205 72% 66%)",
+   "size": 126,
+   "x": 14246,
+   "y": 27233
+  },
+  {
+   "label": "iptv · jellyfin",
+   "color": "hsl(343 72% 66%)",
+   "size": 125,
+   "x": 19422,
+   "y": 8683
+  },
+  {
+   "label": "icons · icon",
+   "color": "hsl(120 72% 66%)",
+   "size": 125,
+   "x": 35517,
+   "y": 11181
+  },
+  {
+   "label": "git · github",
+   "color": "hsl(258 72% 66%)",
+   "size": 124,
+   "x": 35881,
+   "y": 30862
+  },
+  {
+   "label": "email · smtp",
+   "color": "hsl(35 72% 66%)",
+   "size": 124,
+   "x": 62368,
+   "y": 28079
+  },
+  {
+   "label": "agents · llm",
+   "color": "hsl(173 72% 66%)",
+   "size": 123,
+   "x": 16070,
+   "y": 37413
+  },
+  {
+   "label": "react · redux",
+   "color": "hsl(310 72% 66%)",
+   "size": 123,
+   "x": 51985,
+   "y": 22953
+  },
+  {
+   "label": "diffusion · stable",
+   "color": "hsl(88 72% 66%)",
+   "size": 121,
+   "x": 7513,
+   "y": 22725
+  },
+  {
+   "label": "swift · wpf",
+   "color": "hsl(225 72% 66%)",
+   "size": 120,
+   "x": 41179,
+   "y": 23463
+  },
+  {
+   "label": "openapi · swagger",
+   "color": "hsl(3 72% 66%)",
+   "size": 120,
+   "x": 50509,
+   "y": 37014
+  },
+  {
+   "label": "orm · mysql",
+   "color": "hsl(140 72% 66%)",
+   "size": 120,
+   "x": 27289,
+   "y": 56844
+  },
+  {
+   "label": "reverse · engineering",
+   "color": "hsl(278 72% 66%)",
+   "size": 119,
+   "x": 31677,
+   "y": 32081
+  },
+  {
+   "label": "compression · diff",
+   "color": "hsl(55 72% 66%)",
+   "size": 119,
+   "x": 39484,
+   "y": 27950
+  },
+  {
+   "label": "agents · agent",
+   "color": "hsl(193 72% 66%)",
+   "size": 118,
+   "x": 18226,
+   "y": 34337
+  },
+  {
+   "label": "agents · agent",
+   "color": "hsl(330 72% 66%)",
+   "size": 118,
+   "x": 17134,
+   "y": 35584
+  },
+  {
+   "label": "postgresql · postgres",
+   "color": "hsl(108 72% 66%)",
+   "size": 118,
+   "x": 26558,
+   "y": 54459
+  },
+  {
+   "label": "php · asp.net",
+   "color": "hsl(245 72% 66%)",
+   "size": 118,
+   "x": 46021,
+   "y": 34726
+  },
+  {
+   "label": "claude · codex",
+   "color": "hsl(23 72% 66%)",
+   "size": 117,
+   "x": 19766,
+   "y": 35224
+  },
+  {
+   "label": "messenger · chat",
+   "color": "hsl(161 72% 66%)",
+   "size": 115,
+   "x": 23940,
+   "y": 27295
+  },
+  {
+   "label": "animation · animations",
+   "color": "hsl(298 72% 66%)",
+   "size": 113,
+   "x": 41478,
+   "y": 12283
+  },
+  {
+   "label": "bittorrent · torrent",
+   "color": "hsl(76 72% 66%)",
+   "size": 112,
+   "x": 22819,
+   "y": 9266
+  },
+  {
+   "label": "vulnerability · security",
+   "color": "hsl(213 72% 66%)",
+   "size": 112,
+   "x": 30289,
+   "y": 44075
+  },
+  {
+   "label": "prompt · prompts",
+   "color": "hsl(351 72% 66%)",
+   "size": 111,
+   "x": 14164,
+   "y": 33712
+  },
+  {
+   "label": "wechat · mcp",
+   "color": "hsl(128 72% 66%)",
+   "size": 108,
+   "x": 22599,
+   "y": 30342
+  },
+  {
+   "label": "quant · forensics",
+   "color": "hsl(266 72% 66%)",
+   "size": 107,
+   "x": 29475,
+   "y": 37401
+  },
+  {
+   "label": "network · packet",
+   "color": "hsl(43 72% 66%)",
+   "size": 107,
+   "x": 36537,
+   "y": 47140
+  },
+  {
+   "label": "note-taking · note",
+   "color": "hsl(181 72% 66%)",
+   "size": 104,
+   "x": 29363,
+   "y": 19215
+  },
+  {
+   "label": "image · cropping",
+   "color": "hsl(318 72% 66%)",
+   "size": 104,
+   "x": 32436,
+   "y": 9095
+  },
+  {
+   "label": "webassembly · ruby",
+   "color": "hsl(96 72% 66%)",
+   "size": 103,
+   "x": 42780,
+   "y": 32801
+  },
+  {
+   "label": "prometheus · monitoring",
+   "color": "hsl(233 72% 66%)",
+   "size": 102,
+   "x": 41915,
+   "y": 45726
+  },
+  {
+   "label": "ocr · opencv",
+   "color": "hsl(11 72% 66%)",
+   "size": 102,
+   "x": 9858,
+   "y": 27479
+  },
+  {
+   "label": "redis · cache",
+   "color": "hsl(148 72% 66%)",
+   "size": 102,
+   "x": 33878,
+   "y": 55912
+  },
+  {
+   "label": "comfyui · video",
+   "color": "hsl(286 72% 66%)",
+   "size": 101,
+   "x": 9377,
+   "y": 20997
+  },
+  {
+   "label": "profiler · profiling",
+   "color": "hsl(63 72% 66%)",
+   "size": 101,
+   "x": 42710,
+   "y": 39689
+  },
+  {
+   "label": "raspberry · operating",
+   "color": "hsl(201 72% 66%)",
+   "size": 101,
+   "x": 28903,
+   "y": 30952
+  },
+  {
+   "label": "markdown · commonmark",
+   "color": "hsl(338 72% 66%)",
+   "size": 99,
+   "x": 33550,
+   "y": 16243
+  },
+  {
+   "label": "web · async",
+   "color": "hsl(116 72% 66%)",
+   "size": 99,
+   "x": 47444,
+   "y": 37624
+  },
+  {
+   "label": "crawler · scraper",
+   "color": "hsl(253 72% 66%)",
+   "size": 97,
+   "x": 25110,
+   "y": 39706
+  },
+  {
+   "label": "shadowsocks · v2ray",
+   "color": "hsl(31 72% 66%)",
+   "size": 95,
+   "x": 38504,
+   "y": 50698
+  },
+  {
+   "label": "theme · hexo",
+   "color": "hsl(168 72% 66%)",
+   "size": 95,
+   "x": 39070,
+   "y": 17706
+  },
+  {
+   "label": "github · nix",
+   "color": "hsl(306 72% 66%)",
+   "size": 94,
+   "x": 33682,
+   "y": 32722
+  },
+  {
+   "label": "cs-notes · leadership",
+   "color": "hsl(83 72% 66%)",
+   "size": 94,
+   "x": 31758,
+   "y": 36841
+  },
+  {
+   "label": "react · vue.js",
+   "color": "hsl(221 72% 66%)",
+   "size": 94,
+   "x": 49285,
+   "y": 21422
+  },
+  {
+   "label": "form · forms",
+   "color": "hsl(358 72% 66%)",
+   "size": 92,
+   "x": 53261,
+   "y": 19782
+  },
+  {
+   "label": "player · exoplayer",
+   "color": "hsl(136 72% 66%)",
+   "size": 90,
+   "x": 17095,
+   "y": 10652
+  },
+  {
+   "label": "tiling · wayland",
+   "color": "hsl(273 72% 66%)",
+   "size": 89,
+   "x": 31366,
+   "y": 19701
+  },
+  {
+   "label": "chess · firmware",
+   "color": "hsl(51 72% 66%)",
+   "size": 89,
+   "x": 18295,
+   "y": 27880
+  },
+  {
+   "label": "algorithms · interview",
+   "color": "hsl(188 72% 66%)",
+   "size": 88,
+   "x": 34699,
+   "y": 38616
+  },
+  {
+   "label": "font · typeface",
+   "color": "hsl(326 72% 66%)",
+   "size": 87,
+   "x": 35580,
+   "y": 5846
+  },
+  {
+   "label": "speech · whisper",
+   "color": "hsl(103 72% 66%)",
+   "size": 86,
+   "x": 9321,
+   "y": 15251
+  },
+  {
+   "label": "contributor · greasemonkey",
+   "color": "hsl(241 72% 66%)",
+   "size": 86,
+   "x": 32336,
+   "y": 34127
+  },
+  {
+   "label": "memory · agents",
+   "color": "hsl(18 72% 66%)",
+   "size": 86,
+   "x": 17665,
+   "y": 39023
+  },
+  {
+   "label": "zsh · homebrew",
+   "color": "hsl(156 72% 66%)",
+   "size": 85,
+   "x": 35080,
+   "y": 25990
+  },
+  {
+   "label": "accounting · finance",
+   "color": "hsl(293 72% 66%)",
+   "size": 85,
+   "x": 19877,
+   "y": 47308
+  },
+  {
+   "label": "chatgpt · openai",
+   "color": "hsl(71 72% 66%)",
+   "size": 84,
+   "x": 16119,
+   "y": 32133
+  },
+  {
+   "label": "crm · erp",
+   "color": "hsl(208 72% 66%)",
+   "size": 84,
+   "x": 24197,
+   "y": 32787
+  },
+  {
+   "label": "terraform · aws",
+   "color": "hsl(346 72% 66%)",
+   "size": 84,
+   "x": 36079,
+   "y": 41728
+  },
+  {
+   "label": "twitter · instagram",
+   "color": "hsl(123 72% 66%)",
+   "size": 83,
+   "x": 25063,
+   "y": 36744
+  },
+  {
+   "label": "minecraft · launcher",
+   "color": "hsl(261 72% 66%)",
+   "size": 83,
+   "x": 18576,
+   "y": 25283
+  },
+  {
+   "label": "ethical · hacking",
+   "color": "hsl(38 72% 66%)",
+   "size": 83,
+   "x": 28707,
+   "y": 43009
+  },
+  {
+   "label": "html · xml",
+   "color": "hsl(176 72% 66%)",
+   "size": 83,
+   "x": 45413,
+   "y": 24487
+  },
+  {
+   "label": "opentelemetry · load",
+   "color": "hsl(313 72% 66%)",
+   "size": 83,
+   "x": 43589,
+   "y": 43634
   },
   {
    "label": "learning · deep",
-   "color": "hsl(60 72% 66%)",
-   "size": 21,
-   "x": 44806,
-   "y": 52864
+   "color": "hsl(91 72% 66%)",
+   "size": 80,
+   "x": 9611,
+   "y": 41023
   },
   {
-   "label": "android · debugger",
-   "color": "hsl(198 72% 66%)",
-   "size": 20,
-   "x": 22544,
-   "y": 17085
+   "label": "risc-v · openwrt",
+   "color": "hsl(228 72% 66%)",
+   "size": 79,
+   "x": 28149,
+   "y": 32494
   },
   {
-   "label": "jira · diagrams",
-   "color": "hsl(335 72% 66%)",
-   "size": 19,
-   "x": 29707,
-   "y": 36203
+   "label": "python · type",
+   "color": "hsl(6 72% 66%)",
+   "size": 78,
+   "x": 41027,
+   "y": 30760
   },
   {
-   "label": "science · lessons",
-   "color": "hsl(113 72% 66%)",
-   "size": 19,
-   "x": 49182,
-   "y": 49504
+   "label": "rxjava · android",
+   "color": "hsl(143 72% 66%)",
+   "size": 78,
+   "x": 40949,
+   "y": 21439
   },
   {
-   "label": "php · jvm",
-   "color": "hsl(250 72% 66%)",
-   "size": 19,
-   "x": 50040,
-   "y": 31720
+   "label": "job · queue",
+   "color": "hsl(281 72% 66%)",
+   "size": 78,
+   "x": 47911,
+   "y": 47568
   },
   {
-   "label": "skills · agent",
-   "color": "hsl(28 72% 66%)",
-   "size": 18,
-   "x": 15481,
-   "y": 45766
+   "label": "youtube · downloader",
+   "color": "hsl(58 72% 66%)",
+   "size": 77,
+   "x": 18860,
+   "y": 10843
   },
   {
-   "label": "claude · code",
-   "color": "hsl(165 72% 66%)",
-   "size": 18,
-   "x": 18739,
-   "y": 46706
+   "label": "deep · learning",
+   "color": "hsl(196 72% 66%)",
+   "size": 77,
+   "x": 9138,
+   "y": 38835
   },
   {
-   "label": "javascript · practices",
-   "color": "hsl(303 72% 66%)",
-   "size": 18,
-   "x": 59067,
-   "y": 34049
+   "label": "editor · text",
+   "color": "hsl(333 72% 66%)",
+   "size": 76,
+   "x": 34481,
+   "y": 19493
   },
   {
-   "label": "css · component",
-   "color": "hsl(80 72% 66%)",
-   "size": 18,
-   "x": 59044,
-   "y": 15231
+   "label": "detection · object",
+   "color": "hsl(111 72% 66%)",
+   "size": 76,
+   "x": 4256,
+   "y": 29460
   },
   {
-   "label": "game · after",
-   "color": "hsl(218 72% 66%)",
-   "size": 18,
-   "x": 59711,
-   "y": 22800
+   "label": "multimodal · vision-language",
+   "color": "hsl(248 72% 66%)",
+   "size": 76,
+   "x": 8452,
+   "y": 30386
   },
   {
-   "label": "logging · c++",
-   "color": "hsl(355 72% 66%)",
-   "size": 18,
-   "x": 46613,
-   "y": 36308
+   "label": "angular · angularjs",
+   "color": "hsl(26 72% 66%)",
+   "size": 75,
+   "x": 46999,
+   "y": 25342
   },
   {
-   "label": "serverless · aws",
-   "color": "hsl(133 72% 66%)",
-   "size": 17,
-   "x": 41178,
-   "y": 27931
+   "label": "progress · loading",
+   "color": "hsl(163 72% 66%)",
+   "size": 74,
+   "x": 38885,
+   "y": 8911
   },
   {
-   "label": "vulnerabilities · security",
-   "color": "hsl(270 72% 66%)",
-   "size": 17,
-   "x": 30352,
-   "y": 27443
+   "label": "flutter · gsy",
+   "color": "hsl(301 72% 66%)",
+   "size": 73,
+   "x": 43176,
+   "y": 19946
   },
   {
-   "label": "agent · openclaw",
-   "color": "hsl(48 72% 66%)",
-   "size": 17,
-   "x": 27655,
-   "y": 46232
+   "label": "key-value · database",
+   "color": "hsl(78 72% 66%)",
+   "size": 73,
+   "x": 29553,
+   "y": 54853
   },
   {
-   "label": "rag · retrieval-augmented",
-   "color": "hsl(185 72% 66%)",
-   "size": 16,
-   "x": 30388,
-   "y": 51123
+   "label": "toast · dialog",
+   "color": "hsl(216 72% 66%)",
+   "size": 72,
+   "x": 41692,
+   "y": 14437
   },
   {
-   "label": "prompt · memory",
-   "color": "hsl(323 72% 66%)",
-   "size": 16,
-   "x": 24994,
-   "y": 50046
+   "label": "face · detection",
+   "color": "hsl(353 72% 66%)",
+   "size": 71,
+   "x": 6907,
+   "y": 26541
   },
   {
-   "label": "file · webdav",
-   "color": "hsl(100 72% 66%)",
-   "size": 15,
-   "x": 29980,
-   "y": 20462
+   "label": "segmentation · segment",
+   "color": "hsl(131 72% 66%)",
+   "size": 71,
+   "x": 3934,
+   "y": 27142
   },
   {
-   "label": "node.js · version",
-   "color": "hsl(238 72% 66%)",
-   "size": 15,
-   "x": 46223,
-   "y": 21164
+   "label": "multiplayer · game",
+   "color": "hsl(268 72% 66%)",
+   "size": 71,
+   "x": 20779,
+   "y": 24651
   },
   {
-   "label": "icons · font",
-   "color": "hsl(15 72% 66%)",
-   "size": 15,
-   "x": 50075,
-   "y": 7731
+   "label": "dns · acme",
+   "color": "hsl(46 72% 66%)",
+   "size": 70,
+   "x": 34722,
+   "y": 51331
   },
   {
-   "label": "swift · android",
-   "color": "hsl(153 72% 66%)",
-   "size": 15,
-   "x": 53651,
-   "y": 29939
+   "label": "react · native",
+   "color": "hsl(184 72% 66%)",
+   "size": 70,
+   "x": 45321,
+   "y": 19173
   },
   {
-   "label": "bittorrent · download",
-   "color": "hsl(290 72% 66%)",
-   "size": 14,
-   "x": 19303,
-   "y": 23278
+   "label": "data · visualization",
+   "color": "hsl(321 72% 66%)",
+   "size": 70,
+   "x": 21895,
+   "y": 49521
   },
   {
-   "label": "load · benchmarking",
-   "color": "hsl(68 72% 66%)",
-   "size": 14,
-   "x": 35680,
-   "y": 28907
+   "label": "mvp · android",
+   "color": "hsl(99 72% 66%)",
+   "size": 70,
+   "x": 40992,
+   "y": 19080
   },
   {
-   "label": "flutter · react",
-   "color": "hsl(205 72% 66%)",
-   "size": 13,
-   "x": 55302,
-   "y": 19770
+   "label": "theme · color",
+   "color": "hsl(236 72% 66%)",
+   "size": 70,
+   "x": 36255,
+   "y": 18476
+  },
+  {
+   "label": "tts · text-to-speech",
+   "color": "hsl(14 72% 66%)",
+   "size": 69,
+   "x": 7377,
+   "y": 15154
+  },
+  {
+   "label": "recyclerview · layoutmanager",
+   "color": "hsl(151 72% 66%)",
+   "size": 68,
+   "x": 43630,
+   "y": 9375
+  },
+  {
+   "label": "rust · single-file",
+   "color": "hsl(289 72% 66%)",
+   "size": 67,
+   "x": 39220,
+   "y": 35257
   },
   {
    "label": "vpn · wireguard",
-   "color": "hsl(343 72% 66%)",
-   "size": 12,
-   "x": 27264,
-   "y": 23013
+   "color": "hsl(66 72% 66%)",
+   "size": 67,
+   "x": 37116,
+   "y": 51533
   },
   {
-   "label": "charts · mpandroidchart",
-   "color": "hsl(120 72% 66%)",
-   "size": 12,
-   "x": 59391,
-   "y": 25649
+   "label": "graphql · buffers",
+   "color": "hsl(204 72% 66%)",
+   "size": 66,
+   "x": 53195,
+   "y": 38939
   },
   {
-   "label": "vim · neovim",
-   "color": "hsl(258 72% 66%)",
-   "size": 12,
-   "x": 38197,
-   "y": 8162
+   "label": "puppeteer · sicp",
+   "color": "hsl(341 72% 66%)",
+   "size": 65,
+   "x": 33250,
+   "y": 35853
   },
   {
-   "label": "clients · servers",
-   "color": "hsl(35 72% 66%)",
-   "size": 12,
-   "x": 39284,
-   "y": 30926
+   "label": "leetcode · solutions",
+   "color": "hsl(119 72% 66%)",
+   "size": 65,
+   "x": 33625,
+   "y": 39929
   },
   {
-   "label": "kernel · linux",
-   "color": "hsl(173 72% 66%)",
-   "size": 11,
-   "x": 35002,
-   "y": 19181
+   "label": "transitions · animations",
+   "color": "hsl(256 72% 66%)",
+   "size": 65,
+   "x": 40775,
+   "y": 10754
   },
   {
-   "label": "chatgpt · mistral",
-   "color": "hsl(310 72% 66%)",
-   "size": 11,
-   "x": 27398,
-   "y": 49970
+   "label": "calendar · datepicker",
+   "color": "hsl(34 72% 66%)",
+   "size": 65,
+   "x": 48279,
+   "y": 7664
   },
   {
-   "label": "grpc · cli",
-   "color": "hsl(88 72% 66%)",
-   "size": 11,
-   "x": 45734,
-   "y": 32025
+   "label": "monitor · htop",
+   "color": "hsl(171 72% 66%)",
+   "size": 65,
+   "x": 41665,
+   "y": 41943
+  },
+  {
+   "label": "thread · pool",
+   "color": "hsl(309 72% 66%)",
+   "size": 64,
+   "x": 45851,
+   "y": 41425
+  },
+  {
+   "label": "typescript · type",
+   "color": "hsl(86 72% 66%)",
+   "size": 64,
+   "x": 46703,
+   "y": 31144
+  },
+  {
+   "label": "tooltip · layout",
+   "color": "hsl(224 72% 66%)",
+   "size": 64,
+   "x": 44203,
+   "y": 14855
+  },
+  {
+   "label": "telegram · whatsapp",
+   "color": "hsl(1 72% 66%)",
+   "size": 64,
+   "x": 21829,
+   "y": 28540
+  },
+  {
+   "label": "graph · probabilistic",
+   "color": "hsl(139 72% 66%)",
+   "size": 64,
+   "x": 8892,
+   "y": 43947
+  },
+  {
+   "label": "rss · reader",
+   "color": "hsl(276 72% 66%)",
+   "size": 63,
+   "x": 26946,
+   "y": 35265
+  },
+  {
+   "label": "kafka · analytics",
+   "color": "hsl(54 72% 66%)",
+   "size": 62,
+   "x": 44769,
+   "y": 49751
+  },
+  {
+   "label": "neovim · zip",
+   "color": "hsl(191 72% 66%)",
+   "size": 62,
+   "x": 38092,
+   "y": 26584
+  },
+  {
+   "label": "scroll · scrolling",
+   "color": "hsl(329 72% 66%)",
+   "size": 62,
+   "x": 45571,
+   "y": 9578
+  },
+  {
+   "label": "webpack · loader",
+   "color": "hsl(106 72% 66%)",
+   "size": 61,
+   "x": 47696,
+   "y": 27334
+  },
+  {
+   "label": "vue · react",
+   "color": "hsl(244 72% 66%)",
+   "size": 60,
+   "x": 49782,
+   "y": 24069
+  },
+  {
+   "label": "llm · llama",
+   "color": "hsl(21 72% 66%)",
+   "size": 60,
+   "x": 11875,
+   "y": 35712
+  },
+  {
+   "label": "javascript · node.js",
+   "color": "hsl(159 72% 66%)",
+   "size": 58,
+   "x": 44467,
+   "y": 31811
+  },
+  {
+   "label": "diagrams · diagramming",
+   "color": "hsl(296 72% 66%)",
+   "size": 58,
+   "x": 24293,
+   "y": 17759
+  },
+  {
+   "label": "algorithms · java",
+   "color": "hsl(74 72% 66%)",
+   "size": 57,
+   "x": 36563,
+   "y": 37978
+  },
+  {
+   "label": "wsgi · http",
+   "color": "hsl(211 72% 66%)",
+   "size": 57,
+   "x": 48890,
+   "y": 38724
+  },
+  {
+   "label": "ios · jailbreak",
+   "color": "hsl(349 72% 66%)",
+   "size": 57,
+   "x": 34622,
+   "y": 24815
+  },
+  {
+   "label": "translate · translation",
+   "color": "hsl(126 72% 66%)",
+   "size": 57,
+   "x": 14804,
+   "y": 29320
   },
   {
    "label": "terminal · emulator",
-   "color": "hsl(225 72% 66%)",
-   "size": 11,
-   "x": 32137,
-   "y": 9962
+   "color": "hsl(264 72% 66%)",
+   "size": 56,
+   "x": 32113,
+   "y": 22860
   },
   {
-   "label": "implemented · algorithms",
-   "color": "hsl(3 72% 66%)",
-   "size": 10,
-   "x": 55592,
-   "y": 39495
+   "label": "resume · latex",
+   "color": "hsl(41 72% 66%)",
+   "size": 56,
+   "x": 42783,
+   "y": 25392
   },
   {
-   "label": "editor · editors",
-   "color": "hsl(140 72% 66%)",
-   "size": 10,
-   "x": 41807,
-   "y": 8833
+   "label": "physics · cad",
+   "color": "hsl(179 72% 66%)",
+   "size": 56,
+   "x": 15634,
+   "y": 23038
   },
   {
-   "label": "screen · area",
-   "color": "hsl(278 72% 66%)",
-   "size": 10,
-   "x": 15922,
-   "y": 26679
+   "label": "agent · coding",
+   "color": "hsl(316 72% 66%)",
+   "size": 55,
+   "x": 20985,
+   "y": 34074
   },
   {
-   "label": "boot · spring",
-   "color": "hsl(55 72% 66%)",
-   "size": 10,
-   "x": 51054,
-   "y": 34843
+   "label": "elasticsearch · vector",
+   "color": "hsl(94 72% 66%)",
+   "size": 55,
+   "x": 22412,
+   "y": 51800
   },
   {
-   "label": "nginx · infrastructure",
-   "color": "hsl(193 72% 66%)",
-   "size": 10,
-   "x": 39432,
-   "y": 25484
+   "label": "database · graph",
+   "color": "hsl(231 72% 66%)",
+   "size": 55,
+   "x": 24825,
+   "y": 52313
   },
   {
-   "label": "javascript · utility",
-   "color": "hsl(330 72% 66%)",
-   "size": 10,
-   "x": 58184,
-   "y": 28677
+   "label": "latex · markdown",
+   "color": "hsl(9 72% 66%)",
+   "size": 54,
+   "x": 31482,
+   "y": 15752
+  },
+  {
+   "label": "excel · csv",
+   "color": "hsl(146 72% 66%)",
+   "size": 54,
+   "x": 31794,
+   "y": 13209
+  },
+  {
+   "label": "barcode · zxing",
+   "color": "hsl(284 72% 66%)",
+   "size": 53,
+   "x": 27532,
+   "y": 4870
+  },
+  {
+   "label": "dom · jquery",
+   "color": "hsl(61 72% 66%)",
+   "size": 52,
+   "x": 46975,
+   "y": 23738
+  },
+  {
+   "label": "censorship · wifi",
+   "color": "hsl(199 72% 66%)",
+   "size": 52,
+   "x": 35378,
+   "y": 48071
+  },
+  {
+   "label": "wifi · wpa2",
+   "color": "hsl(336 72% 66%)",
+   "size": 52,
+   "x": 32586,
+   "y": 46676
+  },
+  {
+   "label": "macos · windows",
+   "color": "hsl(114 72% 66%)",
+   "size": 51,
+   "x": 31126,
+   "y": 24958
+  },
+  {
+   "label": "lsposed · x64dbg",
+   "color": "hsl(251 72% 66%)",
+   "size": 51,
+   "x": 33114,
+   "y": 31329
+  },
+  {
+   "label": "mqtt · broker",
+   "color": "hsl(29 72% 66%)",
+   "size": 51,
+   "x": 46477,
+   "y": 48129
+  },
+  {
+   "label": "cybersecurity · security",
+   "color": "hsl(166 72% 66%)",
+   "size": 50,
+   "x": 28928,
+   "y": 42243
+  },
+  {
+   "label": "inference · models",
+   "color": "hsl(304 72% 66%)",
+   "size": 50,
+   "x": 10998,
+   "y": 36549
+  },
+  {
+   "label": "bilibili · downloader",
+   "color": "hsl(81 72% 66%)",
+   "size": 50,
+   "x": 19982,
+   "y": 12069
+  },
+  {
+   "label": "git · github",
+   "color": "hsl(219 72% 66%)",
+   "size": 49,
+   "x": 34850,
+   "y": 30412
+  },
+  {
+   "label": "npm · fe-interview",
+   "color": "hsl(356 72% 66%)",
+   "size": 49,
+   "x": 42451,
+   "y": 29250
+  },
+  {
+   "label": "wysiwyg · editor",
+   "color": "hsl(134 72% 66%)",
+   "size": 49,
+   "x": 35829,
+   "y": 15354
+  },
+  {
+   "label": "spring · boot",
+   "color": "hsl(271 72% 66%)",
+   "size": 48,
+   "x": 53617,
+   "y": 41362
+  },
+  {
+   "label": "jupyter · jupyterlab",
+   "color": "hsl(49 72% 66%)",
+   "size": 48,
+   "x": 20241,
+   "y": 42245
+  },
+  {
+   "label": "quantum · covid-19",
+   "color": "hsl(186 72% 66%)",
+   "size": 47,
+   "x": 19187,
+   "y": 44021
+  },
+  {
+   "label": "color · colors",
+   "color": "hsl(324 72% 66%)",
+   "size": 47,
+   "x": 38222,
+   "y": 15109
   }
  ]
 }
