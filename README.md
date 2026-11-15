@@ -18,6 +18,10 @@ npm run dev
 - 화면: http://localhost:3000
 - 상태 확인: http://localhost:3000/api/health
 
+## 화면 시안 (더미 데이터)
+
+홈(`/`), 보고서(`/q/1`, `/q/2`, `/q/3`), 영역 상세(`/c/idea` 등)는 지금 `lib/mock.ts`의 지어낸 데이터로 그려집니다. 실제 검색과 연결하는 일은 M3, M4에서 합니다.
+
 ## 구조
 
 - `app/` Next.js 화면과 API
@@ -26,6 +30,6 @@ npm run dev
 - `scripts/` Python 배치(수집, 주간 계산)
 - `docs/demo.html` 우주 지도 시연 화면
 
-## 아직 확인하지 않은 것
+## 호스팅 DB 적재
 
-- `.github/workflows/collect-github.yml`(호스팅 DB에 수집·임베딩을 적재하는 작업)은 작성만 했고 실행해 보지 않았습니다.
+실제 DB는 Supabase(Postgres + pgvector)에 있고, GitHub Actions의 "Collect GitHub items" 작업으로 적재합니다. 저장소 Secret `DATABASE_URL`, `EMBED_API_KEY`가 필요합니다. 2026-11-14 첫 실행에서 별 2,000 이상 33,534건을 적재하고 1,000건을 임베딩했습니다. 나머지는 `embed_limit`을 `0`으로 두고 다시 실행하면 채워집니다.
