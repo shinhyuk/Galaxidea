@@ -1,9 +1,16 @@
 // Dummy data for laying out the screens before the real API exists (M3, M4).
 // Everything here is invented for display. The shapes follow what the pages
 // will later receive from the database.
+//
+// The universe has three levels so it can hold ideas from every field:
+//   domain (a galaxy, e.g. 헬스케어·바이오)
+//     → area (a cluster of similar ideas, e.g. 수면 관리)
+//       → idea (one product, patent or question)
 
 export type ClusterState = "steady" | "growing" | "saturated" | "fading";
 export type Verdict = "exists" | "similar" | "rare";
+export type IconName =
+  | "spark" | "cross" | "leaf" | "car" | "cap" | "bars" | "bag" | "play" | "sprout";
 
 export type Product = {
   name: string;
@@ -16,12 +23,9 @@ export type Product = {
 
 export type Cluster = {
   id: string;
+  domainId: string;
   label: string;
   state: ClusterState;
-  // Position and size on the universe map, as fractions of the canvas.
-  x: number;
-  y: number;
-  r: number;
   itemCount: number;
   queryCount: number;
   weeklyNewItems: number;
@@ -31,16 +35,30 @@ export type Cluster = {
   products: Product[];
 };
 
+export type Domain = {
+  id: string;
+  label: string;
+  icon: IconName;
+  // "r,g,b" so the canvas and the cards can both apply their own opacity.
+  color: string;
+  growthPercent: number;
+  ideaCount: number;
+  // Relative size of the galaxy on the map.
+  size: number;
+  // Position on the home map as fractions of the map area, for portrait
+  // (tall) and landscape (wide) screens.
+  tall: [number, number];
+  wide: [number, number];
+};
+
 export type EmptyArea = {
   id: string;
+  domainId: string;
   label: string;
   trendScore: number;
   itemCount: number;
   queryCount: number;
   words: string[];
-  x: number;
-  y: number;
-  r: number;
 };
 
 export type Report = {
@@ -50,7 +68,6 @@ export type Report = {
   summary: string;
   clusterId: string | null;
   emptyAreaId: string | null;
-  star: { x: number; y: number };
   products: Product[];
   sameIdea: {
     count: number;
@@ -67,7 +84,7 @@ export const WEEKS = [
 
 export const STATE_LABEL: Record<ClusterState, string> = {
   steady: "잔잔함",
-  growing: "뻗는 중",
+  growing: "뜨는 중",
   saturated: "포화",
   fading: "식는 중",
 };
@@ -77,6 +94,18 @@ export const VERDICT_LABEL: Record<Verdict, string> = {
   similar: "비슷한 것 있음",
   rare: "거의 없음",
 };
+
+export const domains: Domain[] = [
+  { id: "ai", label: "AI·생성형 AI", icon: "spark", color: "255,176,96", growthPercent: 89, ideaCount: 12400, size: 1.5, tall: [0.5, 0.46], wide: [0.5, 0.5] },
+  { id: "health", label: "헬스케어·바이오", icon: "cross", color: "200,130,255", growthPercent: 28, ideaCount: 2900, size: 1, tall: [0.27, 0.04], wide: [0.5, 0.03] },
+  { id: "climate", label: "기후·에너지", icon: "leaf", color: "110,230,170", growthPercent: 32, ideaCount: 3100, size: 1, tall: [0.74, 0.06], wide: [0.2, 0.14] },
+  { id: "mobility", label: "로봇·모빌리티", icon: "car", color: "110,170,255", growthPercent: 41, ideaCount: 4200, size: 1.1, tall: [0.25, 0.25], wide: [0.8, 0.14] },
+  { id: "edu", label: "교육·학습", icon: "cap", color: "255,130,210", growthPercent: 20, ideaCount: 1800, size: 0.9, tall: [0.76, 0.27], wide: [0.1, 0.52] },
+  { id: "finance", label: "금융·경제", icon: "bars", color: "255,206,96", growthPercent: 24, ideaCount: 2100, size: 1, tall: [0.24, 0.68], wide: [0.2, 0.9] },
+  { id: "life", label: "소비·생활", icon: "bag", color: "190,150,255", growthPercent: 13, ideaCount: 1100, size: 0.85, tall: [0.76, 0.66], wide: [0.9, 0.52] },
+  { id: "play", label: "콘텐츠·게임", icon: "play", color: "120,220,255", growthPercent: 19, ideaCount: 1300, size: 0.9, tall: [0.27, 0.9], wide: [0.5, 0.97] },
+  { id: "food", label: "식품·농업", icon: "sprout", color: "170,230,110", growthPercent: 17, ideaCount: 1600, size: 0.9, tall: [0.74, 0.88], wide: [0.8, 0.9] },
+];
 
 function product(
   name: string,
@@ -88,12 +117,10 @@ function product(
   return { name, oneLiner, launched, status, url: "https://example.com", similarity };
 }
 
-export const clusters: Cluster[] = [
+// Areas written out by hand, with their own products and numbers.
+const written: Cluster[] = [
   {
-    id: "agent",
-    label: "AI 에이전트 비서",
-    state: "saturated",
-    x: 0.27, y: 0.25, r: 0.17,
+    id: "agent", domainId: "ai", label: "AI 에이전트 비서", state: "saturated",
     itemCount: 412, queryCount: 96, weeklyNewItems: 21, growthScore: 1.1,
     weeklyLaunches: [14, 17, 15, 19, 18, 22, 20, 19, 23, 18, 20, 21],
     weeklyQueries: [3, 5, 4, 7, 6, 9, 8, 11, 9, 12, 10, 12],
@@ -106,24 +133,28 @@ export const clusters: Cluster[] = [
     ],
   },
   {
-    id: "dating",
-    label: "AI 소개팅",
-    state: "saturated",
-    x: 0.76, y: 0.2, r: 0.11,
-    itemCount: 87, queryCount: 31, weeklyNewItems: 3, growthScore: 0.8,
-    weeklyLaunches: [5, 4, 6, 4, 3, 5, 4, 3, 4, 2, 3, 3],
-    weeklyQueries: [2, 3, 2, 4, 3, 2, 3, 4, 2, 3, 3, 3],
+    id: "local-llm", domainId: "ai", label: "로컬 LLM 도구", state: "growing",
+    itemCount: 203, queryCount: 52, weeklyNewItems: 26, growthScore: 1.7,
+    weeklyLaunches: [11, 12, 14, 13, 15, 17, 16, 19, 21, 22, 24, 26],
+    weeklyQueries: [2, 3, 3, 4, 5, 4, 6, 7, 6, 8, 9, 9],
     products: [
-      product("미러", "양쪽 AI가 먼저 대화하고 궁합 분석을 보여 주는 데이팅 앱", "2026년 7월", "운영 중", 0.86),
-      product("노운(Known)", "AI가 전화 인터뷰로 성향을 파악해 상대를 골라 주는 앱", "2025년 12월", "운영 중", 0.78),
-      product("예시 제품 다", "대화 기록으로 첫 메시지를 써 주는 도우미", "2025년 5월", "운영 중", 0.66),
+      product("예시 제품 아", "내 컴퓨터에서 모델을 내려받아 실행하는 도구", "2024년 2월", "운영 중", 0.8),
+      product("예시 제품 자", "로컬 모델용 채팅 화면", "2024년 9월", "운영 중", 0.76),
+      product("예시 제품 차", "노트북에서 도는 음성 받아쓰기", "2025년 4월", "운영 중", 0.64),
     ],
   },
   {
-    id: "idea",
-    label: "아이디어 검색",
-    state: "growing",
-    x: 0.72, y: 0.6, r: 0.14,
+    id: "meeting", domainId: "ai", label: "음성 회의록", state: "growing",
+    itemCount: 124, queryCount: 28, weeklyNewItems: 12, growthScore: 1.5,
+    weeklyLaunches: [6, 7, 6, 8, 7, 9, 8, 10, 9, 11, 10, 12],
+    weeklyQueries: [1, 2, 1, 2, 3, 2, 3, 3, 4, 3, 4, 5],
+    products: [
+      product("예시 제품 카", "회의를 녹음해 요약과 할 일을 뽑아 주는 앱", "2023년 10월", "운영 중", 0.82),
+      product("예시 제품 타", "통화 내용을 받아 적는 도구", "2025년 1월", "운영 중", 0.7),
+    ],
+  },
+  {
+    id: "idea", domainId: "ai", label: "아이디어 검색", state: "growing",
     itemCount: 58, queryCount: 44, weeklyNewItems: 9, growthScore: 2.4,
     weeklyLaunches: [1, 2, 2, 3, 2, 4, 3, 5, 4, 6, 7, 9],
     weeklyQueries: [1, 1, 2, 2, 4, 3, 5, 6, 5, 8, 9, 11],
@@ -135,10 +166,18 @@ export const clusters: Cluster[] = [
     ],
   },
   {
-    id: "audio",
-    label: "오디오 게임",
-    state: "growing",
-    x: 0.24, y: 0.66, r: 0.11,
+    id: "dating", domainId: "life", label: "AI 소개팅", state: "saturated",
+    itemCount: 87, queryCount: 31, weeklyNewItems: 3, growthScore: 0.8,
+    weeklyLaunches: [5, 4, 6, 4, 3, 5, 4, 3, 4, 2, 3, 3],
+    weeklyQueries: [2, 3, 2, 4, 3, 2, 3, 4, 2, 3, 3, 3],
+    products: [
+      product("미러", "양쪽 AI가 먼저 대화하고 궁합 분석을 보여 주는 데이팅 앱", "2026년 7월", "운영 중", 0.86),
+      product("노운(Known)", "AI가 전화 인터뷰로 성향을 파악해 상대를 골라 주는 앱", "2025년 12월", "운영 중", 0.78),
+      product("예시 제품 다", "대화 기록으로 첫 메시지를 써 주는 도우미", "2025년 5월", "운영 중", 0.66),
+    ],
+  },
+  {
+    id: "audio", domainId: "play", label: "오디오 게임", state: "growing",
     itemCount: 39, queryCount: 17, weeklyNewItems: 5, growthScore: 1.9,
     weeklyLaunches: [1, 0, 2, 1, 2, 2, 3, 2, 3, 4, 4, 5],
     weeklyQueries: [0, 1, 1, 0, 2, 1, 2, 3, 2, 3, 4, 4],
@@ -151,37 +190,7 @@ export const clusters: Cluster[] = [
     ],
   },
   {
-    id: "local-llm",
-    label: "로컬 LLM 도구",
-    state: "growing",
-    x: 0.5, y: 0.43, r: 0.09,
-    itemCount: 203, queryCount: 52, weeklyNewItems: 26, growthScore: 1.7,
-    weeklyLaunches: [11, 12, 14, 13, 15, 17, 16, 19, 21, 22, 24, 26],
-    weeklyQueries: [2, 3, 3, 4, 5, 4, 6, 7, 6, 8, 9, 9],
-    products: [
-      product("예시 제품 아", "내 컴퓨터에서 모델을 내려받아 실행하는 도구", "2024년 2월", "운영 중", 0.8),
-      product("예시 제품 자", "로컬 모델용 채팅 화면", "2024년 9월", "운영 중", 0.76),
-      product("예시 제품 차", "노트북에서 도는 음성 받아쓰기", "2025년 4월", "운영 중", 0.64),
-    ],
-  },
-  {
-    id: "meeting",
-    label: "음성 회의록",
-    state: "growing",
-    x: 0.9, y: 0.88, r: 0.07,
-    itemCount: 124, queryCount: 28, weeklyNewItems: 12, growthScore: 1.5,
-    weeklyLaunches: [6, 7, 6, 8, 7, 9, 8, 10, 9, 11, 10, 12],
-    weeklyQueries: [1, 2, 1, 2, 3, 2, 3, 3, 4, 3, 4, 5],
-    products: [
-      product("예시 제품 카", "회의를 녹음해 요약과 할 일을 뽑아 주는 앱", "2023년 10월", "운영 중", 0.82),
-      product("예시 제품 타", "통화 내용을 받아 적는 도구", "2025년 1월", "운영 중", 0.7),
-    ],
-  },
-  {
-    id: "pet-health",
-    label: "반려동물 건강 기록",
-    state: "growing",
-    x: 0.9, y: 0.43, r: 0.06,
+    id: "pet-health", domainId: "health", label: "반려동물 건강 기록", state: "growing",
     itemCount: 66, queryCount: 19, weeklyNewItems: 7, growthScore: 1.3,
     weeklyLaunches: [4, 5, 4, 5, 6, 5, 6, 5, 6, 6, 7, 7],
     weeklyQueries: [1, 1, 2, 1, 2, 2, 3, 2, 3, 3, 3, 4],
@@ -192,13 +201,86 @@ export const clusters: Cluster[] = [
   },
 ];
 
-export const emptyAreas: EmptyArea[] = [
-  { id: "kimchi", label: "김치 숙성 센서", trendScore: 78, itemCount: 2, queryCount: 9, words: ["김치냉장고", "발효", "숙성도"], x: 0.5, y: 0.87, r: 0.075 },
-  { id: "plant", label: "반려식물 진단", trendScore: 71, itemCount: 4, queryCount: 12, words: ["식집사", "과습", "잎 마름"], x: 0.08, y: 0.42, r: 0.05 },
-  { id: "elder-call", label: "어르신 말벗 전화", trendScore: 66, itemCount: 3, queryCount: 7, words: ["독거", "안부 전화", "돌봄"], x: 0.52, y: 0.08, r: 0.05 },
-  { id: "tool-share", label: "동네 공구 대여", trendScore: 59, itemCount: 5, queryCount: 6, words: ["전동 드릴", "셀프 인테리어"], x: 0.93, y: 0.45, r: 0.045 },
-  { id: "sleep-sound", label: "수면 소리 분석", trendScore: 54, itemCount: 6, queryCount: 5, words: ["코골이", "수면 무호흡"], x: 0.1, y: 0.92, r: 0.045 },
+// The remaining areas only need to fill the map, so their numbers are
+// derived from the name.
+const SHAPES: Record<ClusterState, number[]> = {
+  growing: [0.35, 0.4, 0.42, 0.5, 0.55, 0.6, 0.62, 0.72, 0.78, 0.85, 0.92, 1],
+  saturated: [0.9, 0.95, 0.88, 1, 0.92, 0.97, 0.9, 0.94, 0.99, 0.9, 0.93, 0.95],
+  steady: [0.7, 0.66, 0.74, 0.7, 0.68, 0.75, 0.7, 0.72, 0.69, 0.74, 0.7, 0.72],
+  fading: [1, 0.95, 0.9, 0.82, 0.8, 0.7, 0.66, 0.58, 0.5, 0.46, 0.4, 0.36],
+};
+
+function sketch(domainId: string, index: number, label: string, state: ClusterState): Cluster {
+  let hash = 0;
+  for (const char of label) hash = (hash * 31 + char.charCodeAt(0)) % 9973;
+  const peak = 6 + (hash % 22);
+  const weeklyLaunches = SHAPES[state].map((share) => Math.round(share * peak));
+  const weeklyQueries = SHAPES[state].map((share) => Math.round(share * (2 + (hash % 9))));
+  const recent = weeklyLaunches.slice(7, 11);
+  const average = recent.reduce((sum, value) => sum + value, 0) / recent.length;
+  return {
+    id: `${domainId}-${index}`,
+    domainId,
+    label,
+    state,
+    itemCount: 40 + (hash % 380),
+    queryCount: 6 + (hash % 58),
+    weeklyNewItems: weeklyLaunches[11],
+    growthScore: Math.round((weeklyLaunches[11] / average) * 10) / 10,
+    weeklyLaunches,
+    weeklyQueries,
+    products: [1, 2, 3].map((n) =>
+      product(`${label} 예시 제품 ${n}`, `${label} 영역의 자리 표시용 제품입니다`, n === 3 ? null : `202${3 + n}년 ${n * 3}월`, n === 3 ? "중단" : "운영 중", 0.8 - n * 0.07),
+    ),
+  };
+}
+
+const SKETCHED: Record<string, [string, ClusterState][]> = {
+  ai: [["이미지·영상 생성", "saturated"], ["코딩 도우미", "saturated"]],
+  health: [["수면 관리", "growing"], ["마음 건강 상담", "steady"], ["복약 알림", "steady"], ["원격 진료", "saturated"], ["어르신 돌봄", "growing"]],
+  climate: [["가정용 태양광", "growing"], ["탄소 발자국 기록", "fading"], ["전기차 충전", "growing"], ["분리배출 도우미", "steady"], ["에너지 절약 가전", "steady"], ["중고 거래", "saturated"]],
+  mobility: [["배달 로봇", "growing"], ["자율주행 보조", "saturated"], ["드론 촬영", "steady"], ["주차 공유", "fading"], ["자전거 길 안내", "steady"], ["로봇 청소", "saturated"]],
+  edu: [["언어 학습", "saturated"], ["코딩 교육", "steady"], ["입시 관리", "steady"], ["독서 기록", "fading"], ["어린이 놀이 학습", "growing"], ["직무 전환", "growing"]],
+  finance: [["가계부", "saturated"], ["소액 투자", "steady"], ["구독 관리", "growing"], ["환전·송금", "steady"], ["세금 신고", "growing"], ["신용 관리", "fading"]],
+  life: [["식단 기록", "steady"], ["동네 모임", "growing"], ["옷장 관리", "fading"], ["여행 일정", "saturated"], ["집 정리", "steady"]],
+  play: [["방 탈출 게임", "steady"], ["웹소설 도구", "growing"], ["짧은 영상 편집", "saturated"], ["보드게임 도우미", "steady"], ["버추얼 캐릭터", "growing"]],
+  food: [["밀키트", "saturated"], ["스마트 텃밭", "growing"], ["식당 예약", "saturated"], ["발효 음식", "steady"], ["유통기한 관리", "steady"], ["농산물 직거래", "growing"]],
+};
+
+export const clusters: Cluster[] = [
+  ...written,
+  ...Object.entries(SKETCHED).flatMap(([domainId, areas]) =>
+    areas.map(([label, state], index) => sketch(domainId, index + 1, label, state)),
+  ),
 ];
+
+export const emptyAreas: EmptyArea[] = [
+  { id: "kimchi", domainId: "food", label: "김치 숙성 센서", trendScore: 78, itemCount: 2, queryCount: 9, words: ["김치냉장고", "발효", "숙성도"] },
+  { id: "plant", domainId: "life", label: "반려식물 진단", trendScore: 71, itemCount: 4, queryCount: 12, words: ["식집사", "과습", "잎 마름"] },
+  { id: "elder-call", domainId: "health", label: "어르신 말벗 전화", trendScore: 66, itemCount: 3, queryCount: 7, words: ["독거", "안부 전화", "돌봄"] },
+  { id: "tool-share", domainId: "life", label: "동네 공구 대여", trendScore: 59, itemCount: 5, queryCount: 6, words: ["전동 드릴", "셀프 인테리어"] },
+  { id: "sleep-sound", domainId: "health", label: "수면 소리 분석", trendScore: 54, itemCount: 6, queryCount: 5, words: ["코골이", "수면 무호흡"] },
+];
+
+export function findCluster(id: string) {
+  return clusters.find((cluster) => cluster.id === id);
+}
+
+export function findDomain(id: string) {
+  return domains.find((domain) => domain.id === id);
+}
+
+export function findEmptyArea(id: string) {
+  return emptyAreas.find((area) => area.id === id);
+}
+
+export function areasOf(domainId: string) {
+  return clusters.filter((cluster) => cluster.domainId === domainId);
+}
+
+export function emptyAreasOf(domainId: string) {
+  return emptyAreas.filter((area) => area.domainId === domainId);
+}
 
 export const reports: Report[] = [
   {
@@ -209,8 +291,7 @@ export const reports: Report[] = [
       "재미는 여러 번 확인됐고, 완성도 있게 다듬은 모바일 제품은 검색에서 보이지 않았습니다.",
     clusterId: "audio",
     emptyAreaId: null,
-    star: { x: 0.31, y: 0.7 },
-    products: clusters[3].products,
+    products: findCluster("audio")!.products,
     sameIdea: {
       count: 17,
       firstAt: "2026년 9월 2일",
@@ -234,8 +315,7 @@ export const reports: Report[] = [
       "같은 구조의 제품이 이미 나와 있습니다. 연애가 아닌 반복 수요로 옮기면 빈자리가 있습니다.",
     clusterId: "dating",
     emptyAreaId: null,
-    star: { x: 0.79, y: 0.22 },
-    products: clusters[1].products,
+    products: findCluster("dating")!.products,
     sameIdea: {
       count: 31,
       firstAt: "2026년 5월 19일",
@@ -258,7 +338,6 @@ export const reports: Report[] = [
       "가까운 제품이 거의 없습니다. 화두는 꾸준히 오르는데 출시된 것이 적은 빈 영역입니다.",
     clusterId: null,
     emptyAreaId: "kimchi",
-    star: { x: 0.5, y: 0.87 },
     products: [
       product("예시 제품 파", "냉장고 안 온도와 습도를 기록하는 센서", "2023년 3월", "운영 중", 0.49),
       product("예시 제품 하", "와인 숙성 상태를 알려 주는 병마개", "2022년 8월", "중단", 0.44),
@@ -278,19 +357,25 @@ export const reports: Report[] = [
   },
 ];
 
+export function findReport(id: string) {
+  return reports.find((report) => report.id === id);
+}
+
 export const trendingClusters = clusters
   .filter((cluster) => cluster.state === "growing")
   .sort((a, b) => b.growthScore - a.growthScore)
   .slice(0, 5);
 
-export function findCluster(id: string) {
-  return clusters.find((cluster) => cluster.id === id);
-}
+export const totals = {
+  ideas: domains.reduce((sum, domain) => sum + domain.ideaCount, 0),
+  domains: domains.length,
+  areas: clusters.length,
+  languages: 14,
+};
 
-export function findReport(id: string) {
-  return reports.find((report) => report.id === id);
-}
-
-export function findEmptyArea(id: string) {
-  return emptyAreas.find((area) => area.id === id);
+// 12400 → "1.2만", 2900 → "2,900"
+export function formatCount(value: number) {
+  return value >= 10000
+    ? `${(value / 10000).toFixed(1).replace(/\.0$/, "")}만`
+    : value.toLocaleString("ko-KR");
 }

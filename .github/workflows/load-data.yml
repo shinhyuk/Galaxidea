@@ -1,0 +1,68 @@
+# Loads ideas into the hosted database and embeds them. Run it by hand from
+# the Actions tab. Repository secrets:
+#   DATABASE_URL   connection string of the hosted Postgres (pgvector enabled)
+#   EMBED_API_KEY  key for the embedding provider
+#   GCP_SA_KEY     JSON key of a Google Cloud service account that may run
+#                  BigQuery jobs (only needed for patents)
+# Every run first applies any new db/migrations. Embedding stops cleanly
+# after five hours; run again with "embed only" until nothing is left.
+name: Load data
+
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: What to collect before embedding
+        type: choice
+        default: github and patents
+        options:
+          - github and patents
+          - github
+          - patents
+          - embed only
+      min_stars:
+        description: GitHub - lowest star count to load
+        default: "2000"
+      patents_per_domain:
+        description: Patents - how many to load for each of the nine domains
+        default: "10000"
+      embed_limit:
+        description: Embed at most this many items (0 = every item without an embedding)
+        default: "0"
+
+concurrency: load-data
+
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      EMBED_BASE_URL: https://ai.mongodb.com/v1
+      EMBED_API_KEY: ${{ secrets.EMBED_API_KEY }}
+      EMBED_MODEL: voyage-4
+      EMBED_DIM: "512"
+      EMBED_DIM_PARAM: output_dimension
+      EMBED_INPUT_TYPE: document
+      SOURCES: ${{ inputs.sources }}
+      MIN_STARS: ${{ inputs.min_stars }}
+      PATENTS_PER_DOMAIN: ${{ inputs.patents_per_domain }}
+      EMBED_LIMIT: ${{ inputs.embed_limit }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r scripts/requirements.txt
+      - name: Apply migrations
+        run: python scripts/migrate.py
+      - name: Collect GitHub repositories
+        if: inputs.sources == 'github and patents' || inputs.sources == 'github'
+        run: python scripts/collect_github.py collect --min-stars "$MIN_STARS"
+      - name: Collect patents
+        if: inputs.sources == 'github and patents' || inputs.sources == 'patents'
+        run: python scripts/collect_patents.py --per-domain "$PATENTS_PER_DOMAIN"
+      - name: Embed
+        run: python scripts/collect_github.py embed --batch-size 100 --limit "$EMBED_LIMIT" --max-minutes 300

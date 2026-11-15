@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { clusters, findCluster, STATE_LABEL, WEEKS } from "@/lib/mock";
+import Link from "next/link";
+import { clusters, findCluster, findDomain, STATE_LABEL, WEEKS } from "@/lib/mock";
 import { BarChart, LineChart } from "@/app/ui/charts";
 import { ProductList } from "@/app/ui/product-list";
 
@@ -12,12 +13,16 @@ export default async function ClusterPage({ params }: PageProps<"/c/[id]">) {
   const cluster = findCluster(id);
   if (!cluster) notFound();
 
+  const domain = findDomain(cluster.domainId);
   const range = `${WEEKS[0]}부터 ${WEEKS[WEEKS.length - 1]}까지`;
 
   return (
     <>
       <section className="card lead">
-        <p className="eyebrow">영역</p>
+        <p className="eyebrow">
+          <Link href="/">전체 우주</Link> ›{" "}
+          {domain && <Link href={`/d/${domain.id}`}>{domain.label}</Link>} › 영역
+        </p>
         <h1>{cluster.label}</h1>
         <span className={`pill ${cluster.state}`}>{STATE_LABEL[cluster.state]}</span>
         <div className="stats">

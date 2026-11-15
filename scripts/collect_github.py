@@ -5,7 +5,8 @@ Two independent steps, both safe to re-run:
   collect  Search the official GitHub API for repositories with enough stars
            and a description, highest stars first, and upsert them into
            `items` with `embedding` left null.
-  embed    Fill `embedding` for every github item that has none.
+  embed    Fill `embedding` for every item that has none, whatever its
+           source.
 
 Usage:
   python scripts/collect_github.py collect --limit 10000
@@ -14,7 +15,7 @@ Usage:
 
 Configuration comes from the environment, falling back to `.env.local` in the
 repository root: DATABASE_URL, GITHUB_TOKEN, EMBED_BASE_URL, EMBED_API_KEY,
-EMBED_MODEL, EMBED_DIM, and optionally EMBED_INPUT_TYPE.
+EMBED_MODEL, EMBED_DIM, and optionally EMBED_INPUT_TYPE and EMBED_DIM_PARAM.
 """
 
 from __future__ import annotations
@@ -256,11 +257,29 @@ def repo_to_item(repo: dict) -> dict | None:
     }
 
 
-def embedding_text(name: str, one_liner: str) -> str:
-    """Text sent to the embedding model: the repository's own name (without
-    the owner) gives short descriptions like "A faster one" something to hold
-    on to."""
-    return f"{name.rsplit('/', 1)[-1]}: {one_liner}"
+def embedding_text(source: str, name: str, one_liner: str) -> str:
+    """Text sent to the embedding model. A repository's own name (without the
+    owner) gives short descriptions like "A faster one" something to hold on
+    to; other sources already carry a full title."""
+    if source == SOURCE:
+        name = name.rsplit("/", 1)[-1]
+    return f"{name}: {one_liner}"
+
+
+def estimate_tokens(text: str) -> int:
+    """Rough upper bound, good enough to keep a request under a provider's
+    tokens-per-minute limit."""
+    return len(text) // 2 + 1
+
+
+def take_batch(texts: list[str], max_items: int, max_tokens: int) -> int:
+    """How many of the leading texts fit in one request. Always at least one."""
+    total = 0
+    for count, text in enumerate(texts[:max_items]):
+        total += estimate_tokens(text)
+        if total > max_tokens and count > 0:
+            return count
+    return min(len(texts), max_items)
 
 
 def vector_literal(vector: list[float]) -> str:
@@ -280,6 +299,7 @@ class Embedder:
         model: str,
         dim: int,
         input_type: str | None = None,
+        dim_param: str | None = None,
         session: requests.Session | None = None,
     ):
         self.url = base_url.rstrip("/") + "/embeddings"
@@ -289,6 +309,10 @@ class Embedder:
         # differently and take an `input_type` to tell them apart. It is not
         # part of the OpenAI format, so it is only sent when configured.
         self.input_type = input_type
+        # Name of the request field that asks for `dim` dimensions when the
+        # model can produce several sizes: "output_dimension" for Voyage,
+        # "dimensions" for OpenAI. Not sent when empty.
+        self.dim_param = dim_param
         self.tokens_used = 0
         self.session = session or requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {api_key}"})
@@ -297,6 +321,8 @@ class Embedder:
         payload: dict = {"model": self.model, "input": texts}
         if self.input_type:
             payload["input_type"] = self.input_type
+        if self.dim_param:
+            payload[self.dim_param] = self.dim
         failures = 0
         rate_limited = 0
         while failures < 6 and rate_limited < 60:
@@ -343,7 +369,7 @@ def parse_embeddings(body: dict, expected_count: int, dim: int) -> list[list[flo
         if len(vector) != dim:
             raise RuntimeError(
                 f"Embedding has {len(vector)} dimensions but EMBED_DIM is {dim}. "
-                "The model and vector(...) in db/migrations must agree."
+                "The model and the embedding column in db/migrations must agree."
             )
     return vectors
 
@@ -430,32 +456,42 @@ def run_embed(args: argparse.Namespace) -> None:
         required_env("EMBED_BASE_URL"),
         required_env("EMBED_API_KEY"),
         required_env("EMBED_MODEL"),
-        int(os.environ.get("EMBED_DIM") or "1024"),
+        int(os.environ.get("EMBED_DIM") or "512"),
         os.environ.get("EMBED_INPUT_TYPE") or None,
+        os.environ.get("EMBED_DIM_PARAM") or None,
     )
+    deadline = time.monotonic() + args.max_minutes * 60 if args.max_minutes else None
     done = 0
     with connect() as conn:
         while not args.limit or done < args.limit:
+            if deadline and time.monotonic() > deadline:
+                log(f"stopping after {args.max_minutes} minutes; run again to continue")
+                break
             size = min(args.batch_size, args.limit - done) if args.limit else args.batch_size
             with conn.cursor() as cur:
                 cur.execute(
-                    "select id, name, one_liner from items "
-                    "where source = %s and embedding is null order by id limit %s",
-                    (SOURCE, size),
+                    "select id, source, name, one_liner from items "
+                    "where embedding is null order by id limit %s",
+                    (size,),
                 )
                 rows = cur.fetchall()
             if not rows:
                 break
-            vectors = embedder.embed([embedding_text(name, text) for _, name, text in rows])
+            texts = [embedding_text(source, name, text) for _, source, name, text in rows]
+            count = take_batch(texts, args.batch_size, args.max_batch_tokens)
+            vectors = embedder.embed(texts[:count])
             with conn.cursor() as cur:
                 cur.executemany(
-                    "update items set embedding = %s::vector where id = %s",
+                    "update items set embedding = %s::halfvec where id = %s",
                     [(vector_literal(v), row[0]) for v, row in zip(vectors, rows)],
                 )
             conn.commit()
-            done += len(rows)
+            done += count
             log(f"embedded {done} ({embedder.tokens_used} tokens)")
-    log(f"done: {done} items embedded, {embedder.tokens_used} tokens used")
+        with conn.cursor() as cur:
+            cur.execute("select count(*) from items where embedding is null")
+            left = cur.fetchone()[0]
+    log(f"done: {done} items embedded, {embedder.tokens_used} tokens used, {left} still without an embedding")
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -471,6 +507,8 @@ def main(argv: list[str] | None = None) -> None:
     embed = commands.add_parser("embed", help="embed items that have no embedding")
     embed.add_argument("--limit", type=int, default=0, help="stop after this many items (0 = all)")
     embed.add_argument("--batch-size", type=int, default=64)
+    embed.add_argument("--max-batch-tokens", type=int, default=8000, help="keep one request under this many estimated tokens")
+    embed.add_argument("--max-minutes", type=int, default=0, help="stop cleanly after this long (0 = no limit)")
     embed.set_defaults(run=run_embed)
 
     args = parser.parse_args(argv)
