@@ -62,7 +62,7 @@ export default function MockHome() {
         </div>
         <div className="hero-bottom">
           {/* The mock always opens the first sample report. */}
-          <Form action="/q/1" className="ask">
+          <Form action="/mock/q/1" className="ask">
             <label htmlFor="idea">아이디어를 한 줄로 적어 보세요</label>
             <div className="row">
               <input
@@ -79,7 +79,7 @@ export default function MockHome() {
           </Form>
           <div className="chips" aria-label="예시 질문">
             {reports.map((report) => (
-              <Link key={report.id} href={`/q/${report.id}`} className="chip">
+              <Link key={report.id} href={`/mock/q/${report.id}`} className="chip">
                 {report.oneLiner}
               </Link>
             ))}

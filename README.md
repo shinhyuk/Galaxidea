@@ -15,6 +15,7 @@ pip install -r scripts/requirements.txt
 python scripts/migrate.py    # 스키마 적용
 npm install
 npm run dev
+npm test                     # 정제, 판정, 검증 단위 테스트
 ```
 
 - 화면: http://localhost:3000
@@ -23,7 +24,8 @@ npm run dev
 ## 화면
 
 - 홈(`/`): 모인 아이디어 전체를 하나의 그래프로 보여 줍니다. 점 하나가 실제 아이디어 하나이고, 뜻이 비슷한 것끼리 가까이 모여 선으로 이어집니다. 끌어서 옮기고, 확대하고, 점을 눌러 내용을 보고, 이름으로 찾을 수 있습니다. `public/graph`의 파일을 읽습니다.
-- 화면 시안(`/mock`, `/d/ai`, `/c/idea`, `/q/1` 등): `lib/mock.ts`의 지어낸 데이터로 그린 구성 시안입니다. 실제 검색과 연결하는 일은 M3, M4에서 합니다.
+- 질문과 보고서: 홈 아래 입력창에 아이디어를 한 줄로 적으면 `/api/ask`가 문장을 정제하고, 임베딩으로 가까운 것을 찾아 판정하고, 보고서를 만들어 저장한 뒤 `/q/[id]`로 보냅니다. 서버에 `DATABASE_URL`과 `EMBED_*`가 있어야 하고, `LLM_*`가 없으면 검색 결과만으로 보고서를 만듭니다. 그래프에 별을 찍으려면 "Build graph"가 한 번 돌아 항목의 좌표가 DB에 있어야 합니다.
+- 화면 시안(`/mock`, `/d/ai`, `/c/idea`, `/mock/q/1` 등): `lib/mock.ts`의 지어낸 데이터로 그린 구성 시안입니다. 실제 검색과 연결하는 일은 M3, M4에서 합니다.
 
 그래프를 최신 데이터로 다시 만들려면 GitHub Actions의 "Build graph"를 실행합니다.
 

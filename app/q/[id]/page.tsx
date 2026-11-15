@@ -1,146 +1,113 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  areasOf,
-  emptyAreasOf,
-  findCluster,
-  findDomain,
-  findEmptyArea,
-  findReport,
-  reports,
-  STATE_LABEL,
-  VERDICT_LABEL,
-  WEEKS,
-} from "@/lib/mock";
-import { Sparkline } from "@/app/ui/charts";
+import { Suspense } from "react";
+import { loadReport } from "@/lib/ask/pipeline";
+import type { Report } from "@/lib/ask/logic";
+import { IdeaGraph } from "@/app/ui/idea-graph";
 import { ProductList } from "@/app/ui/product-list";
-import { Sky } from "@/app/ui/sky";
 
-export function generateStaticParams() {
-  return reports.map((report) => ({ id: report.id }));
+const VERDICT_LABEL: Record<Report["verdict"], string> = {
+  exists: "이미 있음",
+  similar: "비슷한 것 있음",
+  rare: "거의 없음",
+};
+const SOURCE_LABEL: Record<string, string> = { github: "깃허브 저장소", patent: "특허" };
+const STATUS_LABEL: Record<string, string> = { active: "운영 중", archived: "보관됨", published: "공개됨" };
+
+export default function ReportPage({ params }: PageProps<"/q/[id]">) {
+  return (
+    <Suspense fallback={<p className="hint">보고서를 불러오는 중…</p>}>
+      {params.then(({ id }) => (
+        <ReportView id={id} />
+      ))}
+    </Suspense>
+  );
 }
 
-export default async function ReportPage({ params }: PageProps<"/q/[id]">) {
-  const { id } = await params;
-  const report = findReport(id);
-  if (!report) notFound();
-
-  const cluster = report.clusterId ? findCluster(report.clusterId) : undefined;
-  const area = report.emptyAreaId ? findEmptyArea(report.emptyAreaId) : undefined;
-  const domain = findDomain(cluster?.domainId ?? area?.domainId ?? "");
-  const total = report.sameIdea.count;
+async function ReportView({ id }: { id: string }) {
+  const stored = await loadReport(id);
+  if (!stored) notFound();
+  const { report, createdAt } = stored;
 
   return (
     <>
       <section className="card lead">
-        <p className="eyebrow">보고서</p>
+        <p className="eyebrow">
+          보고서 · {createdAt.toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" })}
+        </p>
         <h1>{report.oneLiner}</h1>
         <span className={`pill ${report.verdict}`}>{VERDICT_LABEL[report.verdict]}</span>
         <p className="lead-text">{report.summary}</p>
         <p className="where">
-          도착한 곳{" "}
-          {domain && (
-            <>
-              <Link href={`/d/${domain.id}`}>{domain.label}</Link> ›{" "}
-            </>
-          )}
-          {cluster ? (
-            <>
-              <Link href={`/c/${cluster.id}`}>{cluster.label}</Link> · 상태{" "}
-              {STATE_LABEL[cluster.state]}
-            </>
-          ) : (
-            <b>빈 공간{area ? ` (${area.label})` : ""}</b>
-          )}
+          도착한 곳 <b>{report.arrival ? `${report.arrival} 무리` : "어느 무리에도 속하지 않는 자리"}</b> · 가장
+          가까운 것과의 유사도 {Math.round(report.topSimilarity * 100)}%
         </p>
+        {!report.written && (
+          <p className="hint">요약 글을 쓰는 모델을 쓸 수 없어 검색 결과만으로 만든 보고서입니다.</p>
+        )}
       </section>
 
       <section className="block">
         <header className="block-head">
-          <h2>가까운 제품</h2>
-          <p>뜻이 가장 가까운 순서</p>
+          <h2>가까운 것</h2>
+          <p>뜻이 가장 가까운 순서. 지금 모음 안에서 찾은 것이며 세상의 전부는 아닙니다.</p>
         </header>
-        <ProductList products={report.products} />
+        {report.products.length ? (
+          <ProductList
+            products={report.products.map((product) => ({
+              name: product.name,
+              oneLiner: product.oneLiner,
+              launched: product.year ? `${product.year}년` : null,
+              status: `${SOURCE_LABEL[product.source] ?? product.source} · ${STATUS_LABEL[product.status ?? ""] ?? product.status ?? ""}`,
+              url: product.url,
+              similarity: product.similarity,
+              note: product.note,
+            }))}
+          />
+        ) : (
+          <p className="hint">가까운 것을 찾지 못했습니다.</p>
+        )}
       </section>
 
       <section className="block">
         <header className="block-head">
           <h2>같은 생각을 한 사람</h2>
         </header>
-        <div className="stats">
-          <div className="stat">
-            <b>{total}명</b>
-            <span>비슷한 질문</span>
+        {report.same.count ? (
+          <div className="stats">
+            <div className="stat">
+              <b>{report.same.count}명</b>
+              <span>먼저 비슷하게 물은 사람</span>
+            </div>
+            {report.same.firstAt && (
+              <div className="stat">
+                <b>{new Date(report.same.firstAt).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" })}</b>
+                <span>가장 먼저 물은 날</span>
+              </div>
+            )}
+            <div className="stat">
+              <b>{report.same.langs.map((entry) => entry.lang).join(", ")}</b>
+              <span>언어</span>
+            </div>
           </div>
-          <div className="stat">
-            <b>{report.sameIdea.firstAt}</b>
-            <span>가장 먼저 물은 날</span>
-          </div>
-        </div>
-        <ul className="langs">
-          {report.sameIdea.langs.map((lang) => (
-            <li key={lang.label}>
-              <span>{lang.label}</span>
-              <span className="meter">
-                <i style={{ width: `${(lang.count / total) * 100}%` }} />
-              </span>
-              <span className="num">{lang.count}</span>
-            </li>
-          ))}
-        </ul>
+        ) : (
+          <p className="hint">여기서 이 생각을 물은 것은 이 질문이 처음입니다.</p>
+        )}
       </section>
 
-      <section className="block">
-        <header className="block-head">
-          <h2>관련 화두 추세</h2>
-          <p>최근 12주, 4주 전 대비 변화</p>
-        </header>
-        <ul className="trends">
-          {report.trends.map((trend) => (
-            <li key={trend.word}>
-              <strong>{trend.word}</strong>
-              <Sparkline
-                values={trend.series}
-                label={`${trend.word}: ${WEEKS[0]}부터 ${WEEKS[WEEKS.length - 1]}까지 추이`}
-              />
-              <span className="num">
-                {trend.change >= 0 ? "▲" : "▼"} {Math.abs(Math.round(trend.change * 100))}%
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {report.star && (
+        <section className="block">
+          <header className="block-head">
+            <h2>그래프에서의 자리</h2>
+            <p>보라색 별이 이 질문입니다. 가장 가까운 것들과 선으로 이어져 있습니다.</p>
+          </header>
+          <IdeaGraph embedded star={report.star} />
+        </section>
+      )}
 
-      <section className="block">
-        <header className="block-head">
-          <h2>우주 지도</h2>
-          <p>{domain ? `${domain.label} 분야 안에서 ` : ""}내 질문이 놓인 자리</p>
-        </header>
-        <Sky
-          areas={domain ? areasOf(domain.id) : []}
-          empty={domain ? emptyAreasOf(domain.id) : []}
-          mineAt={cluster?.id ?? area?.id}
-        />
-      </section>
-
-      <section className="block">
-        <header className="block-head">
-          <h2>공유 카드</h2>
-        </header>
-        <div className="share" aria-label="공유 카드 미리보기">
-          <span className="mark">Galaxidea</span>
-          <strong>{report.oneLiner}</strong>
-          <span className={`pill ${report.verdict}`}>{VERDICT_LABEL[report.verdict]}</span>
-          <span className="share-foot">
-            {cluster ? cluster.label : "빈 공간"} · 같은 생각 {total}명
-          </span>
-        </div>
-        <div className="row">
-          <button type="button" className="ghost" disabled>이미지 저장</button>
-          <button type="button" className="ghost" disabled>링크 복사</button>
-        </div>
-        <p className="hint">버튼은 M5에서 연결됩니다.</p>
-      </section>
+      <p className="hint">
+        <Link href="/">다른 아이디어 물어보기</Link>
+      </p>
     </>
   );
 }

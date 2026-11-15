@@ -858,11 +858,57 @@ a.rank-row:hover strong {
   padding: 4px 6px 4px 14px;
 }
 
-.graph-search span {
+.graph-search button {
   flex: none;
-  font-size: 13px;
-  color: var(--dim);
+  padding: 8px 12px;
 }
+
+.graph-ask {
+  display: grid;
+  gap: 4px;
+}
+
+.graph-hint {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 0 4px;
+  font-size: 12px;
+  color: var(--dim);
+  text-shadow: 0 0 6px #0b0c12;
+}
+
+.graph-error {
+  color: var(--warn);
+}
+
+.graph-switch {
+  flex: none;
+  padding: 2px 0;
+  background: none;
+  color: var(--grow);
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.graph-embedded {
+  position: relative;
+  inset: auto;
+  height: 380px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.graph-embedded .graph-bottom {
+  bottom: 8px;
+}
+
+.products .note {
+  color: var(--ink);
+}
+
 
 .graph-search input {
   border: 0;
