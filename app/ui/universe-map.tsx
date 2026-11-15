@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-// Canvas map of the idea universe: one galaxy per cluster, dashed rings for
-// empty areas, and the asker's own star. The layout of galaxies follows
-// docs/demo.html; the sky around them is drawn denser and brighter.
+// The idea universe as a graph: every star is one idea (a shipped product or
+// someone's question), stars that mean similar things sit close together and
+// are joined by thin lines, and areas show up as denser regions. Drawn to
+// look like a deep-field photograph rather than a diagram.
 
 export type MapGalaxy = {
   id: string;
@@ -13,21 +14,24 @@ export type MapGalaxy = {
   x: number;
   y: number;
   r: number;
-  tone: "sat" | "grow" | "dim";
 };
 
 export type MapVoid = { id: string; name: string; x: number; y: number; r: number };
 
-const RGB = {
-  sat: "255,217,138",
-  grow: "127,224,196",
-  dim: "120,134,196",
-  mine: "201,184,255",
-  ink: "232,236,255",
-  blue: "150,180,255",
+type Picked = {
+  left: number;
+  top: number;
+  title: string;
+  kind: string;
+  area?: { id: string; name: string };
 };
-const STAR_TINTS = [RGB.ink, RGB.ink, RGB.ink, RGB.blue, RGB.sat, RGB.mine, RGB.grow];
-const MAX_STARS = 1100;
+
+const WARM = ["255,176,112", "255,150,84", "255,206,150", "255,224,186"];
+const COOL = ["176,204,255", "214,230,255", "150,186,255"];
+const MINE = "201,184,255";
+const INK = "232,236,255";
+const MAX_NODES = 2800;
+const MINOR_CLUSTERS = 14;
 
 function rng(seed: number) {
   let s = seed;
@@ -52,16 +56,15 @@ export function UniverseMap({
   voids: MapVoid[];
   mine?: { x: number; y: number };
   label: string;
-  // Fill the parent instead of drawing a framed square, and make each
-  // galaxy a link to its area page.
+  // Fill the parent instead of drawing a framed square.
   hero?: boolean;
-  // Vertical slice of the canvas the galaxies are placed in, so page text
+  // Vertical slice of the canvas the named areas are placed in, so page text
   // laid over the top and bottom stays clear of them.
   band?: [number, number];
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const [picked, setPicked] = useState<Picked | null>(null);
   const [bandTop, bandBottom] = band;
-  const mapY = (y: number) => bandTop + y * (bandBottom - bandTop);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -70,57 +73,136 @@ export function UniverseMap({
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const random = rng(20261115);
+    const gauss = () =>
+      Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(6.2832 * random());
     const place = (y: number) => bandTop + y * (bandBottom - bandTop);
 
-    const systems = galaxies.map((galaxy, index) => {
-      const tilt = (random() - 0.5) * 1.6;
-      const stars = Array.from({ length: Math.round(40 + galaxy.r * 900) }, (_, i) => {
-        const t = Math.pow(random(), 0.7);
-        return {
-          t,
-          a: (i % 2) * Math.PI + t * 4.2 + (random() - 0.5) * 0.9,
-          z: 0.5 + random() * 1.4,
-          p: random() * 6.28,
-          white: random() < 0.35,
-        };
-      });
-      return { galaxy, y: place(galaxy.y), tilt, dir: index % 2 ? -1 : 1, stars };
-    });
-    const areas = voids.map((area) => ({ area, y: place(area.y) }));
-    const backdrop = Array.from({ length: MAX_STARS }, () => {
-      const depth = random();
-      return {
-        x: random(),
-        y: random(),
-        z: 0.3 + depth * depth * 1.5,
-        p: random() * 6.28,
-        speed: 0.6 + random() * 1.8,
-        tint: STAR_TINTS[Math.floor(random() * STAR_TINTS.length)],
-        bright: depth > 0.93,
-      };
-    });
-    // Faint clouds that give the sky some depth between galaxies.
-    const clouds = Array.from({ length: 5 }, (_, i) => ({
-      x: random(),
-      y: random(),
-      r: 0.35 + random() * 0.3,
-      tint: [RGB.mine, RGB.blue, RGB.grow, RGB.sat, RGB.blue][i],
+    // Named areas first, then small unnamed clumps scattered around them.
+    const centers = [
+      ...galaxies.map((g) => ({ x: g.x, y: place(g.y), spread: g.r * 0.5, named: g })),
+      ...Array.from({ length: MINOR_CLUSTERS }, () => ({
+        x: 0.04 + random() * 0.92,
+        y: 0.04 + random() * 0.92,
+        spread: 0.02 + random() * 0.035,
+        named: undefined as MapGalaxy | undefined,
+      })),
+    ].map((center) => ({
+      ...center,
+      stretch: 0.55 + random() * 0.45,
+      cos: Math.cos(random() * 3.14),
+      sin: Math.sin(random() * 3.14),
+      weight: center.spread * center.spread,
+      members: [] as number[],
     }));
+    const totalWeight = centers.reduce((sum, center) => sum + center.weight, 0);
+    const empty = voids.map((area) => ({ area, y: place(area.y) }));
+
+    type Node = {
+      center: number;
+      x: number;
+      y: number;
+      z: number;
+      tint: string;
+      question: boolean;
+      spike: boolean;
+      oval: boolean;
+      rot: number;
+      phase: number;
+      link: number;
+    };
+    const nodes: Node[] = [];
+    // Nodes are generated in mixed order and each links only to an earlier
+    // one, so any prefix of the list is a complete smaller graph.
+    for (let i = 0; i < MAX_NODES; i++) {
+      const question = random() < 0.38;
+      const palette = question ? COOL : WARM;
+      const depth = random();
+      const node: Node = {
+        center: -1,
+        x: 0,
+        y: 0,
+        z: 0.55 + depth * depth * 1.5,
+        tint: palette[Math.floor(random() * palette.length)],
+        question,
+        spike: depth > 0.985,
+        oval: !question && random() < 0.14,
+        rot: random() * 3.14,
+        phase: random() * 6.28,
+        link: -1,
+      };
+      if (random() < 0.3) {
+        // A lone idea that belongs to no area yet. Keep empty areas empty.
+        for (let tries = 0; tries < 8; tries++) {
+          node.x = random();
+          node.y = random();
+          const inside = empty.some(
+            ({ area, y }) => Math.hypot(node.x - area.x, node.y - y) < area.r * 1.1,
+          );
+          if (!inside) break;
+        }
+      } else {
+        let pick = random() * totalWeight;
+        let index = 0;
+        while (index < centers.length - 1 && pick > centers[index].weight) {
+          pick -= centers[index].weight;
+          index++;
+        }
+        const center = centers[index];
+        const first = center.members.length === 0;
+        const a = first ? 0 : gauss() * center.spread;
+        const b = first ? 0 : gauss() * center.spread * center.stretch;
+        node.center = index;
+        node.x = a * center.cos - b * center.sin;
+        node.y = a * center.sin + b * center.cos;
+        if (first) {
+          node.spike = Boolean(center.named);
+          node.z = center.named ? 1.9 : 1.2;
+          node.oval = false;
+        } else if (random() < 0.12) {
+          node.link = center.members[0];
+        } else {
+          let best = -1;
+          let bestDistance = Infinity;
+          for (let k = 0; k < 10; k++) {
+            const other = center.members[Math.floor(random() * center.members.length)];
+            const distance = Math.hypot(nodes[other].x - node.x, nodes[other].y - node.y);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              best = other;
+            }
+          }
+          node.link = best;
+        }
+        center.members.push(i);
+      }
+      nodes.push(node);
+    }
 
     let width = 0;
     let height = 0;
     let size = 0;
     let ratio = 1;
     let frame = 0;
-    let starCount = 0;
-    let meteor = { start: 3000, x: 0.2, y: 0.1, angle: 0.5 };
+    let count = 0;
+    let selected = -1;
+    const positions = new Float32Array(MAX_NODES * 2);
     const font = getComputedStyle(document.body).fontFamily;
 
-    function dot(x: number, y: number, r: number, rgb: string, alpha: number) {
-      ctx!.beginPath();
-      ctx!.arc(x, y, r, 0, 6.2832);
-      ctx!.fillStyle = `rgba(${rgb},${alpha})`;
-      ctx!.fill();
+    function locate(now: number) {
+      for (let i = 0; i < count; i++) {
+        const node = nodes[i];
+        const sway = still ? 0 : 1.4;
+        const ox = Math.sin(now * 0.0004 + node.phase) * sway;
+        const oy = Math.cos(now * 0.0003 + node.phase * 1.7) * sway;
+        if (node.center < 0) {
+          positions[i * 2] = node.x * width + ox;
+          positions[i * 2 + 1] = node.y * height + oy;
+        } else {
+          const center = centers[node.center];
+          positions[i * 2] = center.x * width + node.x * size + ox;
+          positions[i * 2 + 1] = center.y * height + node.y * size + oy;
+        }
+      }
     }
 
     function glow(x: number, y: number, r: number, rgb: string, alpha: number) {
@@ -131,85 +213,125 @@ export function UniverseMap({
       ctx!.fillRect(x - r, y - r, r * 2, r * 2);
     }
 
+    function spikes(x: number, y: number, reach: number, rgb: string, alpha: number) {
+      const c = ctx!;
+      glow(x, y, reach * 0.9, rgb, alpha * 0.5);
+      c.strokeStyle = `rgba(${rgb},${alpha})`;
+      c.lineWidth = 0.9;
+      c.beginPath();
+      c.moveTo(x - reach, y);
+      c.lineTo(x + reach, y);
+      c.moveTo(x, y - reach);
+      c.lineTo(x, y + reach);
+      c.stroke();
+    }
+
     function draw(now: number) {
       const c = ctx!;
+      locate(now);
       c.setTransform(ratio, 0, 0, ratio, 0, 0);
       c.clearRect(0, 0, width, height);
       c.globalCompositeOperation = "lighter";
 
-      for (const cloud of clouds) {
-        glow(cloud.x * width, cloud.y * height, cloud.r * Math.max(width, height), cloud.tint, 0.06);
+      // Soft light where an area is dense.
+      for (const center of centers) {
+        if (center.named) {
+          glow(center.x * width, center.y * height, center.spread * size * 3.2, "255,190,130", 0.07);
+        }
       }
 
-      for (let i = 0; i < starCount; i++) {
-        const star = backdrop[i];
-        const x = star.x * width;
-        const y = star.y * height;
-        const twinkle = 0.5 + 0.5 * Math.sin(now * 0.001 * star.speed + star.p);
-        if (star.bright) {
-          const reach = 5 + 5 * twinkle;
-          glow(x, y, reach * 1.6, star.tint, 0.35);
-          c.strokeStyle = `rgba(${star.tint},${0.35 + 0.4 * twinkle})`;
-          c.lineWidth = 0.8;
+      c.lineWidth = 0.5;
+      c.strokeStyle = "rgba(150,172,255,0.2)";
+      c.beginPath();
+      for (let i = 0; i < count; i++) {
+        const link = nodes[i].link;
+        if (link < 0) continue;
+        c.moveTo(positions[i * 2], positions[i * 2 + 1]);
+        c.lineTo(positions[link * 2], positions[link * 2 + 1]);
+      }
+      c.stroke();
+
+      for (let i = 0; i < count; i++) {
+        const node = nodes[i];
+        const x = positions[i * 2];
+        const y = positions[i * 2 + 1];
+        const twinkle = still ? 0.8 : 0.6 + 0.4 * Math.sin(now * 0.0015 + node.phase * 3);
+        if (node.spike) {
+          spikes(x, y, 5 + node.z * 4, node.tint, 0.55 + 0.35 * twinkle);
+          c.fillStyle = `rgba(${INK},1)`;
           c.beginPath();
-          c.moveTo(x - reach, y);
-          c.lineTo(x + reach, y);
-          c.moveTo(x, y - reach);
-          c.lineTo(x, y + reach);
-          c.stroke();
-          dot(x, y, 1.5, RGB.ink, 1);
+          c.arc(x, y, 1.2 + node.z * 0.5, 0, 6.2832);
+          c.fill();
+        } else if (node.oval) {
+          c.fillStyle = `rgba(${node.tint},${0.5 + 0.4 * twinkle})`;
+          c.beginPath();
+          c.ellipse(x, y, node.z * 2.6, node.z * 0.9, node.rot, 0, 6.2832);
+          c.fill();
         } else {
-          dot(x, y, star.z, star.tint, 0.2 + 0.6 * twinkle);
-        }
-      }
-
-      for (const { galaxy, y, tilt, dir, stars } of systems) {
-        const rgb = RGB[galaxy.tone];
-        const cx = galaxy.x * width;
-        const cy = y * height;
-        const radius = galaxy.r * size;
-        const rot = now * 0.00005 * dir;
-        const cos = Math.cos(tilt);
-        const sin = Math.sin(tilt);
-        glow(cx, cy, radius * 1.7, rgb, 0.16);
-        glow(cx, cy, radius * 0.6, rgb, 0.4);
-        glow(cx, cy, Math.max(6, radius * 0.2), RGB.ink, 0.9);
-        for (const star of stars) {
-          const px = Math.cos(star.a + rot) * star.t * radius;
-          const py = Math.sin(star.a + rot) * star.t * radius * 0.45;
-          const twinkle = 0.5 + 0.5 * Math.sin(now * 0.002 + star.p);
-          dot(cx + px * cos - py * sin, cy + px * sin + py * cos, star.z * (0.55 + (1 - star.t) * 0.6), star.white ? RGB.ink : rgb, 0.4 + 0.5 * twinkle);
-        }
-      }
-
-      if (!still) {
-        const age = now - meteor.start;
-        if (age > 900) {
-          meteor = { start: now + 2500 + random() * 5000, x: 0.1 + random() * 0.7, y: random() * 0.5, angle: 0.3 + random() * 0.5 };
-        } else if (age > 0) {
-          const k = age / 900;
-          const length = 0.16 * size;
-          const hx = meteor.x * width + Math.cos(meteor.angle) * k * size * 0.45;
-          const hy = meteor.y * height + Math.sin(meteor.angle) * k * size * 0.45;
-          const trail = c.createLinearGradient(hx, hy, hx - Math.cos(meteor.angle) * length, hy - Math.sin(meteor.angle) * length);
-          trail.addColorStop(0, `rgba(${RGB.ink},${0.9 * (1 - k)})`);
-          trail.addColorStop(1, `rgba(${RGB.ink},0)`);
-          c.strokeStyle = trail;
-          c.lineWidth = 1.5;
+          c.fillStyle = `rgba(${node.tint},${0.6 + 0.4 * twinkle})`;
           c.beginPath();
-          c.moveTo(hx, hy);
-          c.lineTo(hx - Math.cos(meteor.angle) * length, hy - Math.sin(meteor.angle) * length);
-          c.stroke();
+          c.arc(x, y, node.z, 0, 6.2832);
+          c.fill();
         }
+      }
+
+      // The chosen star: its direct links and neighbours light up.
+      if (selected >= 0 && selected < count) {
+        const sx = positions[selected * 2];
+        const sy = positions[selected * 2 + 1];
+        c.strokeStyle = `rgba(${INK},0.85)`;
+        c.lineWidth = 1;
+        c.beginPath();
+        for (let i = 0; i < count; i++) {
+          const link = nodes[i].link;
+          if (i !== selected && link !== selected) continue;
+          if (link < 0) continue;
+          c.moveTo(positions[i * 2], positions[i * 2 + 1]);
+          c.lineTo(positions[link * 2], positions[link * 2 + 1]);
+          const other = i === selected ? link : i;
+          glow(positions[other * 2], positions[other * 2 + 1], 9, INK, 0.5);
+        }
+        c.stroke();
+        spikes(sx, sy, 16, INK, 0.9);
+      }
+
+      if (mine) {
+        const mx = mine.x * width;
+        const my = place(mine.y) * height;
+        const nearest: { i: number; d: number }[] = [];
+        for (let i = 0; i < count; i++) {
+          const d = Math.hypot(positions[i * 2] - mx, positions[i * 2 + 1] - my);
+          if (nearest.length < 6 || d < nearest[nearest.length - 1].d) {
+            nearest.push({ i, d });
+            nearest.sort((a, b) => a.d - b.d);
+            if (nearest.length > 6) nearest.pop();
+          }
+        }
+        c.strokeStyle = `rgba(${MINE},0.75)`;
+        c.lineWidth = 1;
+        c.beginPath();
+        for (const { i } of nearest) {
+          c.moveTo(mx, my);
+          c.lineTo(positions[i * 2], positions[i * 2 + 1]);
+          glow(positions[i * 2], positions[i * 2 + 1], 8, MINE, 0.5);
+        }
+        c.stroke();
+        const pulse = still ? 0 : 3 * Math.sin(now * 0.003);
+        glow(mx, my, 30 + pulse, MINE, 0.6);
+        spikes(mx, my, 18, MINE, 1);
+        c.fillStyle = `rgba(${INK},1)`;
+        c.beginPath();
+        c.arc(mx, my, 3.5, 0, 6.2832);
+        c.fill();
       }
 
       c.globalCompositeOperation = "source-over";
       c.lineWidth = 1;
-      c.setLineDash([4, 5]);
-      for (const { area, y } of areas) {
+      c.setLineDash([3, 5]);
+      c.strokeStyle = `rgba(${INK},.38)`;
+      for (const { area, y } of empty) {
         c.beginPath();
         c.arc(area.x * width, y * height, area.r * size, 0, 6.2832);
-        c.strokeStyle = `rgba(${RGB.ink},.5)`;
         c.stroke();
       }
       c.setLineDash([]);
@@ -217,43 +339,28 @@ export function UniverseMap({
       c.font = `500 12px ${font}`;
       c.textAlign = "center";
       c.textBaseline = "top";
-      c.shadowColor = "rgba(7,11,26,.9)";
-      c.shadowBlur = 6;
+      c.shadowColor = "rgba(0,0,0,.95)";
+      c.shadowBlur = 8;
       const clampX = (x: number, text: string) => {
         const half = c.measureText(text).width / 2 + 6;
         return Math.max(half, Math.min(width - half, x));
       };
-      for (const { galaxy, y } of systems) {
-        c.fillStyle = `rgba(${galaxy.tone === "grow" ? RGB.grow : RGB.ink},.95)`;
-        c.fillText(galaxy.name, clampX(galaxy.x * width, galaxy.name), y * height + galaxy.r * size * 0.5 + 8);
+      c.fillStyle = `rgba(${INK},.92)`;
+      for (const center of centers) {
+        if (!center.named) continue;
+        const name = center.named.name;
+        c.fillText(name, clampX(center.x * width, name), center.y * height + center.spread * size * 1.5 + 6);
       }
-      c.fillStyle = `rgba(${RGB.ink},.8)`;
-      for (const { area, y } of areas) {
+      c.fillStyle = `rgba(${INK},.6)`;
+      for (const { area, y } of empty) {
         c.fillText(area.name, clampX(area.x * width, area.name), y * height + area.r * size + 4);
       }
-      c.shadowBlur = 0;
-
       if (mine) {
-        const x = mine.x * width;
-        const y = place(mine.y) * height;
-        const pulse = still ? 0 : 3 * Math.sin(now * 0.003);
-        c.globalCompositeOperation = "lighter";
-        glow(x, y, 26 + pulse, RGB.mine, 0.55);
-        c.globalCompositeOperation = "source-over";
-        c.strokeStyle = `rgba(${RGB.mine},.95)`;
-        c.beginPath();
-        c.moveTo(x - 12, y);
-        c.lineTo(x + 12, y);
-        c.moveTo(x, y - 12);
-        c.lineTo(x, y + 12);
-        c.stroke();
-        dot(x, y, 4.5, RGB.ink, 1);
-        c.shadowBlur = 6;
-        c.fillStyle = `rgba(${RGB.mine},1)`;
+        c.fillStyle = `rgba(${MINE},1)`;
         c.textBaseline = "bottom";
-        c.fillText("내 질문", clampX(x, "내 질문"), y - 15);
-        c.shadowBlur = 0;
+        c.fillText("내 질문", clampX(mine.x * width, "내 질문"), place(mine.y) * height - 20);
       }
+      c.shadowBlur = 0;
     }
 
     function resize() {
@@ -264,7 +371,40 @@ export function UniverseMap({
       canvas!.width = width * ratio;
       canvas!.height = height * ratio;
       size = Math.min(width, height);
-      starCount = Math.min(MAX_STARS, Math.max(260, Math.round((width * height) / 650)));
+      count = Math.min(MAX_NODES, Math.max(700, Math.round((width * height) / 260)));
+      if (still) draw(0);
+    }
+
+    function pick(event: PointerEvent) {
+      const box = canvas!.getBoundingClientRect();
+      const px = event.clientX - box.left;
+      const py = event.clientY - box.top;
+      const reach = event.pointerType === "mouse" ? 14 : 26;
+      let best = -1;
+      let bestDistance = reach;
+      for (let i = 0; i < count; i++) {
+        const d = Math.hypot(positions[i * 2] - px, positions[i * 2 + 1] - py);
+        if (d < bestDistance) {
+          bestDistance = d;
+          best = i;
+        }
+      }
+      if (best === selected) return;
+      selected = best;
+      if (best < 0) {
+        setPicked(null);
+      } else {
+        const node = nodes[best];
+        const named = node.center >= 0 ? centers[node.center].named : undefined;
+        const kind = node.question ? "누군가의 질문" : "출시된 제품";
+        setPicked({
+          left: Math.max(96, Math.min(width - 96, positions[best * 2])),
+          top: positions[best * 2 + 1],
+          title: named ? `${named.name} 쪽 아이디어` : "아직 영역이 없는 아이디어",
+          kind,
+          area: named ? { id: named.id, name: named.name } : undefined,
+        });
+      }
       if (still) draw(0);
     }
 
@@ -275,35 +415,42 @@ export function UniverseMap({
 
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);
+    canvas.addEventListener("pointermove", pick);
+    canvas.addEventListener("pointerdown", pick);
     resize();
     if (!still) frame = requestAnimationFrame(loop);
 
     return () => {
       observer.disconnect();
+      canvas.removeEventListener("pointermove", pick);
+      canvas.removeEventListener("pointerdown", pick);
       cancelAnimationFrame(frame);
     };
   }, [galaxies, voids, mine, bandTop, bandBottom]);
+
+  const tip = picked && (
+    <div className="sky-tip" style={{ left: picked.left, top: picked.top }}>
+      <strong>{picked.title}</strong>
+      <span>{picked.kind}</span>
+      {picked.area && <Link href={`/c/${picked.area.id}`}>{picked.area.name} 영역 보기</Link>}
+    </div>
+  );
 
   if (hero) {
     return (
       <div className="sky-fill">
         <canvas ref={ref} role="img" aria-label={label} />
-        {galaxies.map((galaxy) => (
-          <Link
-            key={galaxy.id}
-            href={`/c/${galaxy.id}`}
-            className="sky-link"
-            style={{ left: `${galaxy.x * 100}%`, top: `${mapY(galaxy.y) * 100}%` }}
-            aria-label={`${galaxy.name} 영역 보기`}
-          />
-        ))}
+        {tip}
       </div>
     );
   }
 
   return (
     <div className="sky">
-      <canvas ref={ref} role="img" aria-label={label} />
+      <div className="sky-frame">
+        <canvas ref={ref} role="img" aria-label={label} />
+        {tip}
+      </div>
       <SkyLegend mine={Boolean(mine)} />
     </div>
   );
@@ -312,8 +459,8 @@ export function UniverseMap({
 export function SkyLegend({ mine = false }: { mine?: boolean }) {
   return (
     <ul className="legend">
-      <li><i className="d sat" />포화된 은하</li>
-      <li><i className="d grow" />뻗는 중인 은하</li>
+      <li><i className="d warm" />출시된 제품</li>
+      <li><i className="d cool" />누군가의 질문</li>
       <li><i className="d void" />빈 공간</li>
       {mine && <li><i className="d mine" />내 질문</li>}
     </ul>

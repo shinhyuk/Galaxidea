@@ -7,7 +7,6 @@ const galaxies: MapGalaxy[] = clusters.map((cluster) => ({
   x: cluster.x,
   y: cluster.y,
   r: cluster.r,
-  tone: cluster.state === "saturated" ? "sat" : cluster.state === "growing" ? "grow" : "dim",
 }));
 
 const voids: MapVoid[] = emptyAreas.slice(0, 3).map((area) => ({
@@ -36,7 +35,7 @@ export function Sky({
       mine={mine}
       hero={hero}
       band={hero ? HERO_BAND : undefined}
-      label="아이디어 우주 지도. 영역마다 은하가 하나씩 있고, 빈 영역은 점선 원으로, 내 질문은 보라색 별로 표시됩니다."
+      label="아이디어 우주 지도. 별 하나가 아이디어 하나이고, 뜻이 가까운 별끼리 선으로 이어져 있습니다. 빈 영역은 점선 원으로, 내 질문은 보라색 별로 표시됩니다."
     />
   );
 }
