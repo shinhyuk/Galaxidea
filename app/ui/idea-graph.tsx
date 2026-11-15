@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 // The whole collection as one graph, drawn from the static files that
@@ -24,7 +25,22 @@ const LOOSE_COLOR = "rgb(132,138,160)";
 const SPAN = 65535;
 const SOURCE_LABEL: Record<string, string> = { github: "깃허브 저장소", patent: "특허" };
 
-export function IdeaGraph() {
+export function IdeaGraph({
+  embedded = false,
+  star,
+}: {
+  // A framed panel inside a page instead of the full-screen home view.
+  embedded?: boolean;
+  // A question to mark on the graph, in graph coordinates (0..65535).
+  star?: { x: number; y: number };
+} = {}) {
+  const router = useRouter();
+  const [mode, setMode] = useState<"ask" | "find">("ask");
+  const [idea, setIdea] = useState("");
+  const [asking, setAsking] = useState(false);
+  const [askError, setAskError] = useState("");
+  const starX = star?.x;
+  const starY = star?.y;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [meta, setMeta] = useState<Meta | null>(null);
   const [failed, setFailed] = useState(false);
@@ -111,6 +127,17 @@ export function IdeaGraph() {
       let names: Promise<string[]> | null = null;
 
       const fitScale = () => (Math.min(width, height) * 0.94) / SPAN;
+
+      // The marked question is joined to the nodes nearest to it.
+      const starLinks: number[] = [];
+      if (starX !== undefined && starY !== undefined) {
+        const byDistance: [number, number][] = [];
+        for (let i = 0; i < count; i++) {
+          byDistance.push([Math.hypot(xy[i * 2] - starX, xy[i * 2 + 1] - starY), i]);
+        }
+        byDistance.sort((a, b) => a[0] - b[0]);
+        for (const [, i] of byDistance.slice(0, 6)) starLinks.push(i);
+      }
 
       function fit() {
         scale = fitScale();
@@ -234,6 +261,34 @@ export function IdeaGraph() {
           c.stroke();
         }
 
+        if (starX !== undefined && starY !== undefined) {
+          const x = originX + starX * scale;
+          const y = originY + starY * scale;
+          c.strokeStyle = "rgba(201,184,255,0.8)";
+          c.lineWidth = 1;
+          c.beginPath();
+          for (const i of starLinks) {
+            c.moveTo(x, y);
+            c.lineTo(screen[i * 2], screen[i * 2 + 1]);
+          }
+          c.moveTo(x - 14, y);
+          c.lineTo(x + 14, y);
+          c.moveTo(x, y - 14);
+          c.lineTo(x, y + 14);
+          c.stroke();
+          c.fillStyle = "rgb(201,184,255)";
+          c.beginPath();
+          c.arc(x, y, 5, 0, 6.2832);
+          c.fill();
+          c.font = `500 12px ${font}`;
+          c.textAlign = "center";
+          c.textBaseline = "bottom";
+          c.shadowColor = "rgba(0,0,0,0.95)";
+          c.shadowBlur = 6;
+          c.fillText("내 질문", x, y - 18);
+          c.shadowBlur = 0;
+        }
+
         // Names of the larger groups, biggest first, skipping any that
         // would land on one already written. Zooming in makes room for more.
         const shown = Math.min(info.groups.length, Math.round((width / 90) * (1 + zoom)));
@@ -269,7 +324,12 @@ export function IdeaGraph() {
         height = Math.max(1, Math.round(box.height));
         canvas!.width = width * ratio;
         canvas!.height = height * ratio;
-        if (first) fit();
+        if (first && starX !== undefined && starY !== undefined) {
+          scale = fitScale() * 7;
+          originX = width / 2 - starX * scale;
+          originY = height / 2 - starY * scale;
+          redraw();
+        } else if (first) fit();
         else redraw();
       }
 
@@ -420,7 +480,7 @@ export function IdeaGraph() {
       cancelled = true;
       cleanup();
     };
-  }, []);
+  }, [starX, starY]);
 
   // Search by name: light up every match and list the first few.
   useEffect(() => {
@@ -444,14 +504,37 @@ export function IdeaGraph() {
     };
   }, [query]);
 
-  const searching = query.trim().length >= 2;
+  async function submitIdea(event: React.FormEvent) {
+    event.preventDefault();
+    if (asking || idea.trim().length < 4) return;
+    setAsking(true);
+    setAskError("");
+    try {
+      const response = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idea }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (response.ok && body.id) {
+        router.push(`/q/${body.id}`);
+        return;
+      }
+      setAskError(body.error || "지금은 답을 만들지 못했습니다.");
+    } catch {
+      setAskError("연결에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+    setAsking(false);
+  }
+
+  const searching = mode === "find" && query.trim().length >= 2;
   const total = meta?.count ?? 0;
 
   return (
-    <div className="graph">
+    <div className={embedded ? "graph graph-embedded" : "graph"}>
       <canvas ref={canvasRef} role="img" aria-label="모인 아이디어 전체를 점과 선으로 그린 그래프. 뜻이 비슷한 것끼리 가까이 모여 있습니다." />
 
-      <div className="graph-top">
+      {!embedded && <div className="graph-top">
         {meta ? (
           <p>
             <b>{total.toLocaleString("ko-KR")}</b>개의 아이디어 ·{" "}
@@ -470,7 +553,7 @@ export function IdeaGraph() {
             · {meta.built} 기준
           </p>
         )}
-      </div>
+      </div>}
 
       <div className="graph-zoom">
         <button type="button" onClick={() => api.current?.zoom(1.6)} aria-label="확대">＋</button>
@@ -510,19 +593,60 @@ export function IdeaGraph() {
             ))}
           </ul>
         )}
-        <label className="graph-search">
-          <span>이름으로 찾기</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              api.current?.clear();
-            }}
-            placeholder="예: react, llm, 검색"
-            autoComplete="off"
-          />
-        </label>
+        {!embedded && mode === "ask" && (
+          <form className="graph-ask" onSubmit={submitIdea}>
+            <div className="graph-search">
+              <input
+                type="text"
+                value={idea}
+                maxLength={300}
+                onChange={(event) => setIdea(event.target.value)}
+                placeholder="아이디어를 한 줄로 적어 보세요"
+                autoComplete="off"
+                aria-label="아이디어"
+              />
+              <button type="submit" disabled={asking || idea.trim().length < 4}>
+                {asking ? "찾는 중…" : "별 띄우기"}
+              </button>
+            </div>
+            <p className="graph-hint">
+              {askError ? <span className="graph-error">{askError}</span> : "질문은 한 줄 요약으로 익명 공개됩니다"}
+              <button type="button" className="graph-switch" onClick={() => setMode("find")}>
+                이름으로 찾기
+              </button>
+            </p>
+          </form>
+        )}
+        {!embedded && mode === "find" && (
+          <div className="graph-ask">
+            <label className="graph-search">
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  api.current?.clear();
+                }}
+                placeholder="이름으로 찾기 (예: react, llm)"
+                autoComplete="off"
+                aria-label="이름으로 찾기"
+              />
+            </label>
+            <p className="graph-hint">
+              그래프에 있는 것의 이름에서 찾습니다
+              <button
+                type="button"
+                className="graph-switch"
+                onClick={() => {
+                  setMode("ask");
+                  setQuery("");
+                }}
+              >
+                아이디어 묻기
+              </button>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -24,6 +24,8 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -r scripts/requirements.txt -r scripts/requirements-graph.txt
+      - name: Apply migrations
+        run: python scripts/migrate.py
       - name: Build graph files
         run: python scripts/build_graph.py --out public/graph
       - name: Commit to main

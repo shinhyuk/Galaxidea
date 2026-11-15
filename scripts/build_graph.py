@@ -223,6 +223,24 @@ def main(argv: list[str] | None = None) -> None:
         ],
     }
     (out / "graph.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    # The same positions go into the database, so a new question can be
+    # placed next to the items it resembles.
+    placed = [
+        (int(xy[i, 0]), int(xy[i, 1]), labels[groups[i]] if groups[i] != NO_GROUP else None, rows[i][0])
+        for i in range(count)
+    ]
+    with connect() as conn:
+        with conn.cursor() as cur:
+            cur.execute("create temp table placed (gx integer, gy integer, graph_group text, id bigint)")
+            with cur.copy("copy placed (gx, gy, graph_group, id) from stdin") as copy:
+                for row in placed:
+                    copy.write_row(row)
+            cur.execute(
+                "update items set gx = placed.gx, gy = placed.gy, graph_group = placed.graph_group "
+                "from placed where items.id = placed.id"
+            )
+        conn.commit()
     log(f"done: wrote {count} nodes to {out}")
 
 

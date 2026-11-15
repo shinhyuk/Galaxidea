@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import "./globals.css";
 import { MockFooter, MockTag } from "./ui/mock-notice";
 
@@ -21,10 +22,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/">그래프</Link>
             <Link href="/mock">화면 시안</Link>
           </nav>
-          <MockTag />
+          {/* Reads the URL, which a page with a runtime address only knows per request. */}
+          <Suspense fallback={null}>
+            <MockTag />
+          </Suspense>
         </header>
         <main>{children}</main>
-        <MockFooter />
+        <Suspense fallback={null}>
+          <MockFooter />
+        </Suspense>
       </body>
     </html>
   );
