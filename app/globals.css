@@ -71,7 +71,7 @@ main,
   padding-top: 16px;
   padding-bottom: 8px;
   position: relative;
-  z-index: 2;
+  z-index: 5;
 }
 
 .brand {
@@ -93,7 +93,7 @@ main,
 }
 
 .nav {
-  display: none;
+  display: flex;
   margin-left: auto;
   gap: 4px;
   font-size: 14px;
@@ -109,12 +109,6 @@ main,
 .nav a:hover {
   color: var(--ink);
   background: rgba(232, 236, 255, 0.08);
-}
-
-@media (min-width: 620px) {
-  .nav {
-    display: flex;
-  }
 }
 
 .tag {
@@ -714,6 +708,174 @@ a.rank-row:hover strong {
 
 .spark-dot {
   fill: var(--grow);
+}
+
+/* Home: the idea graph fills the screen; the header floats over it. */
+
+.graph {
+  position: fixed;
+  inset: 0;
+  background: #0b0c12;
+  overflow: hidden;
+}
+
+.graph canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.graph-top {
+  position: absolute;
+  top: 56px;
+  left: 16px;
+  right: 16px;
+  pointer-events: none;
+  font-size: 13px;
+  color: var(--dim);
+  text-shadow: 0 0 6px #0b0c12;
+}
+
+.graph-top b {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.graph-note {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.graph-zoom {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  gap: 6px;
+}
+
+.graph-zoom button,
+.graph-close {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(14, 16, 28, 0.85);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.graph-bottom {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  max-width: 560px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.graph-card,
+.graph-results,
+.graph-search {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(14, 16, 28, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.graph-card {
+  position: relative;
+  padding: 12px 52px 12px 14px;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.graph-card h2 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.graph-card p {
+  color: var(--dim);
+  max-height: 6.4em;
+  overflow: auto;
+}
+
+.graph-card a {
+  justify-self: start;
+  color: var(--grow);
+  font-size: 13px;
+}
+
+.graph-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.graph-results {
+  overflow: hidden;
+}
+
+.graph-results li + li {
+  border-top: 1px solid var(--line);
+}
+
+.graph-results button {
+  width: 100%;
+  padding: 9px 14px;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 400;
+  font-size: 14px;
+  text-align: left;
+  white-space: normal;
+}
+
+.graph-results button:hover {
+  background: rgba(232, 236, 255, 0.07);
+}
+
+.graph-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 14px;
+}
+
+.graph-search span {
+  flex: none;
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.graph-search input {
+  border: 0;
+  background: transparent;
+  padding: 8px 6px;
+}
+
+.graph-search input:focus-visible {
+  outline: none;
+}
+
+.graph-search:focus-within {
+  border-color: var(--grow);
 }
 
 /* Scene: the cosmos canvas with cards pinned to its hubs */

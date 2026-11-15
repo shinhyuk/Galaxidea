@@ -54,6 +54,18 @@ python scripts/collect_github.py embed --max-minutes 300   # stop cleanly after 
 - A changed name or text clears an item's embedding, so the next run redoes it.
 - When the provider answers 429 the script waits and retries. A Voyage key without a payment method is limited to 3 requests and 10,000 tokens a minute; requests are kept under `--max-batch-tokens` (8,000 estimated) for that reason.
 
+## build_graph.py
+
+```bash
+pip install -r scripts/requirements-graph.txt
+python scripts/build_graph.py --out public/graph
+```
+
+- Lays out every embedded item as one graph for the home page. Nothing is sorted into categories by hand: UMAP places each item by its embedding, each item is linked to its two nearest neighbours, and groups are the dense clumps HDBSCAN finds in the layout. A group is named by the two words that are common in it and uncommon elsewhere.
+- Writes static files to `public/graph` (positions, groups, links, names for search, details in chunks of 1,000). The site reads only these files, not the database.
+- The "Build graph" workflow runs this against the hosted database and commits the result to `main`.
+- The files in the repository now come from 2,000 repositories embedded on a development machine; running the workflow replaces them with the full set.
+
 ## weekly.py (M4)
 
 Not implemented yet: recluster, compute 2D coordinates, growth scores and empty areas.
