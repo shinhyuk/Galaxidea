@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { MockFooter, MockTag } from "./ui/mock-notice";
 
 export const metadata: Metadata = {
   title: "Galaxidea",
@@ -17,17 +18,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <span className="ko">갤럭시디아</span>
           </Link>
           <nav className="nav">
-            <Link href="/">우주</Link>
-            <Link href="/#trending">뜨는 영역</Link>
-            <Link href="/#empty">빈 영역</Link>
+            <Link href="/">그래프</Link>
+            <Link href="/mock">화면 시안</Link>
           </nav>
-          <span className="tag">더미 데이터</span>
+          <MockTag />
         </header>
         <main>{children}</main>
-        <footer className="foot">
-          화면 구성을 보기 위한 시안입니다. 제품, 수치, 추세는 모두 지어낸
-          예시이며 실제 검색 결과가 아닙니다.
-        </footer>
+        <MockFooter />
       </body>
     </html>
   );

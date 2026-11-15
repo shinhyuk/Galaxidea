@@ -1,0 +1,39 @@
+# Lays out every embedded idea as one graph and commits the result to
+# public/graph on main, which redeploys the site with the new graph.
+# Run it by hand from the Actions tab after loading or embedding data.
+# Needs the DATABASE_URL repository secret.
+name: Build graph
+
+on:
+  workflow_dispatch:
+
+concurrency: build-graph
+
+permissions:
+  contents: write
+
+jobs:
+  graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r scripts/requirements.txt -r scripts/requirements-graph.txt
+      - name: Build graph files
+        run: python scripts/build_graph.py --out public/graph
+      - name: Commit to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/graph
+          if git diff --cached --quiet; then
+            echo "graph unchanged"
+          else
+            git commit -m "Update idea graph"
+            git push
+          fi

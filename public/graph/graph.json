@@ -1,0 +1,438 @@
+{
+ "count": 2000,
+ "links": 3085,
+ "built": "2026-11-15",
+ "sources": {
+  "github": 2000
+ },
+ "chunk": 1000,
+ "groups": [
+  {
+   "label": "database · analytics",
+   "color": "hsl(0 72% 66%)",
+   "size": 63,
+   "x": 40441,
+   "y": 35661
+  },
+  {
+   "label": "inference · models",
+   "color": "hsl(138 72% 66%)",
+   "size": 52,
+   "x": 31985,
+   "y": 56206
+  },
+  {
+   "label": "web · laravel",
+   "color": "hsl(275 72% 66%)",
+   "size": 51,
+   "x": 49442,
+   "y": 26357
+  },
+  {
+   "label": "python · books",
+   "color": "hsl(53 72% 66%)",
+   "size": 43,
+   "x": 51236,
+   "y": 42922
+  },
+  {
+   "label": "shell · zsh",
+   "color": "hsl(190 72% 66%)",
+   "size": 40,
+   "x": 35958,
+   "y": 13743
+  },
+  {
+   "label": "vue.js · vue",
+   "color": "hsl(328 72% 66%)",
+   "size": 37,
+   "x": 53265,
+   "y": 16856
+  },
+  {
+   "label": "agents · n8n",
+   "color": "hsl(105 72% 66%)",
+   "size": 36,
+   "x": 28448,
+   "y": 42963
+  },
+  {
+   "label": "react · state",
+   "color": "hsl(243 72% 66%)",
+   "size": 36,
+   "x": 58965,
+   "y": 18874
+  },
+  {
+   "label": "access · secrets",
+   "color": "hsl(20 72% 66%)",
+   "size": 32,
+   "x": 32597,
+   "y": 24186
+  },
+  {
+   "label": "github · git",
+   "color": "hsl(158 72% 66%)",
+   "size": 29,
+   "x": 42475,
+   "y": 16624
+  },
+  {
+   "label": "coding · agent",
+   "color": "hsl(295 72% 66%)",
+   "size": 29,
+   "x": 24103,
+   "y": 41933
+  },
+  {
+   "label": "database · search",
+   "color": "hsl(73 72% 66%)",
+   "size": 29,
+   "x": 38049,
+   "y": 40232
+  },
+  {
+   "label": "voice · speech",
+   "color": "hsl(210 72% 66%)",
+   "size": 28,
+   "x": 3641,
+   "y": 39192
+  },
+  {
+   "label": "face · image",
+   "color": "hsl(348 72% 66%)",
+   "size": 28,
+   "x": 38565,
+   "y": 49635
+  },
+  {
+   "label": "kubernetes · docker",
+   "color": "hsl(125 72% 66%)",
+   "size": 27,
+   "x": 38444,
+   "y": 22022
+  },
+  {
+   "label": "detection · pytorch",
+   "color": "hsl(263 72% 66%)",
+   "size": 27,
+   "x": 41613,
+   "y": 53831
+  },
+  {
+   "label": "player · iptv",
+   "color": "hsl(40 72% 66%)",
+   "size": 27,
+   "x": 16958,
+   "y": 20692
+  },
+  {
+   "label": "trading · financial",
+   "color": "hsl(178 72% 66%)",
+   "size": 27,
+   "x": 34938,
+   "y": 44633
+  },
+  {
+   "label": "ocr · pdf",
+   "color": "hsl(315 72% 66%)",
+   "size": 25,
+   "x": 18711,
+   "y": 34701
+  },
+  {
+   "label": "proxy · shadowsocks",
+   "color": "hsl(93 72% 66%)",
+   "size": 24,
+   "x": 24022,
+   "y": 22312
+  },
+  {
+   "label": "scraping · browser",
+   "color": "hsl(230 72% 66%)",
+   "size": 24,
+   "x": 23898,
+   "y": 31825
+  },
+  {
+   "label": "windows · macos",
+   "color": "hsl(8 72% 66%)",
+   "size": 23,
+   "x": 28531,
+   "y": 14272
+  },
+  {
+   "label": "leetcode · interview",
+   "color": "hsl(145 72% 66%)",
+   "size": 21,
+   "x": 56528,
+   "y": 43486
+  },
+  {
+   "label": "firefox · chrome",
+   "color": "hsl(283 72% 66%)",
+   "size": 21,
+   "x": 25652,
+   "y": 27453
+  },
+  {
+   "label": "learning · deep",
+   "color": "hsl(60 72% 66%)",
+   "size": 21,
+   "x": 44806,
+   "y": 52864
+  },
+  {
+   "label": "android · debugger",
+   "color": "hsl(198 72% 66%)",
+   "size": 20,
+   "x": 22544,
+   "y": 17085
+  },
+  {
+   "label": "jira · diagrams",
+   "color": "hsl(335 72% 66%)",
+   "size": 19,
+   "x": 29707,
+   "y": 36203
+  },
+  {
+   "label": "science · lessons",
+   "color": "hsl(113 72% 66%)",
+   "size": 19,
+   "x": 49182,
+   "y": 49504
+  },
+  {
+   "label": "php · jvm",
+   "color": "hsl(250 72% 66%)",
+   "size": 19,
+   "x": 50040,
+   "y": 31720
+  },
+  {
+   "label": "skills · agent",
+   "color": "hsl(28 72% 66%)",
+   "size": 18,
+   "x": 15481,
+   "y": 45766
+  },
+  {
+   "label": "claude · code",
+   "color": "hsl(165 72% 66%)",
+   "size": 18,
+   "x": 18739,
+   "y": 46706
+  },
+  {
+   "label": "javascript · practices",
+   "color": "hsl(303 72% 66%)",
+   "size": 18,
+   "x": 59067,
+   "y": 34049
+  },
+  {
+   "label": "css · component",
+   "color": "hsl(80 72% 66%)",
+   "size": 18,
+   "x": 59044,
+   "y": 15231
+  },
+  {
+   "label": "game · after",
+   "color": "hsl(218 72% 66%)",
+   "size": 18,
+   "x": 59711,
+   "y": 22800
+  },
+  {
+   "label": "logging · c++",
+   "color": "hsl(355 72% 66%)",
+   "size": 18,
+   "x": 46613,
+   "y": 36308
+  },
+  {
+   "label": "serverless · aws",
+   "color": "hsl(133 72% 66%)",
+   "size": 17,
+   "x": 41178,
+   "y": 27931
+  },
+  {
+   "label": "vulnerabilities · security",
+   "color": "hsl(270 72% 66%)",
+   "size": 17,
+   "x": 30352,
+   "y": 27443
+  },
+  {
+   "label": "agent · openclaw",
+   "color": "hsl(48 72% 66%)",
+   "size": 17,
+   "x": 27655,
+   "y": 46232
+  },
+  {
+   "label": "rag · retrieval-augmented",
+   "color": "hsl(185 72% 66%)",
+   "size": 16,
+   "x": 30388,
+   "y": 51123
+  },
+  {
+   "label": "prompt · memory",
+   "color": "hsl(323 72% 66%)",
+   "size": 16,
+   "x": 24994,
+   "y": 50046
+  },
+  {
+   "label": "file · webdav",
+   "color": "hsl(100 72% 66%)",
+   "size": 15,
+   "x": 29980,
+   "y": 20462
+  },
+  {
+   "label": "node.js · version",
+   "color": "hsl(238 72% 66%)",
+   "size": 15,
+   "x": 46223,
+   "y": 21164
+  },
+  {
+   "label": "icons · font",
+   "color": "hsl(15 72% 66%)",
+   "size": 15,
+   "x": 50075,
+   "y": 7731
+  },
+  {
+   "label": "swift · android",
+   "color": "hsl(153 72% 66%)",
+   "size": 15,
+   "x": 53651,
+   "y": 29939
+  },
+  {
+   "label": "bittorrent · download",
+   "color": "hsl(290 72% 66%)",
+   "size": 14,
+   "x": 19303,
+   "y": 23278
+  },
+  {
+   "label": "load · benchmarking",
+   "color": "hsl(68 72% 66%)",
+   "size": 14,
+   "x": 35680,
+   "y": 28907
+  },
+  {
+   "label": "flutter · react",
+   "color": "hsl(205 72% 66%)",
+   "size": 13,
+   "x": 55302,
+   "y": 19770
+  },
+  {
+   "label": "vpn · wireguard",
+   "color": "hsl(343 72% 66%)",
+   "size": 12,
+   "x": 27264,
+   "y": 23013
+  },
+  {
+   "label": "charts · mpandroidchart",
+   "color": "hsl(120 72% 66%)",
+   "size": 12,
+   "x": 59391,
+   "y": 25649
+  },
+  {
+   "label": "vim · neovim",
+   "color": "hsl(258 72% 66%)",
+   "size": 12,
+   "x": 38197,
+   "y": 8162
+  },
+  {
+   "label": "clients · servers",
+   "color": "hsl(35 72% 66%)",
+   "size": 12,
+   "x": 39284,
+   "y": 30926
+  },
+  {
+   "label": "kernel · linux",
+   "color": "hsl(173 72% 66%)",
+   "size": 11,
+   "x": 35002,
+   "y": 19181
+  },
+  {
+   "label": "chatgpt · mistral",
+   "color": "hsl(310 72% 66%)",
+   "size": 11,
+   "x": 27398,
+   "y": 49970
+  },
+  {
+   "label": "grpc · cli",
+   "color": "hsl(88 72% 66%)",
+   "size": 11,
+   "x": 45734,
+   "y": 32025
+  },
+  {
+   "label": "terminal · emulator",
+   "color": "hsl(225 72% 66%)",
+   "size": 11,
+   "x": 32137,
+   "y": 9962
+  },
+  {
+   "label": "implemented · algorithms",
+   "color": "hsl(3 72% 66%)",
+   "size": 10,
+   "x": 55592,
+   "y": 39495
+  },
+  {
+   "label": "editor · editors",
+   "color": "hsl(140 72% 66%)",
+   "size": 10,
+   "x": 41807,
+   "y": 8833
+  },
+  {
+   "label": "screen · area",
+   "color": "hsl(278 72% 66%)",
+   "size": 10,
+   "x": 15922,
+   "y": 26679
+  },
+  {
+   "label": "boot · spring",
+   "color": "hsl(55 72% 66%)",
+   "size": 10,
+   "x": 51054,
+   "y": 34843
+  },
+  {
+   "label": "nginx · infrastructure",
+   "color": "hsl(193 72% 66%)",
+   "size": 10,
+   "x": 39432,
+   "y": 25484
+  },
+  {
+   "label": "javascript · utility",
+   "color": "hsl(330 72% 66%)",
+   "size": 10,
+   "x": 58184,
+   "y": 28677
+  }
+ ]
+}
