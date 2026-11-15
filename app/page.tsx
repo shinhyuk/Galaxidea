@@ -2,38 +2,46 @@ import Form from "next/form";
 import Link from "next/link";
 import { emptyAreas, reports, trendingClusters, WEEKS } from "@/lib/mock";
 import { Sparkline } from "./ui/charts";
+import { Sky } from "./ui/sky";
+import { SkyLegend } from "./ui/universe-map";
 
 export default function Home() {
   return (
     <>
       <section className="hero">
-        <h1>내 아이디어는 우주 어디쯤에 있을까</h1>
-        <p>
-          한 줄로 물으면 세계에서 누가 먼저 생각했고 어디까지 갔는지 알려
-          드립니다.
-        </p>
-        {/* The mock always opens the first sample report. */}
-        <Form action="/q/1" className="ask">
-          <label htmlFor="idea">아이디어를 한 줄로 적어 보세요</label>
-          <div className="row">
-            <input
-              id="idea"
-              name="idea"
-              type="text"
-              maxLength={80}
-              autoComplete="off"
-              placeholder="예: 소리만으로 하는 잠수함 게임"
-            />
-            <button type="submit">별 띄우기</button>
+        <Sky hero />
+        <div className="hero-top">
+          <h1>내 아이디어는 우주 어디쯤에 있을까</h1>
+          <p>
+            한 줄로 물으면 세계에서 누가 먼저 생각했고 어디까지 갔는지 알려
+            드립니다.
+          </p>
+        </div>
+        <div className="hero-bottom">
+          {/* The mock always opens the first sample report. */}
+          <Form action="/q/1" className="ask">
+            <label htmlFor="idea">아이디어를 한 줄로 적어 보세요</label>
+            <div className="row">
+              <input
+                id="idea"
+                name="idea"
+                type="text"
+                maxLength={80}
+                autoComplete="off"
+                placeholder="예: 소리만으로 하는 잠수함 게임"
+              />
+              <button type="submit">별 띄우기</button>
+            </div>
+            <p className="hint">질문은 한 줄 요약으로 익명 공개됩니다</p>
+          </Form>
+          <div className="chips" aria-label="예시 질문">
+            {reports.map((report) => (
+              <Link key={report.id} href={`/q/${report.id}`} className="chip">
+                {report.oneLiner}
+              </Link>
+            ))}
           </div>
-          <p className="hint">질문은 한 줄 요약으로 익명 공개됩니다</p>
-        </Form>
-        <div className="chips" aria-label="예시 질문">
-          {reports.map((report) => (
-            <Link key={report.id} href={`/q/${report.id}`} className="chip">
-              {report.oneLiner}
-            </Link>
-          ))}
+          <SkyLegend />
         </div>
       </section>
 

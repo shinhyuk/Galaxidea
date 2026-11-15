@@ -7,7 +7,6 @@ const galaxies: MapGalaxy[] = clusters.map((cluster) => ({
   x: cluster.x,
   y: cluster.y,
   r: cluster.r,
-  count: cluster.itemCount,
   tone: cluster.state === "saturated" ? "sat" : cluster.state === "growing" ? "grow" : "dim",
 }));
 
@@ -19,12 +18,24 @@ const voids: MapVoid[] = emptyAreas.slice(0, 3).map((area) => ({
   r: area.r,
 }));
 
-export function Sky({ mine }: { mine?: { x: number; y: number } }) {
+// The home page lays its heading over the top of the sky and the question
+// form over the bottom, so galaxies stay in the band between them.
+const HERO_BAND: [number, number] = [0.2, 0.7];
+
+export function Sky({
+  mine,
+  hero = false,
+}: {
+  mine?: { x: number; y: number };
+  hero?: boolean;
+}) {
   return (
     <UniverseMap
       galaxies={galaxies}
       voids={voids}
       mine={mine}
+      hero={hero}
+      band={hero ? HERO_BAND : undefined}
       label="아이디어 우주 지도. 영역마다 은하가 하나씩 있고, 빈 영역은 점선 원으로, 내 질문은 보라색 별로 표시됩니다."
     />
   );
