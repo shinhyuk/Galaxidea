@@ -18,10 +18,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <span className="mark">Galaxidea</span>
             <span className="ko">갤럭시디아</span>
           </Link>
-          <nav className="nav">
-            <Link href="/">그래프</Link>
-            <Link href="/mock">화면 시안</Link>
-          </nav>
           {/* Reads the URL, which a page with a runtime address only knows per request. */}
           <Suspense fallback={null}>
             <MockTag />

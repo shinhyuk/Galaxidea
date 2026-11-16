@@ -13,6 +13,7 @@ Output (all positions and ids are by node index, in `items.id` order):
   graph.json    counts, build date, and the groups (label, color, centre)
   xy.bin        Uint16 pairs: x, y in 0..65535
   group.bin     Uint16 per node: index into groups, 65535 = in no group
+  region.bin    Uint8 per node: index into regions (the dozen large areas)
   weight.bin    Uint8 per node: how many others have it as a neighbour
   edges.bin     Uint32 pairs: the two node indexes of each link
   names.json    name of every node, for search
@@ -37,6 +38,12 @@ from collect_github import connect, load_env_file, log
 NO_GROUP = 65535
 CHUNK = 1000
 NEIGHBOURS = 6
+REGIONS = 11
+# Bright, well separated colors for the large areas, as "r,g,b".
+REGION_COLORS = [
+    "255,170,80", "190,120,255", "90,225,165", "100,165,255", "255,120,200", "255,205,90",
+    "160,230,100", "110,220,255", "150,130,255", "255,140,120", "120,240,220", "230,160,255",
+]
 LINKS_PER_NODE = 2
 
 # Words that say nothing about what a group is about.
@@ -124,6 +131,62 @@ def group_labels(texts: list[str], groups: np.ndarray, group_count: int, terms: 
     return labels
 
 
+def recent_share(years: np.ndarray, members: np.ndarray, since: int) -> float:
+    """Share of a set of items that appeared in `since` or later."""
+    return float((years[members] >= since).mean()) if members.any() else 0.0
+
+
+def describe(xy: np.ndarray, groups: np.ndarray, years: np.ndarray, texts: list[str], this_year: int) -> dict:
+    """Everything the page shows besides the dots: the large regions, how
+    recent each region and group is compared with the whole, and how many
+    items appeared each year. Works from positions alone, so it can be
+    recomputed for an existing graph without the embeddings."""
+    from sklearn.cluster import KMeans
+
+    count = len(xy)
+    since = this_year - 1
+    overall = max(recent_share(years, np.ones(count, dtype=bool), since), 1e-9)
+
+    found = KMeans(n_clusters=min(REGIONS, count), n_init=10, random_state=42).fit_predict(xy.astype(np.float32))
+    by_size = [r for r, _ in Counter(found.tolist()).most_common()]
+    rank = {region: index for index, region in enumerate(by_size)}
+    regions = np.array([rank[int(r)] for r in found], dtype=np.uint8)
+    names = group_labels(texts, regions.astype(np.uint16), len(by_size), terms=2)
+    region_info = []
+    for index in range(len(by_size)):
+        members = regions == index
+        centre = np.median(xy[members], axis=0)
+        spread = float(np.median(np.linalg.norm(xy[members] - centre, axis=1)))
+        share = recent_share(years, members, since)
+        region_info.append({
+            "label": names[index],
+            "color": REGION_COLORS[index % len(REGION_COLORS)],
+            "size": int(members.sum()),
+            "x": int(centre[0]),
+            "y": int(centre[1]),
+            "spread": int(spread),
+            "recent": round(share, 3),
+            "lift": round(share / overall, 2),
+        })
+
+    group_recent = []
+    for index in range(int(groups[groups != NO_GROUP].max()) + 1 if (groups != NO_GROUP).any() else 0):
+        share = recent_share(years, groups == index, since)
+        group_recent.append({"recent": round(share, 3), "lift": round(share / overall, 2)})
+
+    known = years[years > 0]
+    first = max(int(known.min()), this_year - 14) if len(known) else this_year
+    per_year = {str(year): int((years == year).sum()) for year in range(first, this_year + 1)}
+    return {
+        "regions": region_info,
+        "region_of": regions,
+        "group_recent": group_recent,
+        "years": per_year,
+        "since": since,
+        "recent": round(overall, 3),
+    }
+
+
 def group_color(index: int) -> str:
     """Evenly spread hues, so neighbouring group numbers look different."""
     return f"hsl({(index * 137.508) % 360:.0f} 72% 66%)"
@@ -145,12 +208,37 @@ def load_items() -> tuple[list[tuple], np.ndarray]:
     return rows, np.vstack(vectors) if vectors else np.empty((0, 0), dtype=np.float32)
 
 
+def refresh(out: Path) -> None:
+    meta = json.loads((out / "graph.json").read_text(encoding="utf-8"))
+    xy = np.fromfile(out / "xy.bin", dtype=np.uint16).reshape(-1, 2)
+    groups = np.fromfile(out / "group.bin", dtype=np.uint16)
+    details = []
+    for chunk in range((meta["count"] + CHUNK - 1) // CHUNK):
+        details += json.loads((out / "d" / f"{chunk}.json").read_text(encoding="utf-8"))
+    years = np.array([row[4] or 0 for row in details], dtype=np.int32)
+    texts = [f"{row[1].rsplit('/', 1)[-1]} {row[2]}" for row in details]
+    extra = describe(xy, groups, years, texts, int(meta["built"][:4]))
+    extra["region_of"].tofile(out / "region.bin")
+    meta.update(since=extra["since"], recent=extra["recent"], years=extra["years"], regions=extra["regions"])
+    for group, recent in zip(meta["groups"], extra["group_recent"]):
+        group.update(recent)
+    (out / "graph.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
+    log(f"refreshed {out}: " + ", ".join(r["label"] for r in extra["regions"]))
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--out", default="public/graph")
+    parser.add_argument(
+        "--refresh", action="store_true",
+        help="recompute regions and statistics for the files already in --out, without the database",
+    )
     args = parser.parse_args(argv)
     root = Path(__file__).resolve().parent.parent
     load_env_file(root / ".env.local")
+    if args.refresh:
+        refresh((root / args.out).resolve())
+        return
 
     rows, vectors = load_items()
     count = len(rows)
@@ -204,6 +292,10 @@ def main(argv: list[str] | None = None) -> None:
         (out / "d" / f"{start // CHUNK}.json").write_text(
             json.dumps(details, ensure_ascii=False, separators=(",", ":")), encoding="utf-8"
         )
+    years = np.array([row[5].year if row[5] else 0 for row in rows], dtype=np.int32)
+    extra = describe(xy, groups, years, texts, date.today().year)
+    extra["region_of"].tofile(out / "region.bin")
+    log(f"{len(extra['regions'])} regions: " + ", ".join(r["label"] for r in extra["regions"]))
     sources = Counter(row[1] for row in rows)
     meta = {
         "count": count,
@@ -211,6 +303,10 @@ def main(argv: list[str] | None = None) -> None:
         "built": date.today().isoformat(),
         "sources": dict(sources),
         "chunk": CHUNK,
+        "since": extra["since"],
+        "recent": extra["recent"],
+        "years": extra["years"],
+        "regions": extra["regions"],
         "groups": [
             {
                 "label": labels[index],
@@ -218,6 +314,7 @@ def main(argv: list[str] | None = None) -> None:
                 "size": int((groups == index).sum()),
                 "x": int(np.median(xy[groups == index, 0])),
                 "y": int(np.median(xy[groups == index, 1])),
+                **extra["group_recent"][index],
             }
             for index in range(len(by_size))
         ],
