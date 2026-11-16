@@ -12,1330 +12,1841 @@
    "color": "hsl(0 72% 66%)",
    "size": 418,
    "x": 36762,
-   "y": 47779
+   "y": 47779,
+   "recent": 0.048,
+   "lift": 0.45
   },
   {
    "label": "security · penetration",
    "color": "hsl(138 72% 66%)",
    "size": 329,
    "x": 28693,
-   "y": 43981
+   "y": 43981,
+   "recent": 0.04,
+   "lift": 0.37
   },
   {
    "label": "javascript · typescript",
    "color": "hsl(275 72% 66%)",
    "size": 309,
    "x": 45847,
-   "y": 30888
+   "y": 30888,
+   "recent": 0.019,
+   "lift": 0.18
   },
   {
    "label": "python · cmake",
    "color": "hsl(53 72% 66%)",
    "size": 283,
    "x": 37592,
-   "y": 36261
+   "y": 36261,
+   "recent": 0.032,
+   "lift": 0.3
   },
   {
    "label": "tensorflow · deep",
    "color": "hsl(190 72% 66%)",
    "size": 266,
    "x": 7854,
-   "y": 41866
+   "y": 41866,
+   "recent": 0.015,
+   "lift": 0.14
   },
   {
    "label": "docker · container",
    "color": "hsl(328 72% 66%)",
    "size": 257,
    "x": 35734,
-   "y": 43351
+   "y": 43351,
+   "recent": 0.051,
+   "lift": 0.47
   },
   {
    "label": "swift · ios",
    "color": "hsl(105 72% 66%)",
    "size": 254,
    "x": 40421,
-   "y": 22295
+   "y": 22295,
+   "recent": 0.016,
+   "lift": 0.15
   },
   {
    "label": "operating · reverse",
    "color": "hsl(243 72% 66%)",
    "size": 245,
    "x": 29683,
-   "y": 35489
+   "y": 35489,
+   "recent": 0.073,
+   "lift": 0.69
   },
   {
    "label": "emulator · nintendo",
    "color": "hsl(20 72% 66%)",
    "size": 237,
    "x": 23024,
-   "y": 24865
+   "y": 24865,
+   "recent": 0.118,
+   "lift": 1.11
   },
   {
    "label": "image · photo",
    "color": "hsl(158 72% 66%)",
    "size": 222,
    "x": 28519,
-   "y": 11767
+   "y": 11767,
+   "recent": 0.027,
+   "lift": 0.25
   },
   {
    "label": "trading · quantitative",
    "color": "hsl(295 72% 66%)",
    "size": 213,
    "x": 16568,
-   "y": 51667
+   "y": 51667,
+   "recent": 0.202,
+   "lift": 1.89
   },
   {
    "label": "neovim · vim",
    "color": "hsl(73 72% 66%)",
    "size": 212,
    "x": 35764,
-   "y": 24082
+   "y": 24082,
+   "recent": 0.038,
+   "lift": 0.35
   },
   {
    "label": "html · angular",
    "color": "hsl(210 72% 66%)",
    "size": 212,
    "x": 47103,
-   "y": 26337
+   "y": 26337,
+   "recent": 0.014,
+   "lift": 0.13
   },
   {
    "label": "vulkan · three.js",
    "color": "hsl(348 72% 66%)",
    "size": 208,
    "x": 17894,
-   "y": 21463
+   "y": 21463,
+   "recent": 0.072,
+   "lift": 0.67
   },
   {
    "label": "blockchain · ethereum",
    "color": "hsl(125 72% 66%)",
    "size": 206,
    "x": 26959,
-   "y": 49771
+   "y": 49771,
+   "recent": 0.034,
+   "lift": 0.32
   },
   {
    "label": "music · player",
    "color": "hsl(263 72% 66%)",
    "size": 205,
    "x": 13427,
-   "y": 11469
+   "y": 11469,
+   "recent": 0.141,
+   "lift": 1.32
   },
   {
    "label": "machine · learning",
    "color": "hsl(40 72% 66%)",
    "size": 201,
    "x": 12320,
-   "y": 44789
+   "y": 44789,
+   "recent": 0.04,
+   "lift": 0.37
   },
   {
    "label": "robot · driving",
    "color": "hsl(178 72% 66%)",
    "size": 191,
    "x": 14422,
-   "y": 30055
+   "y": 30055,
+   "recent": 0.183,
+   "lift": 1.71
   },
   {
    "label": "chat · telegram",
    "color": "hsl(315 72% 66%)",
    "size": 190,
    "x": 23978,
-   "y": 29061
+   "y": 29061,
+   "recent": 0.058,
+   "lift": 0.54
   },
   {
    "label": "mysql · orm",
    "color": "hsl(93 72% 66%)",
    "size": 188,
    "x": 28740,
-   "y": 57749
+   "y": 57749,
+   "recent": 0.005,
+   "lift": 0.05
   },
   {
    "label": "animation · view",
    "color": "hsl(230 72% 66%)",
    "size": 181,
    "x": 42001,
-   "y": 14058
+   "y": 14058,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "video · videos",
    "color": "hsl(8 72% 66%)",
    "size": 178,
    "x": 13477,
-   "y": 19030
+   "y": 19030,
+   "recent": 0.562,
+   "lift": 5.26
   },
   {
    "label": "vision · ocr",
    "color": "hsl(145 72% 66%)",
    "size": 167,
    "x": 9176,
-   "y": 30643
+   "y": 30643,
+   "recent": 0.138,
+   "lift": 1.29
   },
   {
    "label": "password · secrets",
    "color": "hsl(283 72% 66%)",
    "size": 167,
    "x": 31040,
-   "y": 48988
+   "y": 48988,
+   "recent": 0.024,
+   "lift": 0.22
   },
   {
    "label": "oauth · authentication",
    "color": "hsl(60 72% 66%)",
    "size": 167,
    "x": 56847,
-   "y": 38426
+   "y": 38426,
+   "recent": 0.024,
+   "lift": 0.22
   },
   {
    "label": "language · programming",
    "color": "hsl(198 72% 66%)",
    "size": 164,
    "x": 41336,
-   "y": 33769
+   "y": 33769,
+   "recent": 0.024,
+   "lift": 0.23
   },
   {
    "label": "physics · maps",
    "color": "hsl(335 72% 66%)",
    "size": 161,
    "x": 16084,
-   "y": 25075
+   "y": 25075,
+   "recent": 0.081,
+   "lift": 0.76
   },
   {
    "label": "pdf · pdfs",
    "color": "hsl(113 72% 66%)",
    "size": 159,
    "x": 28969,
-   "y": 15942
+   "y": 15942,
+   "recent": 0.233,
+   "lift": 2.18
   },
   {
    "label": "audio · music",
    "color": "hsl(250 72% 66%)",
    "size": 158,
    "x": 11234,
-   "y": 14414
+   "y": 14414,
+   "recent": 0.076,
+   "lift": 0.71
   },
   {
    "label": "charts · charting",
    "color": "hsl(28 72% 66%)",
    "size": 152,
    "x": 24616,
-   "y": 16878
+   "y": 16878,
+   "recent": 0.033,
+   "lift": 0.31
   },
   {
    "label": "components · tailwind",
    "color": "hsl(165 72% 66%)",
    "size": 142,
    "x": 49410,
-   "y": 22422
+   "y": 22422,
+   "recent": 0.035,
+   "lift": 0.33
   },
   {
    "label": "telegram · whatsapp",
    "color": "hsl(303 72% 66%)",
    "size": 142,
    "x": 22102,
-   "y": 30941
+   "y": 30941,
+   "recent": 0.183,
+   "lift": 1.71
   },
   {
    "label": "c++ · golang",
    "color": "hsl(80 72% 66%)",
    "size": 140,
    "x": 40786,
-   "y": 38508
+   "y": 38508,
+   "recent": 0.014,
+   "lift": 0.13
   },
   {
    "label": "arch · books",
    "color": "hsl(218 72% 66%)",
    "size": 138,
    "x": 32780,
-   "y": 34195
+   "y": 34195,
+   "recent": 0.065,
+   "lift": 0.61
   },
   {
    "label": "crawler · scraper",
    "color": "hsl(355 72% 66%)",
    "size": 136,
    "x": 25036,
-   "y": 40258
+   "y": 40258,
+   "recent": 0.125,
+   "lift": 1.17
   },
   {
    "label": "detection · object",
    "color": "hsl(133 72% 66%)",
    "size": 136,
    "x": 5221,
-   "y": 31483
+   "y": 31483,
+   "recent": 0.059,
+   "lift": 0.55
   },
   {
    "label": "redis · kafka",
    "color": "hsl(270 72% 66%)",
    "size": 136,
    "x": 35762,
-   "y": 56110
+   "y": 56110,
+   "recent": 0.022,
+   "lift": 0.21
   },
   {
    "label": "zsh · ios",
    "color": "hsl(48 72% 66%)",
    "size": 131,
    "x": 34261,
-   "y": 27258
+   "y": 27258,
+   "recent": 0.061,
+   "lift": 0.57
   },
   {
    "label": "agent · agents",
    "color": "hsl(185 72% 66%)",
    "size": 131,
    "x": 16808,
-   "y": 40042
+   "y": 40042,
+   "recent": 0.702,
+   "lift": 6.57
   },
   {
    "label": "testing · coverage",
    "color": "hsl(323 72% 66%)",
    "size": 127,
    "x": 43709,
-   "y": 39804
+   "y": 39804,
+   "recent": 0.008,
+   "lift": 0.07
   },
   {
    "label": "redux · react",
    "color": "hsl(100 72% 66%)",
    "size": 126,
    "x": 52284,
-   "y": 24536
+   "y": 24536,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "profile · diff",
    "color": "hsl(238 72% 66%)",
    "size": 124,
    "x": 38898,
-   "y": 28834
+   "y": 28834,
+   "recent": 0.065,
+   "lift": 0.6
   },
   {
    "label": "escalation · privilege",
    "color": "hsl(15 72% 66%)",
    "size": 124,
    "x": 29994,
-   "y": 41091
+   "y": 41091,
+   "recent": 0.048,
+   "lift": 0.45
   },
   {
    "label": "email · smtp",
    "color": "hsl(153 72% 66%)",
    "size": 123,
    "x": 62286,
-   "y": 33002
+   "y": 33002,
+   "recent": 0.106,
+   "lift": 0.99
   },
   {
    "label": "diffusion · stable",
    "color": "hsl(290 72% 66%)",
    "size": 120,
    "x": 7530,
-   "y": 26251
+   "y": 26251,
+   "recent": 0.058,
+   "lift": 0.55
   },
   {
    "label": "calendar · date",
    "color": "hsl(68 72% 66%)",
    "size": 120,
    "x": 49508,
-   "y": 11068
+   "y": 11068,
+   "recent": 0.008,
+   "lift": 0.08
   },
   {
    "label": "inference · llm",
    "color": "hsl(205 72% 66%)",
    "size": 117,
    "x": 10834,
-   "y": 38659
+   "y": 38659,
+   "recent": 0.368,
+   "lift": 3.44
   },
   {
    "label": "neovim · xcode",
    "color": "hsl(343 72% 66%)",
    "size": 116,
    "x": 37682,
-   "y": 26026
+   "y": 26026,
+   "recent": 0.06,
+   "lift": 0.56
   },
   {
    "label": "windows · macos",
    "color": "hsl(120 72% 66%)",
    "size": 116,
    "x": 30991,
-   "y": 28450
+   "y": 28450,
+   "recent": 0.172,
+   "lift": 1.61
   },
   {
    "label": "reinforcement · learning",
    "color": "hsl(258 72% 66%)",
    "size": 116,
    "x": 4266,
-   "y": 37478
+   "y": 37478,
+   "recent": 0.233,
+   "lift": 2.18
   },
   {
    "label": "android · root",
    "color": "hsl(35 72% 66%)",
    "size": 114,
    "x": 31759,
-   "y": 31231
+   "y": 31231,
+   "recent": 0.088,
+   "lift": 0.82
   },
   {
    "label": "grid · draggable",
    "color": "hsl(173 72% 66%)",
    "size": 114,
    "x": 47370,
-   "y": 15120
+   "y": 15120,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "css · sass",
    "color": "hsl(310 72% 66%)",
    "size": 109,
    "x": 47790,
-   "y": 19517
+   "y": 19517,
+   "recent": 0.009,
+   "lift": 0.09
   },
   {
    "label": "agent · claude",
    "color": "hsl(88 72% 66%)",
    "size": 108,
    "x": 18946,
-   "y": 33893
+   "y": 33893,
+   "recent": 0.574,
+   "lift": 5.37
   },
   {
    "label": "json · schema",
    "color": "hsl(225 72% 66%)",
    "size": 107,
    "x": 52680,
-   "y": 37199
+   "y": 37199,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "admin · vite",
    "color": "hsl(3 72% 66%)",
    "size": 105,
    "x": 56217,
-   "y": 29660
+   "y": 29660,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "openapi · swagger",
    "color": "hsl(140 72% 66%)",
    "size": 104,
    "x": 50308,
-   "y": 38417
+   "y": 38417,
+   "recent": 0.01,
+   "lift": 0.09
   },
   {
    "label": "react · native",
    "color": "hsl(278 72% 66%)",
    "size": 103,
    "x": 45639,
-   "y": 20112
+   "y": 20112,
+   "recent": 0.049,
+   "lift": 0.45
   },
   {
    "label": "llm · models",
    "color": "hsl(55 72% 66%)",
    "size": 102,
    "x": 12165,
-   "y": 37758
+   "y": 37758,
+   "recent": 0.108,
+   "lift": 1.01
   },
   {
    "label": "nlp · bert",
    "color": "hsl(193 72% 66%)",
    "size": 99,
    "x": 9289,
-   "y": 36466
+   "y": 36466,
+   "recent": 0.061,
+   "lift": 0.57
   },
   {
    "label": "vpn · wireguard",
    "color": "hsl(330 72% 66%)",
    "size": 99,
    "x": 39205,
-   "y": 51733
+   "y": 51733,
+   "recent": 0.101,
+   "lift": 0.95
   },
   {
    "label": "multi-agent · agents",
    "color": "hsl(108 72% 66%)",
    "size": 98,
    "x": 18148,
-   "y": 36658
+   "y": 36658,
+   "recent": 0.612,
+   "lift": 5.73
   },
   {
    "label": "regular · internationalization",
    "color": "hsl(245 72% 66%)",
    "size": 98,
    "x": 50520,
-   "y": 33270
+   "y": 33270,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "tiling · window",
    "color": "hsl(23 72% 66%)",
    "size": 98,
    "x": 31215,
-   "y": 21623
+   "y": 21623,
+   "recent": 0.102,
+   "lift": 0.95
   },
   {
    "label": "mocking · http",
    "color": "hsl(161 72% 66%)",
    "size": 97,
    "x": 46250,
-   "y": 43236
+   "y": 43236,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "forms · form",
    "color": "hsl(298 72% 66%)",
    "size": 97,
    "x": 52878,
-   "y": 20759
+   "y": 20759,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "chatgpt · chat",
    "color": "hsl(76 72% 66%)",
    "size": 96,
    "x": 16278,
-   "y": 34007
+   "y": 34007,
+   "recent": 0.167,
+   "lift": 1.56
   },
   {
    "label": "subsystem · usb",
    "color": "hsl(213 72% 66%)",
    "size": 96,
    "x": 29552,
-   "y": 30797
+   "y": 30797,
+   "recent": 0.083,
+   "lift": 0.78
   },
   {
    "label": "nginx · analytics",
    "color": "hsl(351 72% 66%)",
    "size": 95,
    "x": 43792,
-   "y": 45685
+   "y": 45685,
+   "recent": 0.032,
+   "lift": 0.3
   },
   {
    "label": "game · engine",
    "color": "hsl(128 72% 66%)",
    "size": 93,
    "x": 19714,
-   "y": 23506
+   "y": 23506,
+   "recent": 0.022,
+   "lift": 0.2
   },
   {
    "label": "forecasting · series",
    "color": "hsl(266 72% 66%)",
    "size": 93,
    "x": 10292,
-   "y": 47847
+   "y": 47847,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "claude · skills",
    "color": "hsl(43 72% 66%)",
    "size": 91,
    "x": 20350,
-   "y": 40047
+   "y": 40047,
+   "recent": 0.912,
+   "lift": 8.53
   },
   {
    "label": "toast · notification",
    "color": "hsl(181 72% 66%)",
    "size": 91,
    "x": 40885,
-   "y": 16141
+   "y": 16141,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "prompts · prompt",
    "color": "hsl(318 72% 66%)",
    "size": 90,
    "x": 14593,
-   "y": 35835
+   "y": 35835,
+   "recent": 0.289,
+   "lift": 2.7
   },
   {
    "label": "terminal · emulator",
    "color": "hsl(96 72% 66%)",
    "size": 90,
    "x": 31062,
-   "y": 24428
+   "y": 24428,
+   "recent": 0.167,
+   "lift": 1.56
   },
   {
    "label": "context · mcp",
    "color": "hsl(233 72% 66%)",
    "size": 89,
    "x": 23933,
-   "y": 35375
+   "y": 35375,
+   "recent": 0.416,
+   "lift": 3.89
   },
   {
    "label": "pixiv · manga",
    "color": "hsl(11 72% 66%)",
    "size": 89,
    "x": 22257,
-   "y": 14254
+   "y": 14254,
+   "recent": 0.067,
+   "lift": 0.63
   },
   {
    "label": "profiler · profiling",
    "color": "hsl(148 72% 66%)",
    "size": 89,
    "x": 41505,
-   "y": 41423
+   "y": 41423,
+   "recent": 0.056,
+   "lift": 0.53
   },
   {
    "label": "webdriver · puppeteer",
    "color": "hsl(286 72% 66%)",
    "size": 88,
    "x": 29260,
-   "y": 37911
+   "y": 37911,
+   "recent": 0.068,
+   "lift": 0.64
   },
   {
    "label": "web · server",
    "color": "hsl(63 72% 66%)",
    "size": 88,
    "x": 47297,
-   "y": 39450
+   "y": 39450,
+   "recent": 0.011,
+   "lift": 0.11
   },
   {
    "label": "font · typeface",
    "color": "hsl(201 72% 66%)",
    "size": 88,
    "x": 35953,
-   "y": 7366
+   "y": 7366,
+   "recent": 0.045,
+   "lift": 0.43
   },
   {
    "label": "terraform · monitor",
    "color": "hsl(338 72% 66%)",
    "size": 88,
    "x": 38646,
-   "y": 42831
+   "y": 42831,
+   "recent": 0.068,
+   "lift": 0.64
   },
   {
    "label": "laravel · validation",
    "color": "hsl(116 72% 66%)",
    "size": 88,
    "x": 52591,
-   "y": 34497
+   "y": 34497,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "jellyfin · plex",
    "color": "hsl(253 72% 66%)",
    "size": 87,
    "x": 18301,
-   "y": 12004
+   "y": 12004,
+   "recent": 0.172,
+   "lift": 1.61
   },
   {
    "label": "clipboard · mind",
    "color": "hsl(31 72% 66%)",
    "size": 86,
    "x": 27283,
-   "y": 20208
+   "y": 20208,
+   "recent": 0.081,
+   "lift": 0.76
   },
   {
    "label": "editor · text",
    "color": "hsl(168 72% 66%)",
    "size": 86,
    "x": 34286,
-   "y": 21671
+   "y": 21671,
+   "recent": 0.081,
+   "lift": 0.76
   },
   {
    "label": "database · vector",
    "color": "hsl(306 72% 66%)",
    "size": 86,
    "x": 24123,
-   "y": 53443
+   "y": 53443,
+   "recent": 0.116,
+   "lift": 1.09
   },
   {
    "label": "monitoring · status",
    "color": "hsl(83 72% 66%)",
    "size": 85,
    "x": 39650,
-   "y": 46484
+   "y": 46484,
+   "recent": 0.071,
+   "lift": 0.66
   },
   {
    "label": "php · asp.net",
    "color": "hsl(221 72% 66%)",
    "size": 85,
    "x": 46160,
-   "y": 36350
+   "y": 36350,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "wpf · maui",
    "color": "hsl(358 72% 66%)",
    "size": 84,
    "x": 42259,
-   "y": 25017
+   "y": 25017,
+   "recent": 0.024,
+   "lift": 0.22
   },
   {
    "label": "postgres · postgresql",
    "color": "hsl(136 72% 66%)",
    "size": 84,
    "x": 28607,
-   "y": 55599
+   "y": 55599,
+   "recent": 0.036,
+   "lift": 0.33
   },
   {
    "label": "codex · claude",
    "color": "hsl(273 72% 66%)",
    "size": 83,
    "x": 19491,
-   "y": 36951
+   "y": 36951,
+   "recent": 0.771,
+   "lift": 7.21
   },
   {
    "label": "mvp · android",
    "color": "hsl(51 72% 66%)",
    "size": 83,
    "x": 41784,
-   "y": 20495
+   "y": 20495,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "image · lightbox",
    "color": "hsl(188 72% 66%)",
    "size": 82,
    "x": 32774,
-   "y": 10827
+   "y": 10827,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "variables · env",
    "color": "hsl(326 72% 66%)",
    "size": 81,
    "x": 44726,
-   "y": 37742
+   "y": 37742,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "job · queue",
    "color": "hsl(103 72% 66%)",
    "size": 81,
    "x": 41977,
-   "y": 55258
+   "y": 55258,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "youtube · downloader",
    "color": "hsl(241 72% 66%)",
    "size": 80,
    "x": 18152,
-   "y": 13681
+   "y": 13681,
+   "recent": 0.087,
+   "lift": 0.82
   },
   {
    "label": "android · codekk",
    "color": "hsl(18 72% 66%)",
    "size": 80,
    "x": 38755,
-   "y": 23431
+   "y": 23431,
+   "recent": 0.013,
+   "lift": 0.12
   },
   {
    "label": "node.js · javascript",
    "color": "hsl(156 72% 66%)",
    "size": 78,
    "x": 45269,
-   "y": 33708
+   "y": 33708,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "ssh · syncthing",
    "color": "hsl(293 72% 66%)",
    "size": 78,
    "x": 29117,
-   "y": 26345
+   "y": 26345,
+   "recent": 0.179,
+   "lift": 1.68
   },
   {
    "label": "science · data",
    "color": "hsl(71 72% 66%)",
    "size": 78,
    "x": 16039,
-   "y": 45849
+   "y": 45849,
+   "recent": 0.013,
+   "lift": 0.12
   },
   {
    "label": "wysiwyg · editor",
    "color": "hsl(208 72% 66%)",
    "size": 76,
    "x": 35759,
-   "y": 17521
+   "y": 17521,
+   "recent": 0.026,
+   "lift": 0.25
   },
   {
    "label": "player · ffmpeg",
    "color": "hsl(346 72% 66%)",
    "size": 76,
    "x": 16347,
-   "y": 13561
+   "y": 13561,
+   "recent": 0.013,
+   "lift": 0.12
   },
   {
    "label": "promises · promise",
    "color": "hsl(123 72% 66%)",
    "size": 74,
    "x": 47894,
-   "y": 41091
+   "y": 41091,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "semver · python",
    "color": "hsl(261 72% 66%)",
    "size": 74,
    "x": 39757,
-   "y": 32589
+   "y": 32589,
+   "recent": 0.014,
+   "lift": 0.13
   },
   {
    "label": "theme · hexo",
    "color": "hsl(38 72% 66%)",
    "size": 73,
    "x": 44083,
-   "y": 23491
+   "y": 23491,
+   "recent": 0.055,
+   "lift": 0.51
   },
   {
    "label": "vagas · books",
    "color": "hsl(176 72% 66%)",
    "size": 72,
    "x": 34954,
-   "y": 37528
+   "y": 37528,
+   "recent": 0.028,
+   "lift": 0.26
   },
   {
    "label": "proxy · socks5",
    "color": "hsl(313 72% 66%)",
    "size": 72,
    "x": 41305,
-   "y": 49651
+   "y": 49651,
+   "recent": 0.153,
+   "lift": 1.43
   },
   {
    "label": "git · libgit2",
    "color": "hsl(91 72% 66%)",
    "size": 72,
    "x": 36512,
-   "y": 30096
+   "y": 30096,
+   "recent": 0.056,
+   "lift": 0.52
   },
   {
    "label": "game · games",
    "color": "hsl(228 72% 66%)",
    "size": 72,
    "x": 20137,
-   "y": 25243
+   "y": 25243,
+   "recent": 0.028,
+   "lift": 0.26
   },
   {
    "label": "claude · codex",
    "color": "hsl(6 72% 66%)",
    "size": 71,
    "x": 19951,
-   "y": 35401
+   "y": 35401,
+   "recent": 0.859,
+   "lift": 8.04
   },
   {
    "label": "color · apns",
    "color": "hsl(143 72% 66%)",
    "size": 71,
    "x": 38285,
-   "y": 17622
+   "y": 17622,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "vue · react",
    "color": "hsl(281 72% 66%)",
    "size": 70,
    "x": 49456,
-   "y": 24939
+   "y": 24939,
+   "recent": 0.014,
+   "lift": 0.13
   },
   {
    "label": "scrape · logged-in",
    "color": "hsl(58 72% 66%)",
    "size": 70,
    "x": 24479,
-   "y": 37721
+   "y": 37721,
+   "recent": 0.371,
+   "lift": 3.48
   },
   {
    "label": "concurrency · c++",
    "color": "hsl(196 72% 66%)",
    "size": 70,
    "x": 43473,
-   "y": 43121
+   "y": 43121,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "speech · whisper",
    "color": "hsl(333 72% 66%)",
    "size": 69,
    "x": 8706,
-   "y": 18491
+   "y": 18491,
+   "recent": 0.159,
+   "lift": 1.49
   },
   {
    "label": "cms · django",
    "color": "hsl(111 72% 66%)",
    "size": 69,
    "x": 51461,
-   "y": 29907
+   "y": 29907,
+   "recent": 0.029,
+   "lift": 0.27
   },
   {
    "label": "vulnerability · scanner",
    "color": "hsl(248 72% 66%)",
    "size": 69,
    "x": 29056,
-   "y": 45794
+   "y": 45794,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "bilibili · downloader",
    "color": "hsl(26 72% 66%)",
    "size": 69,
    "x": 19125,
-   "y": 15145
+   "y": 15145,
+   "recent": 0.13,
+   "lift": 1.22
   },
   {
    "label": "leetcode · interview",
    "color": "hsl(163 72% 66%)",
    "size": 68,
    "x": 34787,
-   "y": 39847
+   "y": 39847,
+   "recent": 0.044,
+   "lift": 0.41
   },
   {
    "label": "tts · text-to-speech",
    "color": "hsl(301 72% 66%)",
    "size": 68,
    "x": 7047,
-   "y": 18424
+   "y": 18424,
+   "recent": 0.309,
+   "lift": 2.89
   },
   {
    "label": "battery · usb",
    "color": "hsl(78 72% 66%)",
    "size": 68,
    "x": 26899,
-   "y": 29082
+   "y": 29082,
+   "recent": 0.206,
+   "lift": 1.93
   },
   {
    "label": "latex · thesis",
    "color": "hsl(216 72% 66%)",
    "size": 67,
    "x": 32030,
-   "y": 17443
+   "y": 17443,
+   "recent": 0.03,
+   "lift": 0.28
   },
   {
    "label": "algorithms · competitive",
    "color": "hsl(353 72% 66%)",
    "size": 67,
    "x": 36069,
-   "y": 39199
+   "y": 39199,
+   "recent": 0.015,
+   "lift": 0.14
   },
   {
    "label": "resume · latex",
    "color": "hsl(131 72% 66%)",
    "size": 67,
    "x": 43770,
-   "y": 27065
+   "y": 27065,
+   "recent": 0.03,
+   "lift": 0.28
   },
   {
    "label": "bluetooth · ble",
    "color": "hsl(268 72% 66%)",
    "size": 67,
    "x": 26040,
-   "y": 31053
+   "y": 31053,
+   "recent": 0.104,
+   "lift": 0.98
   },
   {
    "label": "raft · backup",
    "color": "hsl(46 72% 66%)",
    "size": 67,
    "x": 31338,
-   "y": 52006
+   "y": 52006,
+   "recent": 0.015,
+   "lift": 0.14
   },
   {
    "label": "bash · cheatsheets",
    "color": "hsl(184 72% 66%)",
    "size": 66,
    "x": 34101,
-   "y": 30799
+   "y": 30799,
+   "recent": 0.106,
+   "lift": 0.99
   },
   {
    "label": "video · upscaler",
    "color": "hsl(321 72% 66%)",
    "size": 66,
    "x": 8057,
-   "y": 23834
+   "y": 23834,
+   "recent": 0.273,
+   "lift": 2.55
   },
   {
    "label": "learning · machine",
    "color": "hsl(99 72% 66%)",
    "size": 66,
    "x": 10207,
-   "y": 43818
+   "y": 43818,
+   "recent": 0.106,
+   "lift": 0.99
   },
   {
    "label": "esp32 · esp8266",
    "color": "hsl(236 72% 66%)",
    "size": 66,
    "x": 25995,
-   "y": 33446
+   "y": 33446,
+   "recent": 0.076,
+   "lift": 0.71
   },
   {
    "label": "github · repositories",
    "color": "hsl(14 72% 66%)",
    "size": 65,
    "x": 35707,
-   "y": 32506
+   "y": 32506,
+   "recent": 0.062,
+   "lift": 0.58
   },
   {
    "label": "rdp · remote",
    "color": "hsl(151 72% 66%)",
    "size": 65,
    "x": 27098,
-   "y": 27268
+   "y": 27268,
+   "recent": 0.169,
+   "lift": 1.58
   },
   {
    "label": "progress · loading",
    "color": "hsl(289 72% 66%)",
    "size": 65,
    "x": 38279,
-   "y": 10736
+   "y": 10736,
+   "recent": 0.031,
+   "lift": 0.29
   },
   {
    "label": "theme · color",
    "color": "hsl(66 72% 66%)",
    "size": 65,
    "x": 36452,
-   "y": 20000
+   "y": 20000,
+   "recent": 0.015,
+   "lift": 0.14
   },
   {
    "label": "minecraft · launcher",
    "color": "hsl(204 72% 66%)",
    "size": 65,
    "x": 19178,
-   "y": 27713
+   "y": 27713,
+   "recent": 0.077,
+   "lift": 0.72
   },
   {
    "label": "transitions · animation",
    "color": "hsl(341 72% 66%)",
    "size": 64,
    "x": 40516,
-   "y": 12537
+   "y": 12537,
+   "recent": 0.016,
+   "lift": 0.15
   },
   {
    "label": "monocular · depth",
    "color": "hsl(119 72% 66%)",
    "size": 64,
    "x": 10445,
-   "y": 25598
+   "y": 25598,
+   "recent": 0.172,
+   "lift": 1.61
   },
   {
    "label": "sftp · webdav",
    "color": "hsl(256 72% 66%)",
    "size": 63,
    "x": 29444,
-   "y": 25280
+   "y": 25280,
+   "recent": 0.143,
+   "lift": 1.34
   },
   {
    "label": "diagram · diagrams",
    "color": "hsl(34 72% 66%)",
    "size": 63,
    "x": 23910,
-   "y": 19765
+   "y": 19765,
+   "recent": 0.032,
+   "lift": 0.3
   },
   {
    "label": "scroll · scrolling",
    "color": "hsl(171 72% 66%)",
    "size": 63,
    "x": 45593,
-   "y": 10933
+   "y": 10933,
+   "recent": 0.016,
+   "lift": 0.15
   },
   {
    "label": "aws · lambda",
    "color": "hsl(309 72% 66%)",
    "size": 62,
    "x": 39521,
-   "y": 44914
+   "y": 44914,
+   "recent": 0.097,
+   "lift": 0.91
   },
   {
    "label": "next.js · stripe",
    "color": "hsl(86 72% 66%)",
    "size": 61,
    "x": 51552,
-   "y": 28001
+   "y": 28001,
+   "recent": 0.016,
+   "lift": 0.15
   },
   {
    "label": "rpc · grpc",
    "color": "hsl(224 72% 66%)",
    "size": 61,
    "x": 49647,
-   "y": 43713
+   "y": 43713,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "airdrop · trackpad",
    "color": "hsl(1 72% 66%)",
    "size": 61,
    "x": 27274,
-   "y": 24346
+   "y": 24346,
+   "recent": 0.098,
+   "lift": 0.92
   },
   {
    "label": "webpack · static",
    "color": "hsl(139 72% 66%)",
    "size": 61,
    "x": 49028,
-   "y": 28966
+   "y": 28966,
+   "recent": 0.049,
+   "lift": 0.46
   },
   {
    "label": "bootstrap · taro",
    "color": "hsl(276 72% 66%)",
    "size": 59,
    "x": 47221,
-   "y": 23110
+   "y": 23110,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "git · github",
    "color": "hsl(54 72% 66%)",
    "size": 59,
    "x": 36719,
-   "y": 31308
+   "y": 31308,
+   "recent": 0.017,
+   "lift": 0.16
   },
   {
    "label": "webassembly · rust",
    "color": "hsl(191 72% 66%)",
    "size": 59,
    "x": 42324,
-   "y": 34792
+   "y": 34792,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "guides · contribution",
    "color": "hsl(329 72% 66%)",
    "size": 59,
    "x": 35407,
-   "y": 34339
+   "y": 34339,
+   "recent": 0.034,
+   "lift": 0.32
   },
   {
    "label": "icons · svg",
    "color": "hsl(106 72% 66%)",
    "size": 59,
    "x": 35343,
-   "y": 12683
+   "y": 12683,
+   "recent": 0.017,
+   "lift": 0.16
   },
   {
    "label": "dns · acme",
    "color": "hsl(244 72% 66%)",
    "size": 59,
    "x": 35276,
-   "y": 51767
+   "y": 51767,
+   "recent": 0.017,
+   "lift": 0.16
   },
   {
    "label": "rss · reader",
    "color": "hsl(21 72% 66%)",
    "size": 59,
    "x": 27619,
-   "y": 34197
+   "y": 34197,
+   "recent": 0.017,
+   "lift": 0.16
   },
   {
    "label": "claude · codex",
    "color": "hsl(159 72% 66%)",
    "size": 58,
    "x": 20326,
-   "y": 38524
+   "y": 38524,
+   "recent": 0.914,
+   "lift": 8.55
   },
   {
    "label": "elasticsearch · apache",
    "color": "hsl(296 72% 66%)",
    "size": 58,
    "x": 25869,
-   "y": 52907
+   "y": 52907,
+   "recent": 0.052,
+   "lift": 0.48
   },
   {
    "label": "memory · skill",
    "color": "hsl(74 72% 66%)",
    "size": 58,
    "x": 18593,
-   "y": 42159
+   "y": 42159,
+   "recent": 0.724,
+   "lift": 6.78
   },
   {
    "label": "note-taking · note",
    "color": "hsl(211 72% 66%)",
    "size": 57,
    "x": 29805,
-   "y": 20985
+   "y": 20985,
+   "recent": 0.14,
+   "lift": 1.31
   },
   {
    "label": "excel · csv",
    "color": "hsl(349 72% 66%)",
    "size": 57,
    "x": 31925,
-   "y": 15194
+   "y": 15194,
+   "recent": 0.053,
+   "lift": 0.49
   },
   {
    "label": "wifi · wireless",
    "color": "hsl(126 72% 66%)",
    "size": 57,
    "x": 27499,
-   "y": 39864
+   "y": 39864,
+   "recent": 0.088,
+   "lift": 0.82
   },
   {
    "label": "attention · transformer",
    "color": "hsl(264 72% 66%)",
    "size": 56,
    "x": 8315,
-   "y": 37759
+   "y": 37759,
+   "recent": 0.036,
+   "lift": 0.33
   },
   {
    "label": "flight · firmware",
    "color": "hsl(41 72% 66%)",
    "size": 55,
    "x": 19307,
-   "y": 29859
+   "y": 29859,
+   "recent": 0.145,
+   "lift": 1.36
   },
   {
    "label": "list · awesome",
    "color": "hsl(179 72% 66%)",
    "size": 54,
    "x": 34225,
-   "y": 33177
+   "y": 33177,
+   "recent": 0.019,
+   "lift": 0.17
   },
   {
    "label": "patterns · design",
    "color": "hsl(316 72% 66%)",
    "size": 54,
    "x": 42353,
-   "y": 37258
+   "y": 37258,
+   "recent": 0.019,
+   "lift": 0.17
   },
   {
    "label": "agents · agent",
    "color": "hsl(94 72% 66%)",
    "size": 54,
    "x": 17389,
-   "y": 37621
+   "y": 37621,
+   "recent": 0.648,
+   "lift": 6.06
   },
   {
    "label": "lucene · data",
    "color": "hsl(231 72% 66%)",
    "size": 54,
    "x": 23352,
-   "y": 50415
+   "y": 50415,
+   "recent": 0.056,
+   "lift": 0.52
   },
   {
    "label": "chrome · zlib",
    "color": "hsl(9 72% 66%)",
    "size": 53,
    "x": 41204,
-   "y": 27753
+   "y": 27753,
+   "recent": 0.038,
+   "lift": 0.35
   },
   {
    "label": "rime · multimodal",
    "color": "hsl(146 72% 66%)",
    "size": 53,
    "x": 10400,
-   "y": 32724
+   "y": 32724,
+   "recent": 0.113,
+   "lift": 1.06
   },
   {
    "label": "pose · estimation",
    "color": "hsl(284 72% 66%)",
    "size": 53,
    "x": 9419,
-   "y": 27181
+   "y": 27181,
+   "recent": 0.245,
+   "lift": 2.3
   },
   {
    "label": "graphql · apollo",
    "color": "hsl(61 72% 66%)",
    "size": 53,
    "x": 53223,
-   "y": 40979
+   "y": 40979,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "cpu · monitor",
    "color": "hsl(199 72% 66%)",
    "size": 52,
    "x": 38371,
-   "y": 41151
+   "y": 41151,
+   "recent": 0.019,
+   "lift": 0.18
   },
   {
    "label": "shadowsocks · v2ray",
    "color": "hsl(336 72% 66%)",
    "size": 52,
    "x": 40642,
-   "y": 51327
+   "y": 51327,
+   "recent": 0.019,
+   "lift": 0.18
   },
   {
    "label": "flutter · dart",
    "color": "hsl(114 72% 66%)",
    "size": 52,
    "x": 43457,
-   "y": 20649
+   "y": 20649,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "segmentation · segment",
    "color": "hsl(251 72% 66%)",
    "size": 52,
    "x": 3319,
-   "y": 30432
+   "y": 30432,
+   "recent": 0.038,
+   "lift": 0.36
   },
   {
    "label": "key-value · database",
    "color": "hsl(29 72% 66%)",
    "size": 52,
    "x": 31304,
-   "y": 55855
+   "y": 55855,
+   "recent": 0.019,
+   "lift": 0.18
   },
   {
    "label": "barcode · zxing",
    "color": "hsl(166 72% 66%)",
    "size": 52,
    "x": 26621,
-   "y": 6998
+   "y": 6998,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "websocket · socket.io",
    "color": "hsl(304 72% 66%)",
    "size": 51,
    "x": 46918,
-   "y": 45496
+   "y": 45496,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "typescript · ecmascript",
    "color": "hsl(81 72% 66%)",
    "size": 51,
    "x": 47600,
-   "y": 33011
+   "y": 33011,
+   "recent": 0.02,
+   "lift": 0.18
   },
   {
    "label": "osint · ctf",
    "color": "hsl(219 72% 66%)",
    "size": 51,
    "x": 26631,
-   "y": 42823
+   "y": 42823,
+   "recent": 0.137,
+   "lift": 1.28
   },
   {
    "label": "chinese · nlp",
    "color": "hsl(356 72% 66%)",
    "size": 50,
    "x": 10831,
-   "y": 35929
+   "y": 35929,
+   "recent": 0.06,
+   "lift": 0.56
   },
   {
    "label": "canvas · drawing",
    "color": "hsl(134 72% 66%)",
    "size": 50,
    "x": 22035,
-   "y": 19690
+   "y": 19690,
+   "recent": 0.08,
+   "lift": 0.75
   },
   {
    "label": "blocker · ublock",
    "color": "hsl(271 72% 66%)",
    "size": 49,
    "x": 32695,
-   "y": 42681
+   "y": 42681,
+   "recent": 0.082,
+   "lift": 0.76
   },
   {
    "label": "network · packet",
    "color": "hsl(49 72% 66%)",
    "size": 49,
    "x": 34237,
-   "y": 46117
+   "y": 46117,
+   "recent": 0.122,
+   "lift": 1.15
   },
   {
    "label": "prompt · llms",
    "color": "hsl(186 72% 66%)",
    "size": 48,
    "x": 13934,
-   "y": 36985
+   "y": 36985,
+   "recent": 0.292,
+   "lift": 2.73
   },
   {
    "label": "markdown · editor",
    "color": "hsl(324 72% 66%)",
    "size": 48,
    "x": 33359,
-   "y": 18717
+   "y": 18717,
+   "recent": 0.021,
+   "lift": 0.19
   },
   {
    "label": "logging · logger",
    "color": "hsl(101 72% 66%)",
    "size": 48,
    "x": 47005,
-   "y": 49150
+   "y": 49150,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "recyclerview · layoutmanager",
    "color": "hsl(239 72% 66%)",
    "size": 48,
    "x": 43338,
-   "y": 11171
+   "y": 11171,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "java · algorithms",
    "color": "hsl(16 72% 66%)",
    "size": 47,
    "x": 37760,
-   "y": 38911
+   "y": 38911,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "spring · boot",
    "color": "hsl(154 72% 66%)",
    "size": 47,
    "x": 52577,
-   "y": 43412
+   "y": 43412,
+   "recent": 0.0,
+   "lift": 0.0
   },
   {
    "label": "torrent · bittorrent",
    "color": "hsl(292 72% 66%)",
    "size": 47,
    "x": 22094,
-   "y": 11244
+   "y": 11244,
+   "recent": 0.064,
+   "lift": 0.6
   },
   {
    "label": "jupyter · jupyterlab",
    "color": "hsl(69 72% 66%)",
    "size": 47,
    "x": 33460,
-   "y": 25621
+   "y": 25621,
+   "recent": 0.0,
+   "lift": 0.0
+  }
+ ],
+ "since": 2025,
+ "recent": 0.107,
+ "years": {
+  "2012": 1289,
+  "2013": 1830,
+  "2014": 2277,
+  "2015": 2916,
+  "2016": 2915,
+  "2017": 2831,
+  "2018": 2528,
+  "2019": 2406,
+  "2020": 2338,
+  "2021": 1662,
+  "2022": 1557,
+  "2023": 1913,
+  "2024": 1471,
+  "2025": 1631,
+  "2026": 1954
+ },
+ "regions": [
+  {
+   "label": "python · code",
+   "color": "255,170,80",
+   "size": 4151,
+   "x": 36729,
+   "y": 34490,
+   "spread": 4775,
+   "recent": 0.041,
+   "lift": 0.39
+  },
+  {
+   "label": "windows · macos",
+   "color": "190,120,255",
+   "size": 3597,
+   "x": 30109,
+   "y": 24835,
+   "spread": 5104,
+   "recent": 0.116,
+   "lift": 1.09
+  },
+  {
+   "label": "agent · claude",
+   "color": "90,225,165",
+   "size": 3509,
+   "x": 22344,
+   "y": 35679,
+   "spread": 5002,
+   "recent": 0.37,
+   "lift": 3.46
+  },
+  {
+   "label": "react · css",
+   "color": "100,165,255",
+   "size": 3294,
+   "x": 46069,
+   "y": 24850,
+   "spread": 5037,
+   "recent": 0.025,
+   "lift": 0.24
+  },
+  {
+   "label": "learning · models",
+   "color": "255,120,200",
+   "size": 3032,
+   "x": 11991,
+   "y": 40361,
+   "spread": 4848,
+   "recent": 0.182,
+   "lift": 1.7
+  },
+  {
+   "label": "kubernetes · docker",
+   "color": "255,205,90",
+   "size": 3005,
+   "x": 39082,
+   "y": 46186,
+   "spread": 4631,
+   "recent": 0.048,
+   "lift": 0.45
+  },
+  {
+   "label": "data · database",
+   "color": "160,230,100",
+   "size": 2875,
+   "x": 28218,
+   "y": 49799,
+   "spread": 5804,
+   "recent": 0.063,
+   "lift": 0.59
+  },
+  {
+   "label": "web · javascript",
+   "color": "110,220,255",
+   "size": 2821,
+   "x": 49212,
+   "y": 37285,
+   "spread": 5281,
+   "recent": 0.014,
+   "lift": 0.13
+  },
+  {
+   "label": "pytorch · diffusion",
+   "color": "150,130,255",
+   "size": 2510,
+   "x": 10659,
+   "y": 26420,
+   "spread": 5624,
+   "recent": 0.153,
+   "lift": 1.43
+  },
+  {
+   "label": "music · player",
+   "color": "255,140,120",
+   "size": 2484,
+   "x": 18942,
+   "y": 15520,
+   "spread": 5940,
+   "recent": 0.111,
+   "lift": 1.04
+  },
+  {
+   "label": "android · ios",
+   "color": "120,240,220",
+   "size": 2266,
+   "x": 40096,
+   "y": 14036,
+   "spread": 5285,
+   "recent": 0.018,
+   "lift": 0.17
   }
  ]
 }
